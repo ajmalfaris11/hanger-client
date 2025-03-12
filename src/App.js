@@ -1,9 +1,10 @@
 import './App.css';
+import Navigation from './customer/components/Navbar/Navigation';
 
 function App() {
   return (
     <div className="App">
-        Welcome To Hanger
+        <Navigation/>
     </div>
   );
 }
