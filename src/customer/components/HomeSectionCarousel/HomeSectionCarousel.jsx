@@ -3,12 +3,10 @@ import AliceCarousel from "react-alice-carousel";
 import HomeSectionCard from "../HomeSectionCard/HomeSectionCard";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { mens_kurta } from "../../Data/mens_kurta";
-import { button } from "@mui/material";
 
-const HomeSectionCarousel = () => {
+const HomeSectionCarousel = ({data, sectionName}) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const carouselItems = mens_kurta.map((item) => (
+  const carouselItems = data.map((item) => (
     <HomeSectionCard product={item} />
   ));
   const carouselRef = React.useRef(null);
@@ -43,7 +41,7 @@ const HomeSectionCarousel = () => {
       </button>
 
       <div className="relative overflow-hidden w-full">
-        <h1 className="text-2xl font-bold text-black mb-4 ml-4">Men's Kurta</h1>
+        <h1 className="text-2xl font-bold text-black mb-4 ml-4">{sectionName}</h1>
 
         <AliceCarousel
           ref={carouselRef}
