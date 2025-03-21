@@ -269,8 +269,8 @@ export default function Navigation() {
       </Dialog>
 
       <header className="relative bg-white">
-        <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over $100
+        <p className="flex h-10 items-center justify-center bg-black px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+          Get free delivery on orders over ₹1000 🎀
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -289,11 +289,10 @@ export default function Navigation() {
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
                 <a href="#">
-                  <span className="sr-only">Your Company</span>
                   <img
                     alt=""
-                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                    className="h-8 w-auto"
+                    src="https://t4.ftcdn.net/jpg/03/30/46/65/360_F_330466544_hAf9RG0j4nHPUC3R3ee9Ei9znHluYLJ5.jpg"
+                    className="h-14 w-auto"
                   />
                 </a>
               </div>
