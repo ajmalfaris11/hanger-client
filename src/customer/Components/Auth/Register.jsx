@@ -1,4 +1,3 @@
-
 import { Grid, TextField, Button, Box, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,39 +6,48 @@ import { Fragment, useEffect, useState } from "react";
 
 export default function RegisterUserForm({ handleNext }) {
   const navigate = useNavigate();
-  const dispatch=useDispatch();
-  const [openSnackBar,setOpenSnackBar]=useState(false);
+  const dispatch = useDispatch();
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
   const { auth } = useSelector((store) => store);
-  const handleClose=()=>setOpenSnackBar(false);
+  const handleClose = () => setOpenSnackBar(false);
 
-  const jwt=localStorage.getItem("jwt");
-
-useEffect(()=>{
-  if(jwt){
-    dispatch(getUser(jwt))
-  }
-
-},[jwt])
-
+  const jwt = localStorage.getItem("jwt");
 
   useEffect(() => {
-    if (auth.user || auth.error) setOpenSnackBar(true)
-  }, [auth.user]);
-  
+    if (jwt) {
+      dispatch(getUser(jwt));
+    }
+  }, [jwt, dispatch]);
+
+  useEffect(() => {
+    if (auth.user) {
+      setSnackMessage("Register Success");
+      setOpenSnackBar(true);
+    } else if (auth.error) {
+      setSnackMessage(auth.error);
+      setOpenSnackBar(true);
+    }
+  }, [auth.user, auth.error]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    const userData={
+    const userData = {
       firstName: data.get("firstName"),
       lastName: data.get("lastName"),
       email: data.get("email"),
       password: data.get("password"),
-      
+    };
+
+    // Basic validation
+    if (!userData.firstName || !userData.lastName || !userData.email || !userData.password) {
+      setSnackMessage("Please fill out all fields");
+      setOpenSnackBar(true);
+      return;
     }
-    console.log("user data",userData);
-    dispatch(register(userData))
-  
+
+    dispatch(register(userData));
   };
 
   return (
@@ -94,7 +102,7 @@ useEffect(()=>{
               type="submit"
               variant="contained"
               size="large"
-              sx={{padding:".8rem 0"}}
+              sx={{ padding: ".8rem 0" }}
             >
               Register
             </Button>
@@ -102,21 +110,20 @@ useEffect(()=>{
         </Grid>
       </form>
 
-<div className="flex justify-center flex-col items-center">
-     <div className="py-3 flex items-center ">
-        <p className="m-0 p-0">if you have already account ?</p>
-        <Button onClick={()=> navigate("/login")} className="ml-5" size="small">
-          Login
-        </Button>
+      <div className="flex justify-center flex-col items-center">
+        <div className="py-3 flex items-center ">
+          <p className="m-0 p-0">if you have already account ?</p>
+          <Button onClick={() => navigate("/login")} className="ml-5" size="small">
+            Login
+          </Button>
+        </div>
       </div>
-</div>
 
-<Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          {auth.error?auth.error:auth.user?"Register Success":""}
+      <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={auth.error ? "error" : "success"} sx={{ width: "100%" }}>
+          {snackMessage}
         </Alert>
       </Snackbar>
-     
     </div>
   );
 }

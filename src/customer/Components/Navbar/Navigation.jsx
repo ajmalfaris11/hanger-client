@@ -1,50 +1,73 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
-import { navigation } from "./navigationData";
+import { navigation } from "./navigationData";  // Assuming navigation data is correctly defined
 import AuthModel from "../Auth/AuthModal";
- 
- 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, logout } from "../../../Redux/Auth/Action";
 
-export default function Navigation() {
+
+const Navigation = () => {
   const [open, setOpen] = useState(false);
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openUserMenu = Boolean(anchorEl);
- 
-  
+  const auth = useSelector((store) => store.auth);
+  const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
   const handleUserClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleCloseUserMenu = (event) => {
+
+  const handleCloseUserMenu = () => {
     setAnchorEl(null);
   };
 
   const handleOpen = () => {
     setOpenAuthModal(true);
   };
+
   const handleClose = () => {
     setOpenAuthModal(false);
-   
   };
 
   const handleCategoryClick = (category, section, item, close) => {
-    // navigate(`/${category.id}/${section.id}/${item.id}`);
+    navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
 
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getUser(jwt));
+    }
+  }, [jwt, dispatch]);
 
+  useEffect(() => {
+    if (auth.user) {
+      handleClose();
+    }
+    if(location.pathname === "/login" || location.pathname === "/register") {
+      navigate(-1)
+    }
+  }, [auth.user]);
+
+
+  // logout 
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    dispatch(logout());
+    handleCloseUserMenu();
+  }
 
   return (
     <div className="bg-black px-3">
@@ -123,7 +146,14 @@ export default function Navigation() {
                                   src={item.imageSrc}
                                   alt={item.imageAlt}
                                   className="object-cover object-center"
-                                  style={{ borderRadius: "5px", width: "220px", height: "200px", objectFit: "cover", cursor: "pointer", objectPosition: "top" }}
+                                  style={{
+                                    borderRadius: "5px",
+                                    width: "220px",
+                                    height: "200px",
+                                    objectFit: "cover",
+                                    cursor: "pointer",
+                                    objectPosition: "top",
+                                  }}
                                 />
                               </div>
                               <a
@@ -150,7 +180,6 @@ export default function Navigation() {
                             >
                               {section.name}
                             </p>
-                            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                             <ul
                               role="list"
                               aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
@@ -159,7 +188,7 @@ export default function Navigation() {
                               {section.items.map((item) => (
                                 <li key={item.name} className="flow-root">
                                   <p className="-m-2 block p-2 text-gray-500">
-                                    {"item.name"}
+                                    {item.name} {/* Corrected this line */}
                                   </p>
                                 </li>
                               ))}
@@ -233,14 +262,12 @@ export default function Navigation() {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                
-                  <span className="sr-only">Your Company</span>
-                  <img
-                    src="https://logowik.com/content/uploads/images/waving-clothes-hanger1096.logowik.com.webp"
-                    alt="HangerLogo"
-                    className="h-10 w-auto"
-                  />
-               
+                <span className="sr-only">Your Company</span>
+                <img
+                  src="https://logowik.com/content/uploads/images/waving-clothes-hanger1096.logowik.com.webp"
+                  alt="HangerLogo"
+                  className="h-10 w-auto"
+                />
               </div>
 
               {/* Flyout menus */}
@@ -292,7 +319,14 @@ export default function Navigation() {
                                             <img
                                               src={item.imageSrc}
                                               alt={item.imageAlt}
-                                              style={{ borderRadius: "5px", width: "100%", height: "200px", objectFit: "cover", cursor: "pointer", objectPosition: "top", }}
+                                              style={{
+                                                borderRadius: "5px",
+                                                width: "100%",
+                                                height: "200px",
+                                                objectFit: "cover",
+                                                cursor: "pointer",
+                                                objectPosition: "top",
+                                              }}
                                             />
                                           </div>
                                           <a
@@ -323,7 +357,6 @@ export default function Navigation() {
                                           >
                                             {section.name}
                                           </p>
-                                          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                                           <ul
                                             role="list"
                                             aria-labelledby={`${section.name}-heading`}
@@ -362,37 +395,26 @@ export default function Navigation() {
                       )}
                     </Popover>
                   ))}
-
-                  {navigation.pages.map((page) => (
-                    <a
-                      key={page.name}
-                      href={page.href}
-                      className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                    >
-                      {page.name}
-                    </a>
-                  ))}
                 </div>
               </Popover.Group>
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {false ? (
+                  {auth.user?.firstName? (
                     <div>
                       <Avatar
                         className="text-white"
                         onClick={handleUserClick}
-                        aria-controls={open ? "basic-menu" : undefined}
+                        aria-controls={openUserMenu ? "basic-menu" : undefined}
                         aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        // onClick={handleUserClick}
+                        aria-expanded={openUserMenu ? "true" : undefined}
                         sx={{
                           bgcolor: "black",
                           color: "white",
                           cursor: "pointer",
                         }}
                       >
-                       A
+                        {auth.user?.firstName[0].toUpperCase()}
                       </Avatar>
                       <Menu
                         id="basic-menu"
@@ -403,14 +425,9 @@ export default function Navigation() {
                           "aria-labelledby": "basic-button",
                         }}
                       >
-                        <MenuItem onClick={handleCloseUserMenu}>
-                          Profile
-                        </MenuItem>
-                        
-                        <MenuItem>
-                          My Orders
-                        </MenuItem>
-                        <MenuItem>Logout</MenuItem>
+                        <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                        <MenuItem>My Orders</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
                       </Menu>
                     </div>
                   ) : (
@@ -427,22 +444,14 @@ export default function Navigation() {
                 <div className="flex lg:ml-6">
                   <p className="p-2 text-gray-900 hover:text-gray-500">
                     <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon
-                      className="h-7 w-7"
-                      aria-hidden="true"
-                    />
+                    <MagnifyingGlassIcon className="h-7 w-7" aria-hidden="true" />
                   </p>
                 </div>
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6 relative">
-                  <Button
-                    className="group -m-2 flex items-center p-2"
-                  >
-                    <ShoppingBagIcon
-                      className="h-8 w-7 flex-shrink-0 text-gray-900 group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
+                  <Button className="group -m-2 flex items-center p-2">
+                    <ShoppingBagIcon className="h-8 w-7 flex-shrink-0 text-gray-900 group-hover:text-gray-500" aria-hidden="true" />
                     <span className="ml-2 text-sm font-medium text-gray-900 hover:text-gray-500 w-[20px] h-[20px] flex items-center justify-center absolute right-[22px] top-4">
                       0
                     </span>
@@ -454,8 +463,10 @@ export default function Navigation() {
           </div>
         </nav>
       </header>
-      <div className="w-full h-[12px]"></div>
+      <div className="w-full h-[12px]" />
       <AuthModel handleClose={handleClose} open={openAuthModal} />
     </div>
   );
-}
+};
+
+export default Navigation;
