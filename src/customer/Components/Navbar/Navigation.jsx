@@ -46,7 +46,7 @@ export default function Navigation() {
 
 
   return (
-    <div className="bg-black">
+    <div className="bg-black px-3">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -94,7 +94,7 @@ export default function Navigation() {
                           className={({ selected }) =>
                             classNames(
                               selected
-                                ? "border-indigo-600 text-indigo-600"
+                                ? "border-transparent text-black"
                                 : "border-transparent text-gray-900",
                               "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium border-none"
                             )
@@ -253,9 +253,9 @@ export default function Navigation() {
                             <Popover.Button
                               className={classNames(
                                 open
-                                  ? "border-indigo-600 text-indigo-600"
+                                  ? "text-black font-black"
                                   : "border-transparent text-gray-700 hover:text-gray-800",
-                                "relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
+                                "relative z-10 -mb-px flex items-center pt-px text-sm font-medium transition-colors duration-200 ease-out outline-none"
                               )}
                             >
                               {category.name}
@@ -424,26 +424,26 @@ export default function Navigation() {
 
                 {/* Search */}
                 <div className="flex lg:ml-6">
-                  <p className="p-2 text-gray-400 hover:text-gray-500">
+                  <p className="p-2 text-gray-900 hover:text-gray-500">
                     <span className="sr-only">Search</span>
                     <MagnifyingGlassIcon
-                      className="h-6 w-6"
+                      className="h-7 w-7"
                       aria-hidden="true"
                     />
                   </p>
                 </div>
 
                 {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6">
+                <div className="ml-4 flow-root lg:ml-6 relative">
                   <Button
                     className="group -m-2 flex items-center p-2"
                   >
                     <ShoppingBagIcon
-                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                      className="h-8 w-7 flex-shrink-0 text-gray-900 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      2
+                    <span className="ml-2 text-sm font-medium text-gray-900 hover:text-gray-500 w-[20px] h-[20px] flex items-center justify-center absolute right-[22px] top-4">
+                      0
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Button>

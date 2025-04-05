@@ -57,7 +57,7 @@ const Footer = () => {
 
           <div className="mt-5">
             {[Facebook, Instagram, Twitter, LinkedIn].map((Icon, i) => (
-              <Icon key={i} sx={{ fontSize: 22, mr: 4 }} />
+              <Icon className="hover:scale-110 transition-all duration-300 ease-in-out" key={i} sx={{ fontSize: 22, mr: 4 }} />
             ))}
           </div>
         </Grid>

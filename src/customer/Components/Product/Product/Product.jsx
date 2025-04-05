@@ -233,7 +233,7 @@ export default function Product() {
                                       defaultValue={option.value}
                                       type="checkbox"
                                       defaultChecked={option.checked}
-                                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                      className="h-4 w-4 rounded border-gray-300 text-black-600 focus:ring-black-500"
                                       onChange={() =>
                                         handleFilter(option.value, section.id)
                                       }
@@ -382,7 +382,7 @@ export default function Product() {
                                     defaultValue={option.value}
                                     type="checkbox"
                                     defaultChecked={option.checked}
-                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                    className="h-4 w-4 rounded border-gray-300 text-black-600 focus:ring-black-500"
                                     onChange={() =>
                                       handleFilter(option.value, section.id)
                                     }
