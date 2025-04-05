@@ -44,7 +44,7 @@ export default function AuthModal({ handleClose, open }) {
         {location.pathname === "/login" ? (
           <LoginUserForm />
         ) : (
-          <RegisterUserForm />
+          <RegisterUserForm /> 
         )}
       </Box>
     </Modal>

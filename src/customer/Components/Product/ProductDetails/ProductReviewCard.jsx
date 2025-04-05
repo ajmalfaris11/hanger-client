@@ -11,7 +11,7 @@ const ProductReviewCard = ({item}) => {
           <Box>
             <Avatar
               className="text-white"
-              sx={{ width: 56, height: 56, bgcolor: "#9155FD" }}
+              sx={{ width: 56, height: 56, bgcolor: "black" }}
               alt={item?.user?.firstName}
               src=""
             >
