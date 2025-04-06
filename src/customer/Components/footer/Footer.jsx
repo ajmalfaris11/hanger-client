@@ -51,7 +51,7 @@ const Footer = () => {
       <Grid container spacing={4} justifyContent="center" sx={{ mt: 5, p: 6 }} className="bg-white">
         {/* Social Media & Copyright */}
         <Grid item xs={12} sm={4} textAlign="left">          
-          <img src="https://t4.ftcdn.net/jpg/03/30/46/65/360_F_330466544_hAf9RG0j4nHPUC3R3ee9Ei9znHluYLJ5.jpg" alt="footer logo" className="w-20" />
+          <img src="https://logowik.com/content/uploads/images/waving-clothes-hanger1096.logowik.com.webp" alt="footer logo" className="w-14" />
 
           <p>Hanger: Quality styles to elevate your wardrobe. Thank you for shopping with us!</p>
 
