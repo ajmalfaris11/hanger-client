@@ -15,9 +15,10 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(getCart(jwt));
-  }, [jwt]);
+  }, [jwt, cart.updateCartItem, cart.deleteCartItem]);  
+
   return (
-    <div className="">
+    <div className="mt-10">
       {cart.cartItems.length>0 && <div className="lg:grid grid-cols-3 lg:px-16 relative">
         <div className="lg:col-span-2 lg:px-5 bg-white">
         <div className=" space-y-3">
@@ -40,7 +41,7 @@ const Cart = () => {
             </div>
             <div className="flex justify-between">
               <span>Discount</span>
-              <span className="text-green-700">-₹{cart.cart?.discounte}</span>
+              <span className="text-red-700">-₹{cart.cart?.discounte}</span>
             </div>
             <div className="flex justify-between">
               <span>Delivery Charges</span>
@@ -49,7 +50,7 @@ const Cart = () => {
             <hr />
             <div className="flex justify-between font-bold text-lg">
               <span>Total Amount</span>
-              <span className="text-green-700">₹{cart.cart?.totalDiscountedPrice}</span>
+              <span className="text-black">₹{cart.cart?.totalDiscountedPrice}</span>
             </div>
           </div>
 
@@ -57,7 +58,8 @@ const Cart = () => {
             onClick={() => navigate("/checkout?step=2")}
             variant="contained"
             type="submit"
-            sx={{ padding: ".8rem 2rem", marginTop: "2rem", width: "100%" }}
+            sx={{ padding: ".8rem 2rem", marginTop: "2rem", width: "100%", backgroundColor: "black", color: "white", "&:hover": { backgroundColor: "black" } }} 
+            className="text-lg font-semibold"
           >
             Check Out
           </Button>

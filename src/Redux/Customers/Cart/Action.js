@@ -29,7 +29,7 @@ export const addItemToCart = (reqData) => async (dispatch) => {
       },
     };
     const { data } = await axios.put(`${API_BASE_URL}/api/cart/add`, 
-      reqData,
+      reqData.data,
       config,
     );
 console.log("add item to cart ",data)
