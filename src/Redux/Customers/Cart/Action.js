@@ -18,7 +18,7 @@ import {
 } from "./ActionType";
 
 export const addItemToCart = (reqData) => async (dispatch) => {
-    console.log("req data ",reqData)
+    console.log("cart item ",reqData)
   try {
    
     dispatch({ type: ADD_ITEM_TO_CART_REQUEST });
@@ -29,7 +29,7 @@ export const addItemToCart = (reqData) => async (dispatch) => {
       },
     };
     const { data } = await axios.put(`${API_BASE_URL}/api/cart/add`, 
-      reqData.data,
+      reqData,
       config,
     );
 console.log("add item to cart ",data)

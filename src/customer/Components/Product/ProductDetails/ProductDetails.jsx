@@ -11,10 +11,12 @@ import { addItemToCart } from "../../../../Redux/Customers/Cart/Action";
 import { getAllReviews } from "../../../../Redux/Customers/Review/Action";
 import { lengha_page1 } from "../../../../Data/Women/LenghaCholi";
 import { gounsPage1 } from "../../../../Data/Gouns/gouns";
+import ProductCard from "../ProductCard/ProductCard";
+
 
 const product = {
-  name: "Basic Tee 6-Pack",
-  price: "₹996",
+  name: "H&M Men's Regular Fit T-shirt",
+  price: "₹2999",
   href: "#",
   breadcrumbs: [
     { id: 1, name: "Men", href: "#" },
@@ -22,19 +24,19 @@ const product = {
   ],
   images: [
     {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg",
+      src: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRFf_MKVZsOpipfzf-1wLz4TgRrZvYS9O1yCqrKh0BynMOINziVRo7pGzzhSIPzvLRKq0P6o_-tbRlOmDSs8NvHeQ2TdYVJcWQAiEUt8cij7BAnCYyj1NU9mw",
       alt: "Two each of gray, white, and black shirts laying flat.",
     },
     {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg",
+      src: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQBHE_xM8LIBmdmRUENRryUMP1oO0pA8LWhN9sBhbXbvKZhvCHPmV9tf6Cp-i3432fl7fqYzhnhRMCjZEoBNHKpsusodPJMmBbJ06stQy9OSHVAOu9nYL2v9S4",
       alt: "Model wearing plain black basic tee.",
     },
     {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg",
+      src: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSQ6HHy1OFxeX_Fjpv5OXna8W2NSSI2VT0LwCBjvefvktmKSBbnZ7TON1f7L5CEKmG1wvyCGcBCAWbRSRgKDHooTvXPQjGpC48e-NdCY6CdTIGp8HnHhkLC3w",
       alt: "Model wearing plain gray basic tee.",
     },
     {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
+      src: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRmGXliZp3b-IXETH5YBAQ__mt_dBtEcD3krrfiiFtk6l7pll31rKnN-Wl7zWxNtGm4nQdJWkZ1OAtGbCeZB5cjODk6rEdB-XUqJlPWEPYX9SLsXBzax6D7wA",
       alt: "Model wearing plain white basic tee.",
     },
   ],
@@ -59,6 +61,7 @@ const product = {
   details:
     'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
 };
+
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
 function classNames(...classes) {
@@ -70,26 +73,26 @@ export default function ProductDetails() {
   const [activeImage, setActiveImage] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { customersProduct,review } = useSelector((store) => store);
-  const { productId } = useParams();
+  const { products, review } = useSelector((store) => store);
+  const params = useParams();
   const jwt = localStorage.getItem("jwt");
   // console.log("param",productId,customersProduct.product)
+  
 
   const handleSetActiveImage = (image) => {
     setActiveImage(image);
   };
-
   const handleSubmit = () => {
-    const data = { productId, size: selectedSize.name };
+    const data = { productId:params.productId, size:selectedSize.name };
     dispatch(addItemToCart({ data, jwt }));
-    navigate("/cart");
+    navigate("/cart")
   };
 
   useEffect(() => {
-    const data = { productId: productId, jwt };
+    const data = { productId: params.productId }
     dispatch(findProductById(data));
-    dispatch(getAllReviews(productId));
-  }, [productId]);
+    // dispatch(getAllReviews(productId));
+  }, [params.productId]);
 
   // console.log("reviews ",review)
 
@@ -101,7 +104,7 @@ export default function ProductDetails() {
             role="list"
             className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
           >
-            {product.breadcrumbs.map((breadcrumb) => (
+            {product.breadcrumbs?.map((breadcrumb) => (
               <li key={breadcrumb.id}>
                 <div className="flex items-center">
                   <a
@@ -129,7 +132,7 @@ export default function ProductDetails() {
                 aria-current="page"
                 className="font-medium text-gray-500 hover:text-gray-600"
               >
-                {product.name}
+                {products.product?.thirdLavelCategory}
               </a>
             </li>
           </ol>
@@ -141,20 +144,20 @@ export default function ProductDetails() {
           <div className="flex flex-col items-center ">
             <div className=" overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
               <img
-                src={activeImage?.src || customersProduct.product?.imageUrl}
-                alt={product.images[0].alt}
+                src={products.product?.imageUrl}
+                alt="product image"
                 className="h-full w-full object-cover object-center"
               />
             </div>
             <div className="flex flex-wrap space-x-5 justify-center">
-              {product.images.map((image) => (
+              {product.images?.map((image) => (
                 <div
                   onClick={() => handleSetActiveImage(image)}
                   className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4"
                 >
                   <img
                     src={image.src}
-                    alt={product.images[1].alt}
+                    alt={image.alt}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
@@ -166,10 +169,10 @@ export default function ProductDetails() {
           <div className="lg:col-span-1 mx-auto max-w-2xl px-4 pb-16 sm:px-6  lg:max-w-7xl  lg:px-8 lg:pb-24">
             <div className="lg:col-span-2">
               <h1 className="text-lg lg:text-xl font-semibold tracking-tight text-gray-900  ">
-                {customersProduct.product?.brand}
+                {products.product?.brand}
               </h1>
               <h1 className="text-lg lg:text-xl tracking-tight text-gray-900 opacity-60 pt-1">
-                {customersProduct.product?.title}
+                {products.product?.title}
               </h1>
             </div>
 
@@ -178,13 +181,13 @@ export default function ProductDetails() {
               <h2 className="sr-only">Product information</h2>
               <div className="flex space-x-5 items-center text-lg lg:text-xl tracking-tight text-gray-900 mt-6">
                 <p className="font-semibold">
-                  ₹{customersProduct.product?.discountedPrice}
+                  ₹{products.product?.discountedPrice}
                 </p>
                 <p className="opacity-50 line-through">
-                  ₹{customersProduct.product?.price}
+                  ₹{products.product?.price}
                 </p>
                 <p className="text-green-600 font-semibold">
-                  {customersProduct.product?.discountPersent}% Off
+                  {products.product?.discountPersent}% Off
                 </p>
               </div>
 
@@ -200,9 +203,9 @@ export default function ProductDetails() {
                     readOnly
                   />
 
-                  <p className="opacity-60 text-sm">42807 Ratings</p>
+                  <p className="opacity-60 text-sm">{products.product?.rating ? products.product.rating.length : 0} Ratings</p>
                   <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                    {reviews.totalCount} reviews
+                    {products.product?.totalCount} reviews
                   </p>
                 </div>
               </div>
@@ -222,34 +225,29 @@ export default function ProductDetails() {
                     <RadioGroup.Label className="sr-only">
                       Choose a size
                     </RadioGroup.Label>
-                    <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-10">
-                      {product.sizes.map((size) => (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-5 xl:grid-cols-5 gap-4">                      {products.product?.size?.map((size) => (
                         <RadioGroup.Option
                           key={size.name}
                           value={size}
-                          disabled={!size.inStock}
+                          disabled={size.quantity === 0}
                           className={({ active }) =>
                             classNames(
-                              size.inStock
+                              size.quantity > 0
                                 ? "cursor-pointer bg-white text-gray-900 shadow-sm"
                                 : "cursor-not-allowed bg-gray-50 text-gray-200",
                               active ? "ring-1 ring-indigo-500" : "",
-                              "group relative flex items-center justify-center rounded-md border py-1 px-1 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
+                              "group relative flex items-center justify-center rounded-md border text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-3"
                             )
                           }
                         >
                           {({ active, checked }) => (
                             <>
-                              <RadioGroup.Label as="span">
-                                {size.name}
-                              </RadioGroup.Label>
-                              {size.inStock ? (
+                              <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
+                              {size.quantity > 0 ? (
                                 <span
                                   className={classNames(
                                     active ? "border" : "border-2",
-                                    checked
-                                      ? "border-indigo-500"
-                                      : "border-transparent",
+                                    checked ? "border-indigo-500" : "border-transparent",
                                     "pointer-events-none absolute -inset-px rounded-md"
                                   )}
                                   aria-hidden="true"
@@ -281,12 +279,15 @@ export default function ProductDetails() {
                       ))}
                     </div>
                   </RadioGroup>
+
+
                 </div>
 
                 <Button
+                onClick={handleSubmit}
                   variant="contained"
                   type="submit"
-                  sx={{ padding: ".8rem 2rem", marginTop: "2rem" }}
+                  sx={{ padding: ".8rem 2rem", marginTop: "2rem", backgroundColor: "black", color: "white", "&:hover": { backgroundColor: "black" } }}   
                 >
                   Add To Cart
                 </Button>
@@ -300,7 +301,7 @@ export default function ProductDetails() {
 
                 <div className="space-y-6">
                   <p className="text-base text-gray-900">
-                    {customersProduct.product?.description}
+                    {products.product?.description}
                   </p>
                 </div>
               </div>
@@ -325,7 +326,7 @@ export default function ProductDetails() {
                 <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
                 <div className="mt-4 space-y-6">
-                  <p className="text-sm text-gray-600">{product.details}</p>
+                  <p className="text-sm text-gray-600">{products.product?.details}</p>
                 </div>
               </div>
             </div>
@@ -342,8 +343,8 @@ export default function ProductDetails() {
             <Grid container spacing={7}>
               <Grid item xs={7}>
                 <div className="space-y-5">
-                  { review.reviews?.map((item, i) => (
-                    <ProductReviewCard item={item} />
+                  {review.reviews?.map((item, i) => (
+                    <ProductReviewCard key={i} item={item} />
                   ))}
                 </div>
               </Grid>
@@ -358,7 +359,7 @@ export default function ProductDetails() {
                     readOnly
                   />
 
-                  <p className="opacity-60">42807 Ratings</p>
+                  <p className="opacity-60">{products.product?.rating ? products.product.rating.length : 0} Ratings</p>
                 </div>
                 <Box>
                   <Grid
@@ -496,9 +497,9 @@ export default function ProductDetails() {
         <section className=" pt-10">
           <h1 className="py-5 text-xl font-bold">Similer Products</h1>
           <div className="flex flex-wrap space-y-5">
-            {gounsPage1.map((item) => (
-              <HomeProductCard product={item} />
-            ))}
+          { products.products?.content?.map((item, index) => (
+                      <ProductCard key={item.id || index} product={item} />
+                    ))}
           </div>
         </section>
       </div>

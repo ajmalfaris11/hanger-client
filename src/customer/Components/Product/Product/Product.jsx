@@ -43,7 +43,7 @@ export default function Product() {
 
   const jwt = localStorage.getItem("jwt");
   // const { customersProduct } = useSelector((store) => store);
-  const { product } = useSelector((store) => store);
+  const { products } = useSelector((store) => store);
   const [isLoaderOpen, setIsLoaderOpen] = useState(false);
 
   const handleLoderClose = () => {
@@ -138,12 +138,12 @@ export default function Product() {
   };
 
   useEffect(() => {
-    if (product.loading) {
+    if (products.loading) {
       setIsLoaderOpen(true);
     } else {
       setIsLoaderOpen(false);
     }
-  }, [product.loading]);
+  }, [products.loading]);
 
   return (
     <div className="bg-white -z-20 ">
@@ -461,16 +461,16 @@ export default function Product() {
                 {/* Product grid */}
                 <div className="lg:col-span-4 w-full">
                   <div className="flex flex-wrap justify-center bg-white py-5 rounded-md ">
-                    {product.products && product.products?.content?.map((item, index) => (
+                    { products.products?.content?.map((item, index) => (
                       <ProductCard key={item.id || index} product={item} />
                     ))}
 
 
                     {/* {customersProduct.products?.content?.length > 0 ? (
-                      customersProduct.products.content.map((item) => <ProductCard product={item} key={item.id} />)
+                      customersProduct.products.content.map((item) => <ProductCard products={item} key={item.id} />)
                     ) : (
                     // mens_kurta.map((item) => (
-                    //   <ProductCard product={item} />
+                    //   <ProductCard products={item} />
                     // ))
                     <p>Not Avilable</p>
                     )} */}
@@ -485,7 +485,7 @@ export default function Product() {
         <section className="w-full px-[3.6rem]">
           <div className="mx-auto px-4 py-5 flex justify-center">
             <Pagination
-              count={product.products?.totalPages}
+              count={products.products?.totalPages}
               color="primary"
               className=""
               onChange={handlePaginationChange}

@@ -74,10 +74,15 @@ export const findProducts = (reqData) => async (dispatch) => {
 
 
 export const findProductById = (reqData) => async (dispatch) => {
-  try {
-    dispatch({ type: FIND_PRODUCT_BY_ID_REQUEST });
+  dispatch({ type: FIND_PRODUCT_BY_ID_REQUEST });
+  const{productId}=reqData;
 
-    const { data } = await api.get(`/api/products/id/${reqData.productId}`);
+  console.log("find product by id action", reqData)
+
+  try {
+
+    const { data } = await api.get(`/api/products/id/${productId}`);
+    console.log("find product by id action data", data) 
 
     console.log("products by  id : ", data);
     dispatch({
