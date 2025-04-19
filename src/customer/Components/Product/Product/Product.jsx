@@ -28,6 +28,7 @@ import {
 import { deepPurple } from "@mui/material/colors";
 import { Backdrop, CircularProgress } from "@mui/material";
 import BackdropComponent from "../../BackDrop/Backdrop";
+import { mens_kurta } from "../../../../Data/Men/men_kurta";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -35,12 +36,14 @@ function classNames(...classes) {
 
 export default function Product() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const jwt = localStorage.getItem("jwt");
-  const param = useParams();
-  const { customersProduct } = useSelector((store) => store);
   const location = useLocation();
+  const navigate = useNavigate();
+  const param = useParams();
+  const dispatch = useDispatch();
+
+  const jwt = localStorage.getItem("jwt");
+  // const { customersProduct } = useSelector((store) => store);
+  const { product } = useSelector((store) => store);
   const [isLoaderOpen, setIsLoaderOpen] = useState(false);
 
   const handleLoderClose = () => {
@@ -52,8 +55,8 @@ export default function Product() {
   const searchParams = new URLSearchParams(decodedQueryString);
   const colorValue = searchParams.get("color");
   const sizeValue = searchParams.get("size");
-  const price = searchParams.get("price");
-  const disccount = searchParams.get("disccout");
+  const priceValue = searchParams.get("price");
+  const disccount = searchParams.get("discount");
   const sortValue = searchParams.get("sort");
   const pageNumber = searchParams.get("page") || 1;
   const stock = searchParams.get("stock");
@@ -75,29 +78,29 @@ export default function Product() {
 
   useEffect(() => {
     const [minPrice, maxPrice] =
-      price === null ? [0, 0] : price.split("-").map(Number);
+      priceValue === null ? [0, 10000]:priceValue.split("-").map(Number);
     const data = {
       category: param.lavelThree,
       colors: colorValue || [],
       sizes: sizeValue || [],
-      minPrice: minPrice || 0,
-      maxPrice: maxPrice || 10000,
+      minPrice,
+      maxPrice,
       minDiscount: disccount || 0,
       sort: sortValue || "price_low",
-      pageNumber: pageNumber ,
+      pageNumber: pageNumber - 1,
       pageSize: 10,
-      stock: stock,
+      stock: stock
     };
     dispatch(findProducts(data));
   }, [
     param.lavelThree,
     colorValue,
     sizeValue,
-    price,
+    priceValue,
     disccount,
     sortValue,
     pageNumber,
-    stock,
+    stock
   ]);
 
   const handleFilter = (value, sectionId) => {
@@ -135,12 +138,12 @@ export default function Product() {
   };
 
   useEffect(() => {
-    if (customersProduct.loading) {
+    if (product.loading) {
       setIsLoaderOpen(true);
     } else {
       setIsLoaderOpen(false);
     }
-  }, [customersProduct.loading]);
+  }, [product.loading]);
 
   return (
     <div className="bg-white -z-20 ">
@@ -196,7 +199,7 @@ export default function Product() {
                         as="div"
                         key={section.id}
                         className="border-t border-gray-200 px-4 py-6"
-                        // open={false}
+                      // open={false}
                       >
                         {({ open }) => (
                           <>
@@ -241,7 +244,7 @@ export default function Product() {
                                     <label
                                       htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
                                       className="ml-3 min-w-0 flex-1 text-gray-500"
-                                      // onClick={()=>handleFilter(option.value,section.id)}
+                                    // onClick={()=>handleFilter(option.value,section.id)}
                                     >
                                       {option.label}
                                     </label>
@@ -260,9 +263,9 @@ export default function Product() {
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto px-4 lg:px-14 ">
+        <main className="mx-auto px-4 lg:px-14 py-10">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-4xl font-bold text-gray-900">
               Product
             </h1>
 
@@ -337,9 +340,9 @@ export default function Product() {
 
             <div>
               <h2 className="py-5 font-semibold opacity-60 text-lg">Filters</h2>
-              <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
+              <div className="grid grid-cols-1  gap-y-10 lg:grid-cols-5">
                 {/* Filters */}
-                <form className="hidden lg:block border rounded-md p-5">
+                <form className="hidden lg:block rounded-md p-5">
                   {filters.map((section) => (
                     <Disclosure
                       // defaultOpen={false}
@@ -439,12 +442,11 @@ export default function Product() {
                               >
                                 {section.options.map((option, optionIdx) => (
                                   <FormControlLabel
+                                    key={option.value || optionIdx} // Add a unique key
                                     value={option.value}
                                     control={<Radio />}
                                     label={option.label}
-                                    onChange={(e) =>
-                                      handleRadioFilterChange(e, section.id)
-                                    }
+                                    onChange={(e) => handleRadioFilterChange(e, section.id)}
                                   />
                                 ))}
                               </RadioGroup>
@@ -457,11 +459,21 @@ export default function Product() {
                 </form>
 
                 {/* Product grid */}
-                <div className="lg:col-span-4 w-full ">
-                  <div className="flex flex-wrap justify-center bg-white border py-5 rounded-md ">
-                    {customersProduct?.products?.content?.map((item) => (
-                      <ProductCard product={item} />
+                <div className="lg:col-span-4 w-full">
+                  <div className="flex flex-wrap justify-center bg-white py-5 rounded-md ">
+                    {product.products && product.products?.content?.map((item, index) => (
+                      <ProductCard key={item.id || index} product={item} />
                     ))}
+
+
+                    {/* {customersProduct.products?.content?.length > 0 ? (
+                      customersProduct.products.content.map((item) => <ProductCard product={item} key={item.id} />)
+                    ) : (
+                    // mens_kurta.map((item) => (
+                    //   <ProductCard product={item} />
+                    // ))
+                    <p>Not Avilable</p>
+                    )} */}
                   </div>
                 </div>
               </div>
@@ -471,9 +483,9 @@ export default function Product() {
 
         {/* pagination section */}
         <section className="w-full px-[3.6rem]">
-          <div className="mx-auto px-4 py-5 flex justify-center shadow-lg border rounded-md">
+          <div className="mx-auto px-4 py-5 flex justify-center">
             <Pagination
-              count={customersProduct.products?.totalPages}
+              count={product.products?.totalPages}
               color="primary"
               className=""
               onChange={handlePaginationChange}
@@ -483,7 +495,7 @@ export default function Product() {
 
         {/* {backdrop} */}
         <section>
-         <BackdropComponent open={isLoaderOpen}/>
+          <BackdropComponent open={isLoaderOpen} />
         </section>
       </div>
     </div>

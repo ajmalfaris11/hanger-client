@@ -21,31 +21,47 @@ import api, { API_BASE_URL } from "../../../config/api";
 
 export const findProducts = (reqData) => async (dispatch) => {
   const {
-    colors,
-    sizes,
-    minPrice,
-    maxPrice,
-    minDiscount,
-    category,
-    stock,
-    sort,
-    pageNumber,
-    pageSize,
+    colors = [],
+    sizes = [],
+    minPrice = 0,
+    maxPrice = 10000,
+    minDiscount = 0,
+    category = "",
+    stock = null,
+    sort = "price_low",
+    pageNumber = 0,
+    pageSize = 10,
   } = reqData;
-
+  console.log("color======", colors)
   try {
     dispatch({ type: FIND_PRODUCTS_BY_CATEGORY_REQUEST });
 
-    const { data } = await api.get(
-      `/api/products?color=${colors}&size=${sizes}&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${minDiscount}&category=${category}&stock=${stock}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-    );
+    // Construct query parameters dynamically
+    const queryParams = new URLSearchParams();
+    if (colors.length > 0) queryParams.append("color", colors);
+    if (sizes.length > 0) queryParams.append("size", sizes); // Ensure this matches backend
+    if (minPrice > 0) queryParams.append("minPrice", minPrice);
+    if (maxPrice > 0) queryParams.append("maxPrice", maxPrice);
+    if (minDiscount > 0) queryParams.append("minDiscount", minDiscount);
+    if (category) queryParams.append("category", category);
+    if (stock !== null && stock !== undefined) queryParams.append("stock", stock);
+    if (sort) queryParams.append("sort", sort);
+    if (pageNumber >= 0) queryParams.append("pageNumber", pageNumber);
+    if (pageSize > 0) queryParams.append("pageSize", pageSize);
 
-    console.log("get product by category - ", data);
+    console.log("Query Params:", queryParams.toString());
+
+    // Make the API call
+    const { data } = await api.get(`/api/products?${queryParams.toString()}`); 
+    console.log("Fetched products:", data);
+
     dispatch({
       type: FIND_PRODUCTS_BY_CATEGORY_SUCCESS,
       payload: data,
     });
   } catch (error) {
+    console.error("Error fetching products:", error.response || error);
+
     dispatch({
       type: FIND_PRODUCTS_BY_CATEGORY_FAILURE,
       payload:
@@ -55,6 +71,7 @@ export const findProducts = (reqData) => async (dispatch) => {
     });
   }
 };
+
 
 export const findProductById = (reqData) => async (dispatch) => {
   try {
@@ -112,7 +129,7 @@ export const updateProduct = (product) => async (dispatch) => {
       `${API_BASE_URL}/api/admin/products/${product.productId}`,
       product
     );
-console.log("update product ",data)
+    console.log("update product ", data)
     dispatch({
       type: UPDATE_PRODUCT_SUCCESS,
       payload: data,
@@ -129,22 +146,22 @@ console.log("update product ",data)
 };
 
 export const deleteProduct = (productId) => async (dispatch) => {
-  console.log("delete product action",productId)
+  console.log("delete product action", productId)
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-    let {data}=await api.delete(`/api/admin/products/${productId}`);
+    let { data } = await api.delete(`/api/admin/products/${productId}`);
 
-    console.log("delete product ",data)
+    console.log("delete product ", data)
 
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,
       payload: productId,
     });
 
-    console.log("product delte ",data)
+    console.log("product delte ", data)
   } catch (error) {
-    console.log("catch error ",error)
+    console.log("catch error ", error)
     dispatch({
       type: DELETE_PRODUCT_FAILURE,
       payload:

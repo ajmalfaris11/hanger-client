@@ -1,18 +1,23 @@
-
 import axios from 'axios';
-const DEPLOYED='https://pear-poised-hen.cyclic.app/'
-const LOCALHOST='http://localhost:4647'
 
-export const API_BASE_URL = LOCALHOST;
+const LOCALHOST = 'http://localhost:4647';
+export const API_BASE_URL = "http://localhost:4647";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
-const token = localStorage.getItem('jwt');
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('jwt');
+  // console.log("Token used in request:", token); 
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+});
 
-api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-api.defaults.headers.post['Content-Type'] = 'application/json';
 
 export default api;

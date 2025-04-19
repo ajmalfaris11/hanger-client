@@ -15,7 +15,7 @@ import ReviewReducer from "./Customers/Review/Reducer";
 const rootReducers=combineReducers({
 
     auth:authReducer,
-    customersProduct:customerProductReducer,
+    product:customerProductReducer,
     cart:cartReducer,
     order:orderReducer,
     review:ReviewReducer,

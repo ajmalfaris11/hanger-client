@@ -3,7 +3,7 @@ import React, { useEffect, useSyncExternalStore } from "react";
 import OrderCard from "./OrderCard";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderHistory } from "../../../Redux/Customers/Order/Action";
+// import { getOrderHistory } from "../../../Redux/Customers/Order/Action";
 import BackdropComponent from "../BackDrop/Backdrop";
 
 const orderStatus = [
@@ -18,9 +18,9 @@ const Order = () => {
   const jwt = localStorage.getItem("jwt");
   const {order}=useSelector(store=>store);
 
-  useEffect(() => {
-    dispatch(getOrderHistory({ jwt }));
-  }, [jwt]);
+  // useEffect(() => {
+  //   dispatch(getOrderHistory({ jwt }));
+  // }, [jwt]);
 
   console.log("users orders ",order.orders)
   return (
