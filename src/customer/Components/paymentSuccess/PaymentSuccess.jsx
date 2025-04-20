@@ -39,7 +39,7 @@ const PaymentSuccess = () => {
   }, [orderId, paymentId]);
 
   return (
-    <div className="px-2 lg:px-36">
+    <div className="px-2 lg:px-36 mt-10">
       <div className="flex flex-col justify-center items-center">
         <Alert
           variant="filled"

@@ -13,6 +13,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
   const jwt = localStorage.getItem("jwt");
   const { auth } = useSelector((store) => store);
   const [selectedAddress, setSelectedAdress] = useState(null);
+  console.log("auth", auth)
 
   // console.log("auth", auth);
 
@@ -31,7 +32,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
       mobile: data.get("phoneNumber"),
     };
 
-    const orderData = {address, navigate}
+    const orderData = { address, navigate }
     dispatch(createOrder(orderData));
 
     console.log("orderData===", orderData);
@@ -48,29 +49,27 @@ export default function AddDeliveryAddressForm({ handleNext }) {
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} lg={5}>
-        <Box className="border rounded-md shadow-md h-[30.5rem] overflow-y-scroll ">
-          {Array.isArray(auth.user?.addresses) && auth.user.addresses.map((item) => (
-            <div
-              key={item.id} // Ensure a unique key
-              onClick={() => setSelectedAdress(item)}
-              className="p-5 py-7 border-b cursor-pointer"
-            >
-              <AddressCard address={item} />
-              {selectedAddress?.id === item.id && (
+        
+        {/* this block has some issues, to work this block we need make 
+        chnages on model address to addresses, because the address contain
+         the object ids, but the all objects are in the addresses*/}
+
+        {/* <div className="p-5 py-7 border-b cursor-pointer">
+          {Array.isArray(auth.user?.address) &&
+            auth.user.address.map((item, index) => (
+              <div key={item.id || index} className="mb-4"> 
+                <AddressCard address={item} />
                 <Button
-                sx={{ mt:2, backgroundColor: "#000", "&:hover": { backgroundColor: "#000" } }}
-                  fullWidth
-                size="large"
+                  sx={{ mt: 2, bgcolor: "#000", "&:hover": { backgroundColor: "#000" } }}
+                  size="large"
                   variant="contained"
-                  color="primary"
-                  onClick={() => handleCreateOrder(item)}
+                  onClick={() => handleCreateOrder(item)} 
                 >
-                  Delivered Here
+                  Deliver Here
                 </Button>
-              )}
-            </div>
-          ))}
-        </Box>
+              </div>
+            ))}
+        </div> */}
       </Grid>
       <Grid item xs={12} lg={7}>
         <Box className="border rounded-md shadow-md p-5">
@@ -150,13 +149,13 @@ export default function AddDeliveryAddressForm({ handleNext }) {
               <Grid item xs={12}>
                 <Button
                   sx={{ padding: ".9rem 1.5rem", backgroundColor: "#000", "&:hover": { backgroundColor: "#000" } }}
-                  fullWidth   
+                  fullWidth
                   size="large"
                   type="submit"
                   variant="contained"
 
                 >
-                  Delivered Here
+                  Deliver Here
                 </Button>
               </Grid>
             </Grid>
