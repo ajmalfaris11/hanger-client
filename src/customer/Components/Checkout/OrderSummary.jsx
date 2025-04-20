@@ -9,15 +9,16 @@ import AddressCard from "../adreess/AdreessCard";
 import { createPayment } from "../../../Redux/Customers/Payment/Action";
 
 const OrderSummary = () => {
-  const navigate = useNavigate();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-const orderId = searchParams.get("order_id");
 const dispatch=useDispatch();
   const jwt=localStorage.getItem("jwt");
   const {order}=useSelector(state=>state)
+  const searchParams = new URLSearchParams(location.search);
+  const orderId = searchParams.get("order_id");
 
-console.log("orderId ", order)
+
+
+console.log("orderId ", orderId)
 
 useEffect(()=>{
   
@@ -32,9 +33,11 @@ const handleCreatePayment=()=>{
 
   return (
     <div className="space-y-5">
-        <div className="p-5 shadow-lg rounded-md border ">
+
+        <div className="p-5 shadow-lg rounded-xl border ">
             <AddressCard address={order.order?.shippingAddress}/>
         </div>
+
       <div className="lg:grid grid-cols-3 relative justify-between">
         <div className="lg:col-span-2 ">
           <div className=" space-y-3">
@@ -57,7 +60,7 @@ const handleCreatePayment=()=>{
               </div>
               <div className="flex justify-between">
                 <span>Discount</span>
-                <span className="text-green-700">-₹{order.order?.discounte}</span>
+                <span className="text-red-700">-₹{order.order?.discounte}</span>
               </div>
               <div className="flex justify-between">
                 <span>Delivery Charges</span>
@@ -66,7 +69,7 @@ const handleCreatePayment=()=>{
               <hr />
               <div className="flex justify-between font-bold text-lg">
                 <span>Total Amount</span>
-                <span className="text-green-700">₹{order.order?.totalDiscountedPrice}</span>
+                <span className="text-black">₹{order.order?.totalDiscountedPrice}</span>
               </div>
             </div>
 
@@ -74,7 +77,7 @@ const handleCreatePayment=()=>{
               onClick={handleCreatePayment}
               variant="contained"
               type="submit"
-              sx={{ padding: ".8rem 2rem", marginTop: "2rem", width: "100%" }}
+              sx={{ padding: ".8rem 2rem", marginTop: "2rem", width: "100%", backgroundColor: "black", color: "white", "&:hover": { backgroundColor: "black" } }}
             >
               Payment
             </Button>

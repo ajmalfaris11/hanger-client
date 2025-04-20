@@ -16,7 +16,7 @@ const OrderDetails = () => {
   const { orderId } = useParams();
   const { order } = useSelector((store) => store);
 
-  console.log("order", order.order);
+  console.log("order id", orderId);
 
   useEffect(() => {
     dispatch(getOrderById(orderId));

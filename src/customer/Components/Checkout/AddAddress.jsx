@@ -31,13 +31,17 @@ export default function AddDeliveryAddressForm({ handleNext }) {
       mobile: data.get("phoneNumber"),
     };
 
-    dispatch(createOrder({ address, jwt, navigate }));
+    const orderData = {address, navigate}
+    dispatch(createOrder(orderData));
+
+    console.log("orderData===", orderData);
+
     // after perfoming all the opration
     handleNext();
   };
 
   const handleCreateOrder = (item) => {
-    dispatch(createOrder({ address:item, jwt, navigate }));
+    dispatch(createOrder({ address: item, jwt, navigate }));
     handleNext();
   };
 
@@ -45,22 +49,23 @@ export default function AddDeliveryAddressForm({ handleNext }) {
     <Grid container spacing={4}>
       <Grid item xs={12} lg={5}>
         <Box className="border rounded-md shadow-md h-[30.5rem] overflow-y-scroll ">
-          {auth.user?.addresses.map((item) => (
+          {Array.isArray(auth.user?.addresses) && auth.user.addresses.map((item) => (
             <div
+              key={item.id} // Ensure a unique key
               onClick={() => setSelectedAdress(item)}
               className="p-5 py-7 border-b cursor-pointer"
             >
-              {" "}
               <AddressCard address={item} />
               {selectedAddress?.id === item.id && (
                 <Button
-                  sx={{ mt: 2 }}
-                  size="large"
+                sx={{ mt:2, backgroundColor: "#000", "&:hover": { backgroundColor: "#000" } }}
+                  fullWidth
+                size="large"
                   variant="contained"
                   color="primary"
-                  onClick={()=>handleCreateOrder(item)}
+                  onClick={() => handleCreateOrder(item)}
                 >
-                  Deliverd Here
+                  Delivered Here
                 </Button>
               )}
             </div>
@@ -144,13 +149,14 @@ export default function AddDeliveryAddressForm({ handleNext }) {
               </Grid>
               <Grid item xs={12}>
                 <Button
-                  sx={{ padding: ".9rem 1.5rem" }}
+                  sx={{ padding: ".9rem 1.5rem", backgroundColor: "#000", "&:hover": { backgroundColor: "#000" } }}
+                  fullWidth   
                   size="large"
                   type="submit"
                   variant="contained"
-                  color="primary"
+
                 >
-                  Deliverd Here
+                  Delivered Here
                 </Button>
               </Grid>
             </Grid>

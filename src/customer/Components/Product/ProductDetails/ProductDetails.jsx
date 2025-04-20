@@ -83,7 +83,7 @@ export default function ProductDetails() {
     setActiveImage(image);
   };
   const handleSubmit = () => {
-    const data = { productId:params.productId, size:selectedSize.name };
+    const data = { productId:params.productId, size:selectedSize?.name };
     dispatch(addItemToCart({ data, jwt }));
     navigate("/cart")
   };

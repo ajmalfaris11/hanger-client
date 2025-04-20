@@ -15,32 +15,36 @@ import {
 
 } from "./ActionType";
 
+import api from "../../../config/api";
+
 export const createOrder = (reqData) => async (dispatch) => {
+  console.log("create order req first ", reqData);
   dispatch({ type: CREATE_ORDER_REQUEST });
-  console.log("create order req ", reqData);
+  console.log("create order req second ", reqData);
+
   try {
   
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${reqData.jwt}`,
-    //   },
-    // };
-
+    console.log("create order req --------", reqData);
     const { data } = await api.post(
-      `/api/orders/`,
+      `/api/orders`,
       reqData.address,
     );
+
+    console.log("create order req data", data);  
+
     
     if (data._id) {
       reqData.navigate({ search: `step=3&order_id=${data._id}` });
     }
-    console.log("created order - ", data);
+
+    console.log("order data ", data);
+
     dispatch({
       type: CREATE_ORDER_SUCCESS,
       payload: data,
     });
   } catch (error) {
+    console.log("here is the issue ", error);
     console.log("catch error : ", error);
     dispatch({
       type: CREATE_ORDER_FAILURE,
@@ -50,8 +54,8 @@ export const createOrder = (reqData) => async (dispatch) => {
 };
 
 export const getOrderById = (orderId) => async (dispatch) => {
-  dispatch({ type: GET_ORDER_BY_ID_REQUEST });
   console.log("get order req ", orderId);
+  dispatch({ type: GET_ORDER_BY_ID_REQUEST });
   try {
 
     const { data } = await api.get(
