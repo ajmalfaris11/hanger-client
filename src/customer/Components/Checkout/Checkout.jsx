@@ -8,18 +8,15 @@ import Typography from "@mui/material/Typography";
 import AddDeliveryAddressForm from "./AddAddress";
 import { useLocation, useNavigate } from "react-router-dom";
 import OrderSummary from "./OrderSummary";
+import LoginUserForm from "../Auth/Login";
 
-const steps = [
-  "Login",
-  "Delivery Adress",
-  "Order Summary",
-  "Payment",
-];
+const steps = ["Login", "Delivery Address", "Order Summary", "Payment"];
+
 export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-  const step = parseInt(queryParams.get('step'), 10) || 1; // Default to 1 if step is null
+  const step = Math.min(Math.max(parseInt(queryParams.get("step"), 10) || 1, 1), steps.length); // Validate step
   const [activeStep, setActiveStep] = React.useState(step);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -28,37 +25,46 @@ export default function Checkout() {
   }, [step]);
 
   const handleNext = () => {
-    let newSkipped = skipped;
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    setActiveStep((prevActiveStep) => {
+      const nextStep = prevActiveStep + 1;
+      navigate(`/checkout?step=${nextStep}`);
+      return nextStep;
+    });
   };
 
   const handleBack = () => {
-    if (step > 1) {
-      navigate(`/checkout?step=${step - 1}`);
+    if (activeStep > 1) {
+      navigate(`/checkout?step=${activeStep - 1}`);
     }
   };
 
   const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const handlePayment = () => {
-    console.log("handle payment");
+    setActiveStep(1);
+    navigate(`/checkout?step=1`);
   };
 
   return (
-    <Box className="px-5 lg:px-32 " sx={{ width: "100%" }}>
+    <Box className="px-5 lg:px-32 mt-10" sx={{ width: "100%" }}>
       <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
+        {steps.map((label, index) => (
+          <Step key={label} aria-label={`Step ${index + 2}: ${label}`}>
+            <StepLabel
+              StepIconProps={{
+                sx: {
+                  color: 'white', 
+                  '&.Mui-active': {
+                    color: 'crimson', 
+                  },
+                  '&.Mui-completed': {
+                    color: 'black', // completed step color
+                  },
+                },
+              }}
+            >
+              <Typography>{label}</Typography>
+            </StepLabel>
+          </Step>
+        ))}
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
@@ -75,7 +81,7 @@ export default function Checkout() {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
               color="inherit"
-              disabled={step === 1}
+              disabled={activeStep === 1}
               onClick={handleBack}
               sx={{ mr: 1 }}
             >
@@ -85,11 +91,10 @@ export default function Checkout() {
           </Box>
 
           <div className="my-5">
-            {step === 2 ? (
-              <AddDeliveryAddressForm handleNext={handleNext} />
-            ) : (
-              <OrderSummary />
-            )}
+            {activeStep === 1 && <LoginUserForm />}
+            {activeStep === 2 && <AddDeliveryAddressForm handleNext={handleNext} />}
+            {activeStep === 3 && <OrderSummary />}
+            {activeStep === 4 && <Typography>Payment Step</Typography>}
           </div>
         </React.Fragment>
       )}
