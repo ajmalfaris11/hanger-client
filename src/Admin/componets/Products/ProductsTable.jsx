@@ -31,7 +31,8 @@ const ProductsTable = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { customersProduct } = useSelector((store) => store);
+  const { products } = useSelector((store) => store);
+  console.log("==customersProduct==", products);
   const [filterValue, setFilterValue] = useState({
     availability: "",
     category: "",
@@ -67,7 +68,7 @@ const ProductsTable = () => {
       stock: availability,
     };
     dispatch(findProducts(data));
-  }, [availability, category, sort,page,customersProduct.deleteProduct]);
+  }, [availability, category, sort,page]);
 
   const handleFilterChange = (e, sectionId) => {
     console.log(e.target.value, sectionId);
@@ -170,10 +171,10 @@ const ProductsTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customersProduct?.products?.content?.map((item) => (
+              {products?.products?.content?.map((item) => (
                 <TableRow
                   hover
-                  key={item.name}
+                  key={item.title}
                   sx={{ "&:last-of-type td, &:last-of-type th": { border: 0 } }}
                   
                 >
@@ -197,7 +198,7 @@ const ProductsTable = () => {
                       <Typography variant="caption">{item.brand}</Typography>
                     </Box>
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>{item.category.name}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.title}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.discountedPrice}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.quantity}</TableCell>
               
@@ -221,7 +222,7 @@ const ProductsTable = () => {
 
         <div className="mx-auto px-4 py-5 flex justify-center shadow-lg rounded-md">
           <Pagination
-            count={customersProduct.products?.totalPages}
+            // count={customersProduct.products?.totalPages}
             color="primary"
             className=""
             onChange={handlePaginationChange}

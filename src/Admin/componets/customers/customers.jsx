@@ -125,10 +125,6 @@ const Customers = () => {
                 <TableCell> <Avatar alt={item.name} src={item.image} /> </TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.email}</TableCell>
-                
-                
-               
-               
               </TableRow>
             ))}
           </TableBody>
