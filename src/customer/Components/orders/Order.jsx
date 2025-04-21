@@ -9,7 +9,7 @@ import BackdropComponent from "../BackDrop/Backdrop";
 const orderStatus = [
   { label: "On The Way", value: "onTheWay" },
   { label: "Delivered", value: "delevered" },
-  { label: "Cancelled", value: "cancelled" },
+  { label: "Canceled", value: "canceled" },
   { label: "Returned", vlue: "returned" },
 ];
 
