@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { Grid, Select } from "@mui/material";
@@ -43,10 +43,14 @@ const OrdersTable = () => {
   const jwt = localStorage.getItem("jwt");
   const { adminsOrder } = useSelector((store) => store);
   const [anchorElArray, setAnchorElArray] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of items per page
+
+
 
   useEffect(() => {
     dispatch(getOrders({ jwt }));
-  }, [jwt,adminsOrder.delivered, adminsOrder.shipped, adminsOrder.confirmed]);
+  }, [jwt, adminsOrder.delivered, adminsOrder.shipped, adminsOrder.confirmed]);
 
   // useEffect(()=>{
   //   dispatch(getOrders({jwt}))
@@ -70,9 +74,12 @@ const OrdersTable = () => {
 
     setFormData({ ...formData, [name]: value });
   };
-  function handlePaginationChange(event, value) {
-    console.log("Current page:", value);
-  }
+
+  // Handle pagination changes
+  const handlePaginationChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
 
   const handleConfirmedOrder = (orderId, index) => {
     handleUpdateStatusMenuClose(index);
@@ -80,13 +87,13 @@ const OrdersTable = () => {
     setOrderStatus("CONFIRMED")
   };
 
-  const handleShippedOrder = (orderId,index) => {
+  const handleShippedOrder = (orderId, index) => {
     handleUpdateStatusMenuClose(index);
     dispatch(shipOrder(orderId))
     setOrderStatus("ShIPPED")
   };
 
-  const handleDeliveredOrder = (orderId,index) => {
+  const handleDeliveredOrder = (orderId, index) => {
     handleUpdateStatusMenuClose(index);
     dispatch(deliveredOrder(orderId))
     setOrderStatus("DELIVERED")
@@ -97,9 +104,33 @@ const OrdersTable = () => {
     dispatch(deleteOrder(orderId));
   };
 
-  //   useEffect(()=>{
-  // setUpdateOrderStatus(item.orderStatus==="PENDING"?"PENDING": item.orderStatus==="PLACED"?"CONFIRMED":item.orderStatus==="CONFIRMED"?"SHIPPED":"DELEVERED")
-  //   },[adminsOrder.orders])
+  // Filter, sort, and paginate orders
+  const filteredAndSortedOrders = useMemo(() => {
+    let filteredOrders = adminsOrder.orders;
+
+    // Apply status filter
+    if (formData.status && formData.status !== "ALL") {
+      filteredOrders = filteredOrders.filter((order) => order.orderStatus === formData.status);
+    }
+
+    // Apply sorting
+    if (formData.sort === "Newest") {
+      filteredOrders = [...filteredOrders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } else if (formData.sort === "Older") {
+      filteredOrders = [...filteredOrders].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    }
+
+    return filteredOrders;
+  }, [formData.status, formData.sort, adminsOrder.orders]);
+
+
+
+  // Paginate the filtered and sorted orders
+  const paginatedOrders = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredAndSortedOrders.slice(startIndex, endIndex);
+  }, [filteredAndSortedOrders, currentPage, itemsPerPage]);
 
   return (
     <Box>
@@ -155,8 +186,8 @@ const OrdersTable = () => {
             alignItems: "center",
             "& .MuiCardHeader-action": { mt: 0.6 },
           }}
-         
-         
+
+
         />
         <TableContainer>
           <Table sx={{ minWidth: 800 }} aria-label="table in dashboard">
@@ -180,9 +211,9 @@ const OrdersTable = () => {
                   sx={{ "&:last-of-type td, &:last-of-type th": { border: 0 } }}
                 >
                   <TableCell sx={{}}>
-                  <AvatarGroup max={4} sx={{justifyContent: 'start'}}>
-      {item.orderItems.map((orderItem)=><Avatar  alt={item.title} src={orderItem.product?.imageUrl} /> )}
-    </AvatarGroup>
+                    <AvatarGroup max={4} sx={{ justifyContent: 'start' }}>
+                      {item.orderItems.map((orderItem) => <Avatar alt={item.title} src={orderItem.product?.imageUrl} />)}
+                    </AvatarGroup>
                     {" "}
                   </TableCell>
 
@@ -223,7 +254,7 @@ const OrdersTable = () => {
                       label={item?.orderStatus}
                       size="small"
                       color={
-                        item.orderStatus === "PENDING" ? "info" :item?.orderStatus==="DELIVERED"? "success":"secondary"
+                        item.orderStatus === "PENDING" ? "info" : item?.orderStatus === "DELIVERED" ? "success" : "secondary"
                       }
                       className="text-white"
                     />
@@ -256,13 +287,13 @@ const OrdersTable = () => {
                       >
                         <MenuItem
                           onClick={() => handleConfirmedOrder(item?._id, index)}
-                          disabled={item.orderStatus==="DELEVERED" || item.orderStatus==="SHIPPED" || item.orderStatus==="CONFIRMED"}
+                          disabled={item.orderStatus === "DELEVERED" || item.orderStatus === "SHIPPED" || item.orderStatus === "CONFIRMED"}
                         >
                           CONFIRMED ORDER
-                          
+
                         </MenuItem>
                         <MenuItem
-                        disabled={item.orderStatus==="DELIVERED" || item.orderStatus==="SHIPPED"}
+                          disabled={item.orderStatus === "DELIVERED" || item.orderStatus === "SHIPPED"}
                           onClick={() => handleShippedOrder(item._id, index)}
                         >
                           SHIPPED ORDER
@@ -290,12 +321,11 @@ const OrdersTable = () => {
           </Table>
         </TableContainer>
       </Card>
-      <Card className="mt-2 felx justify-center items-center">
+      {/* Pagination */}
+      <Card className="mt-2 flex justify-center items-center">
         <Pagination
-          className="py-5 w-auto"
-          size="large"
-          count={10}
-          color="primary"
+          count={Math.ceil(filteredAndSortedOrders.length / itemsPerPage)}
+          page={currentPage}
           onChange={handlePaginationChange}
         />
       </Card>
