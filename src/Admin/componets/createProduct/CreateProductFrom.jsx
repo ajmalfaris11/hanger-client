@@ -10,7 +10,6 @@ import {
   MenuItem,
 } from "@mui/material";
 
-import { Fragment } from "react";
 import "./CreateProductForm.css";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../../Redux/Customers/Product/Action";
@@ -39,6 +38,30 @@ const CreateProductForm = () => {
     thirdLavelCategory: "",
     description: "",
   });
+  
+  const resetForm = () => {
+    setProductData({
+      imageUrl: "",
+      brand: "",
+      title: "",
+      color: "",
+      discountedPrice: "",
+      price: "",
+      discountPersent: "",
+      size: [
+        { name: "S", quantity: 0 },
+        { name: "M", quantity: 0 },
+        { name: "L", quantity: 0 },
+      ],
+      quantity: "",
+      topLavelCategory: "",
+      secondLavelCategory: "",
+      thirdLavelCategory: "",
+      description: "",
+    });
+    console.log("Form reset to initial state.", productData);
+  };
+
 const dispatch=useDispatch();
 const jwt=localStorage.getItem("jwt")
 
@@ -82,22 +105,16 @@ const jwt=localStorage.getItem("jwt")
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProduct({data:productData,jwt}))
+    dispatch(createProduct({ data: productData, jwt })).then(() => {
+      resetForm(); // Reset the form fields
+    });
     console.log(productData);
   };
 
-  // const handleAddProducts=(data)=>{
-  //   for(let item of data){
-  //     const productsData={
-  //       data:item,
-  //       jwt,
-  //     }
-  //     dispatch(createProduct(productsData))
-  //   }
-  // }
+
 
   return (
-    <Fragment className="createProductContainer ">
+    <div className="createProductContainer ">
       <Typography
         variant="h3"
         sx={{ textAlign: "center" }}
@@ -232,6 +249,7 @@ const jwt=localStorage.getItem("jwt")
                 <MenuItem value="t-shirts">T-Shirts</MenuItem>
                 <MenuItem value="saree">Saree</MenuItem>
                 <MenuItem value="lengha_choli">Lengha Choli</MenuItem>
+                <MenuItem value="mens_kurta">Mens Kurtha</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -265,6 +283,7 @@ const jwt=localStorage.getItem("jwt")
                   name="size_quantity"
                   type="number"
                   onChange={(event) => handleSizeChange(event, index)}
+                  value={size.quantity}
                   required
                   fullWidth
                 />
@@ -293,7 +312,7 @@ const jwt=localStorage.getItem("jwt")
           </Grid>
         </Grid>
       </form>
-    </Fragment>
+    </div>
   );
 };
 
