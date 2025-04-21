@@ -176,7 +176,7 @@ const ProductsTable = () => {
               {products?.products?.content?.map((item) => (
                 <TableRow
                   hover
-                  key={item.title}
+                  key={item._id}
                   sx={{ "&:last-of-type td, &:last-of-type th": { border: 0 } }}
                 >
                   <TableCell>
