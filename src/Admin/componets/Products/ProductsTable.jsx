@@ -19,11 +19,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import React from "react";
-import { dressPage1 } from "../../../Data/dress/page1";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, findProducts } from "../../../Redux/Customers/Product/Action";
 
@@ -32,56 +29,64 @@ const ProductsTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store);
-  console.log("==customersProduct==", products);
+
   const [filterValue, setFilterValue] = useState({
-    availability: "",
-    category: "",
-    sort: "",
+    availability: "in_stock",
+    category: "All",
+    sort: "price_low",
   });
 
-  // query 
+  const [currentPage, setCurrentPage] = useState(1); // State for current page
+
+  // Query parameters
   const searchParams = new URLSearchParams(location.search);
   const availability = searchParams.get("availability");
   const category = searchParams.get("category");
   const sort = searchParams.get("sort");
-  const page = searchParams.get("page");
-
 
   const handlePaginationChange = (event, value) => {
-    searchParams.set("page", value-1);
+    setCurrentPage(value); // Update the current page state
+    searchParams.set("page", value - 1); // Backend pages are usually 0-indexed
     const query = searchParams.toString();
     navigate({ search: `?${query}` });
   };
 
+  
+
   useEffect(() => {
-    // setFilterValue({ availability, category, sort });
     const data = {
-      category:category || "",
+      category: category || "",
       colors: [],
       sizes: [],
       minPrice: 0,
       maxPrice: 100000,
       minDiscount: 0,
       sort: sort || "price_low",
-      pageNumber:page || 1,
-      pageSize: 10,
+      pageNumber: currentPage - 1, // Backend expects 0-indexed pages
+      pageSize: 10, // Number of items per page
       stock: availability,
     };
     dispatch(findProducts(data));
-  }, [availability, category, sort,page]);
+  }, [availability, category, sort, currentPage]);
 
   const handleFilterChange = (e, sectionId) => {
-    console.log(e.target.value, sectionId);
-    setFilterValue((values) => ({ ...values, [sectionId]: e.target.value }));
-    searchParams.set(sectionId, e.target.value);
+    const value = e.target.value;
+    setFilterValue((values) => ({ ...values, [sectionId]: value }));
+
+    if (sectionId === "category" && value === "All") {
+      searchParams.delete("category");
+    } else {
+      searchParams.set(sectionId, value);
+    }
+
     const query = searchParams.toString();
     navigate({ search: `?${query}` });
   };
 
-  const handleDeleteProduct=(productId)=>{
-    console.log("delete product ",productId)
-    dispatch(deleteProduct(productId))
-  }
+  const handleDeleteProduct = (productId) => {
+    console.log("delete product ", productId);
+    dispatch(deleteProduct(productId));
+  };
 
   return (
     <Box width={"100%"}>
@@ -105,6 +110,7 @@ const ProductsTable = () => {
                 label="Category"
                 onChange={(e) => handleFilterChange(e, "category")}
               >
+                <MenuItem value={"All"}>All</MenuItem>
                 <MenuItem value={"pant"}>Men's Pants</MenuItem>
                 <MenuItem value={"mens_kurta"}>Men's Kurta</MenuItem>
                 <MenuItem value={"saree"}>Saree</MenuItem>
@@ -114,9 +120,7 @@ const ProductsTable = () => {
           </Grid>
           <Grid item xs={4}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Availability
-              </InputLabel>
+              <InputLabel id="demo-simple-select-label">Availability</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -132,9 +136,7 @@ const ProductsTable = () => {
           </Grid>
           <Grid item xs={4}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Sort By Price
-              </InputLabel>
+              <InputLabel id="demo-simple-select-label">Sort By Price</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -142,8 +144,8 @@ const ProductsTable = () => {
                 label="Sort By Price"
                 onChange={(e) => handleFilterChange(e, "sort")}
               >
-                <MenuItem value={"price_high"}>Heigh - Low</MenuItem>
-                <MenuItem value={"price_low"}>Low - Heigh</MenuItem>
+                <MenuItem value={"price_high"}>High - Low</MenuItem>
+                <MenuItem value={"price_low"}>Low - High</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -176,13 +178,10 @@ const ProductsTable = () => {
                   hover
                   key={item.title}
                   sx={{ "&:last-of-type td, &:last-of-type th": { border: 0 } }}
-                  
                 >
                   <TableCell>
-                    {" "}
-                    <Avatar alt={item.titel} src={item.imageUrl} />{" "}
+                    <Avatar alt={item.title} src={item.imageUrl} />
                   </TableCell>
-
                   <TableCell
                     sx={{ py: (theme) => `${theme.spacing(0.5)} !important` }}
                   >
@@ -201,9 +200,10 @@ const ProductsTable = () => {
                   <TableCell sx={{ textAlign: "center" }}>{item.title}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.discountedPrice}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.quantity}</TableCell>
-              
                   <TableCell sx={{ textAlign: "center" }}>
-                    <Button variant="text" onClick={()=>handleDeleteProduct(item._id)}>Delete</Button>
+                    <Button variant="text" onClick={() => handleDeleteProduct(item._id)}>
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -211,24 +211,13 @@ const ProductsTable = () => {
           </Table>
         </TableContainer>
       </Card>
-      <Card className="mt-2 border">
-        {/* <Pagination
-          className="py-5 border w-auto"
-          size="large"
-          count={10}
-          color="primary"
+      <Card className="mt-2 flex justify-center items-center">
+        <Pagination
+          count={products?.products?.totalPages || 1} // Total pages from the backend
+          page={currentPage} // Current page state
           onChange={handlePaginationChange}
-        /> */}
-
-        <div className="mx-auto px-4 py-5 flex justify-center shadow-lg rounded-md">
-          <Pagination
-            // count={customersProduct.products?.totalPages}
-            color="primary"
-            className=""
-            onChange={handlePaginationChange}
-            // value={page}
-          />
-        </div>
+          color="primary"
+        />
       </Card>
     </Box>
   );

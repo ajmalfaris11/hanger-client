@@ -151,22 +151,23 @@ export const updateProduct = (product) => async (dispatch) => {
 };
 
 export const deleteProduct = (productId) => async (dispatch) => {
-  console.log("delete product action", productId)
+  console.log("delete product action", productId);
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
 
     let { data } = await api.delete(`/api/admin/products/${productId}`);
 
-    console.log("delete product ", data)
+    console.log("delete product ", data);
 
+    // Dispatch success action
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,
-      payload: productId,
+      payload: productId, // Pass the productId to update the state
     });
 
-    console.log("product delte ", data)
-  } catch (error) {
-    console.log("catch error ", error)
+    console.log("product deleted successfully", data);
+  } catch (error) { // Add the error parameter here
+    console.log("catch error ", error); // Logs the error
     dispatch({
       type: DELETE_PRODUCT_FAILURE,
       payload:

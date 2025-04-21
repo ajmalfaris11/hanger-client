@@ -20,7 +20,6 @@ import Dashboard from "./Views/Admin";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import DemoAdmin from "./Views/DemoAdmin";
 import CreateProductForm from "./componets/createProduct/CreateProductFrom";
-import CreateProuductDemo from "./componets/createProduct/CreateProuductDemo";
 import CreateProduct from "../customer/Components/Create/CreateProduct";
 import "./AdminPannel.css";
 import ProductsTable from "./componets/Products/ProductsTable";
