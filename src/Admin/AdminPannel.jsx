@@ -64,7 +64,7 @@ export default function AdminPannel() {
       }}
     >
       {isLargeScreen && <Toolbar />}
-      <List>
+      <List sx={{ marginTop: isLargeScreen ? "0px" : "60px" }}>
         {menu.map((item) => (
           <ListItem key={item.name} disablePadding onClick={() => navigate(item.path)}>
           <ListItemButton
