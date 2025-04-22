@@ -1,62 +1,49 @@
 import * as React from "react";
-import {Box,Avatar} from "@mui/material";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
+import { Box, Avatar, Drawer, CssBaseline, Toolbar, List, Divider, ListItem, ListItemText, ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import ListItemIcon from "@mui/material/ListItemIcon";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import GroupIcon from "@mui/icons-material/Group";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { deepPurple } from "@mui/material/colors";
 import { customTheme } from "./them/customeThem";
 import AdminNavbar from "./Navigation/AdminNavbar";
-import Dashboard from "./Views/Admin";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import DemoAdmin from "./Views/DemoAdmin";
+import Dashboard from "./Views/Admin";
 import CreateProductForm from "./componets/createProduct/CreateProductFrom";
-import CreateProduct from "../customer/Components/Create/CreateProduct";
-import "./AdminPannel.css";
+import UpdateProductForm from "./componets/updateProduct/UpdateProduct";
 import ProductsTable from "./componets/Products/ProductsTable";
 import OrdersTable from "./componets/Orders/OrdersTable";
 import Customers from "./componets/customers/customers";
-import UpdateProductForm from "./componets/updateProduct/UpdateProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, logout } from "../Redux/Auth/Action";
 import { useEffect } from "react";
-import { deepPurple } from "@mui/material/colors";
+import "./AdminPannel.css";
 
 const drawerWidth = 240;
 
 const menu = [
-  {name:"Dashboard",path:"/admin"},
-  {name:"Products",path:"/admin/products"},
-  {name:"Customers",path:"/admin/customers"},
-  {name:"Orders",path:"/admin/orders"},
-  {name:"Total Earnings",path:"/admin"},
-  {name:"Weekly Overview",path:"/admin"},
-  {name:"Monthly Overview",path:"/admin"},
-  {name:"Add Product",path:"/admin/product/create"},
+  { name: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
+  { name: "Products", path: "/admin/products", icon: <InventoryIcon /> },
+  { name: "Customers", path: "/admin/customers", icon: <GroupIcon /> },
+  { name: "Orders", path: "/admin/orders", icon: <ShoppingCartIcon /> },
+  { name: "Add Product", path: "/admin/product/create", icon: <AddBoxIcon /> },
 ];
 
 export default function AdminPannel() {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const [sideBarVisible, setSideBarVisible] = React.useState(false);
-  const navigate=useNavigate();
-  const dispatch=useDispatch()
-  const {auth}=useSelector(store=>store);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { auth } = useSelector((store) => store);
 
   const handleLogout = () => {
-   
     dispatch(logout());
-    navigate("/")
-
+    navigate("/");
   };
 
   const jwt = localStorage.getItem("jwt");
@@ -78,50 +65,43 @@ export default function AdminPannel() {
     >
       {isLargeScreen && <Toolbar />}
       <List>
-        {menu.map((item, index) => (
-          <ListItem key={item.name} disablePadding onClick={()=>navigate(item.path)}>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={item.name} />
-            </ListItemButton>
-          </ListItem>
+        {menu.map((item) => (
+          <ListItem key={item.name} disablePadding onClick={() => navigate(item.path)}>
+          <ListItemButton
+            selected={window.location.pathname === item.path}
+            sx={{
+              "&.Mui-selected": {
+                backgroundColor: deepPurple[700],
+                color: "white",
+                "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+                  color: "white",
+                },
+              },
+             
+            }}
+          >
+            <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.name} />
+          </ListItemButton>
+        </ListItem>
+        
         ))}
       </List>
 
       <List sx={{ position: "absolute", bottom: 0, width: "100%" }}>
         <Divider />
-       
-        <ListItem onClick={handleLogout}  disablePadding >
-            <ListItemButton>
-            <Avatar
-                        className="text-white"
-                        onClick={handleLogout}
-                       
-                        sx={{
-                          bgcolor: deepPurple[500],
-                          color: "white",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {auth.user?.firstName[0].toUpperCase()}
-                      </Avatar>
-              <ListItemText className="ml-5" primary={"Logout"} />
-            </ListItemButton>
-          </ListItem>
-        
+        <ListItem disablePadding onClick={handleLogout}>
+          <ListItemButton>
+            <Avatar sx={{ bgcolor: deepPurple[500], color: "white", cursor: "pointer", mr: 1 }}>
+              {auth.user?.firstName ? auth.user.firstName[0].toUpperCase() : "A"}
+            </Avatar>
+            <ListItemText primary={"Logout"} />
+            <ListItemIcon><LogoutIcon sx={{ color: "gray" }} /></ListItemIcon>
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
-
-  const handleSideBarViewInMobile = () => {
-    setSideBarVisible(true);
-  };
-
-  const handleCloseSideBar = () => {
-    setSideBarVisible(false);
-  };
 
   const drawerVariant = isLargeScreen ? "permanent" : "temporary";
 
@@ -129,7 +109,7 @@ export default function AdminPannel() {
     <ThemeProvider theme={customTheme}>
       <Box sx={{ display: `${isLargeScreen ? "flex" : "block"}` }}>
         <CssBaseline />
-        <AdminNavbar handleSideBarViewInMobile={handleSideBarViewInMobile} />
+        <AdminNavbar handleSideBarViewInMobile={() => setSideBarVisible(true)} />
 
         <Drawer
           variant={drawerVariant}
@@ -139,36 +119,24 @@ export default function AdminPannel() {
             [`& .MuiDrawer-paper`]: {
               width: drawerWidth,
               boxSizing: "border-box",
-              ...(drawerVariant === "temporary" && {
-                top: 0,
-                [`& .MuiPaper-root.MuiDrawer-paperAnchorTop.MuiDrawer-paperTemporary`]:
-                  {
-                    position: "fixed",
-                    left: 0,
-                    right: 0,
-                    height: "100%",
-                    zIndex: (theme) => theme.zIndex.drawer + 2,
-                  },
-              }),
             },
           }}
           open={isLargeScreen || sideBarVisible}
-          onClose={handleCloseSideBar}
+          onClose={() => setSideBarVisible(false)}
         >
           {drawer}
         </Drawer>
+
         <Box className="adminContainer" component="main" sx={{ flexGrow: 1 }}>
           <Toolbar />
           <Routes>
-            <Route path="/" element={ <Dashboard />}></Route>
-            <Route path="/product/create" element={<CreateProductForm/>}></Route>
-            <Route path="/product/update/:productId" element={<UpdateProductForm/>}></Route>
-            <Route path="/products" element={<ProductsTable/>}></Route>
-            <Route path="/orders" element={<OrdersTable/>}></Route>
-            <Route path="/customers" element={<Customers/>}></Route>
-            <Route path="/demo" element={<DemoAdmin />}></Route>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/product/create" element={<CreateProductForm />} />
+            <Route path="/product/update/:productId" element={<UpdateProductForm />} />
+            <Route path="/products" element={<ProductsTable />} />
+            <Route path="/orders" element={<OrdersTable />} />
+            <Route path="/customers" element={<Customers />} />
           </Routes>
-         
         </Box>
       </Box>
     </ThemeProvider>
