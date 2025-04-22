@@ -103,14 +103,18 @@ export default function AdminPannel() {
     </Box>
   );
 
+  const toggleSideBar = () => {
+    setSideBarVisible((prev) => !prev); // Toggles the sidebar visibility
+  };
+  
+
   const drawerVariant = isLargeScreen ? "permanent" : "temporary";
 
   return (
     <ThemeProvider theme={customTheme}>
       <Box sx={{ display: `${isLargeScreen ? "flex" : "block"}` }}>
         <CssBaseline />
-        <AdminNavbar handleSideBarViewInMobile={() => setSideBarVisible(true)} />
-
+        <AdminNavbar handleSideBarViewInMobile={toggleSideBar} />
         <Drawer
           variant={drawerVariant}
           sx={{
