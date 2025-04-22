@@ -23,14 +23,24 @@ import { getUser, logout } from "../Redux/Auth/Action";
 import { useEffect } from "react";
 import "./AdminPannel.css";
 
-const drawerWidth = 240;
+import MailIcon from "@mui/icons-material/Mail";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
+const drawerWidth = 240;
 const menu = [
   { name: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
   { name: "Products", path: "/admin/products", icon: <InventoryIcon /> },
   { name: "Customers", path: "/admin/customers", icon: <GroupIcon /> },
   { name: "Orders", path: "/admin/orders", icon: <ShoppingCartIcon /> },
   { name: "Add Product", path: "/admin/product/create", icon: <AddBoxIcon /> },
+];
+
+// Add additional menu items for small screens
+const smallScreenMenu = [
+  { name: "Messages", path: "/admin/messages", icon: <MailIcon /> },
+  { name: "Notifications", path: "/admin/notifications", icon: <NotificationsIcon /> },
+  { name: "Profile", path: "/admin/profile", icon: <AccountCircle /> },
 ];
 
 export default function AdminPannel() {
@@ -66,37 +76,67 @@ export default function AdminPannel() {
       {isLargeScreen && <Toolbar />}
       <List sx={{ marginTop: isLargeScreen ? "0px" : "60px" }}>
         {menu.map((item) => (
-          <ListItem key={item.name} disablePadding onClick={() => navigate(item.path)}>
-          <ListItemButton
-            selected={window.location.pathname === item.path}
-            sx={{
-              "&.Mui-selected": {
-                backgroundColor: deepPurple[700],
-                color: "white",
-                "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-                  color: "white",
-                },
-              },
-             
-            }}
+          <ListItem
+            key={item.name}
+            disablePadding
+            onClick={() => navigate(item.path)}
           >
-            <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.name} />
-          </ListItemButton>
-        </ListItem>
-        
+            <ListItemButton
+              selected={window.location.pathname === item.path}
+              sx={{
+                "&.Mui-selected": {
+                  backgroundColor: deepPurple[700],
+                  color: "white",
+                  "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+                    color: "white",
+                  },
+                },
+              }}
+            >
+              <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          </ListItem>
         ))}
+
+        {/* Add additional icons for small screens */}
+        {!isLargeScreen &&
+          smallScreenMenu.map((item) => (
+            <ListItem
+              key={item.name}
+              disablePadding
+              onClick={() => navigate(item.path)}
+            >
+              <ListItemButton>
+                <ListItemIcon sx={{ color: "inherit" }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
+            </ListItem>
+          ))}
       </List>
 
       <List sx={{ position: "absolute", bottom: 0, width: "100%" }}>
         <Divider />
         <ListItem disablePadding onClick={handleLogout}>
           <ListItemButton>
-            <Avatar sx={{ bgcolor: deepPurple[500], color: "white", cursor: "pointer", mr: 1 }}>
-              {auth.user?.firstName ? auth.user.firstName[0].toUpperCase() : "A"}
+            <Avatar
+              sx={{
+                bgcolor: deepPurple[500],
+                color: "white",
+                cursor: "pointer",
+                mr: 1,
+              }}
+            >
+              {auth.user?.firstName
+                ? auth.user.firstName[0].toUpperCase()
+                : "A"}
             </Avatar>
             <ListItemText primary={"Logout"} />
-            <ListItemIcon><LogoutIcon sx={{ color: "gray" }} /></ListItemIcon>
+            <ListItemIcon>
+              <LogoutIcon sx={{ color: "gray" }} />
+            </ListItemIcon>
           </ListItemButton>
         </ListItem>
       </List>
@@ -106,7 +146,6 @@ export default function AdminPannel() {
   const toggleSideBar = () => {
     setSideBarVisible((prev) => !prev); // Toggles the sidebar visibility
   };
-  
 
   const drawerVariant = isLargeScreen ? "permanent" : "temporary";
 
@@ -114,7 +153,12 @@ export default function AdminPannel() {
     <ThemeProvider theme={customTheme}>
       <Box sx={{ display: `${isLargeScreen ? "flex" : "block"}` }}>
         <CssBaseline />
-        <AdminNavbar handleSideBarViewInMobile={toggleSideBar} />
+        
+        <AdminNavbar
+          handleSideBarViewInMobile={toggleSideBar}
+          isLargeScreen={isLargeScreen}
+          
+        />
         <Drawer
           variant={drawerVariant}
           sx={{
@@ -131,12 +175,19 @@ export default function AdminPannel() {
           {drawer}
         </Drawer>
 
-        <Box className="adminContainer" component="main" sx={{ flexGrow: 1 }}>
+        <Box
+          className="adminContainer"
+          component="main"
+          sx={{ flexGrow: 1 }}
+        >
           <Toolbar />
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/product/create" element={<CreateProductForm />} />
-            <Route path="/product/update/:productId" element={<UpdateProductForm />} />
+            <Route
+              path="/product/update/:productId"
+              element={<UpdateProductForm />}
+            />
             <Route path="/products" element={<ProductsTable />} />
             <Route path="/orders" element={<OrdersTable />} />
             <Route path="/customers" element={<Customers />} />
