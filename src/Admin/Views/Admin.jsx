@@ -43,15 +43,15 @@ const Dashboard = () => {
             <Grid item xs={12} md={8}>
               <MonthlyOverview />
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            {/* <Grid item xs={12} md={6} lg={4}>
               <WeeklyOverview />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} md={6} lg={4}>
               <TotalEarning />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            </Grid> */}
+            <Grid item xs={12}>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6} lg={3}>
                   <CardStatsVertical
                     stats="$25.6k"
                     icon={<Poll />}
@@ -61,7 +61,7 @@ const Dashboard = () => {
                     subtitle="Weekly Profit"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6} lg={3}>
                   <CardStatsVertical
                     stats="$78"
                     title="Refunds"
@@ -72,7 +72,7 @@ const Dashboard = () => {
                     icon={<CurrencyUsd />}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6} lg={3}>
                   <CardStatsVertical
                     stats="862"
                     trend="negative"
@@ -82,7 +82,7 @@ const Dashboard = () => {
                     icon={<BriefcaseVariantOutline />}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6} lg={3}>
                   <CardStatsVertical
                     stats="15"
                     color="warning"
@@ -95,20 +95,20 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12}  lg={6}>
             <CustomersTable />
             </Grid>
-            <Grid item xs={12} md={12} lg={8}>
+            <Grid item xs={12}  lg={6}>
               <RecentOrders />
             </Grid>
-             <Grid item xs={12} md={12} lg={8}>
+             <Grid item xs={12} lg={6}>
               <RecentlyAddeddProducts />
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            {/* <Grid item xs={12} md={6} lg={4}>
               <SalesOverTime/>
-            </Grid>
+            </Grid> */}
            
-            <Grid item xs={12}>
+            <Grid item xs={12} lg={6}>
               <CustomersTable />
             </Grid>
           </Grid>
