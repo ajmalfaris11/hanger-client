@@ -22,7 +22,7 @@ import AdminNavbar from '../Navigation/AdminNavbar';
 
 const drawerWidth = 240;
 
-const menu=["Dashboard","Products","Customers","Orders","Total Earnings","Weekly Overview","Monthly Overview","Add Product"]
+const menu=["Dashboard","Products","Customers","Orders","Total Earnings","Weekly Overview","Overview","Add Product"]
 
 export default function DemoAdmin() {
   const theme = useTheme();

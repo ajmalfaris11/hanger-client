@@ -283,7 +283,7 @@ const jwt=localStorage.getItem("jwt")
                   name="size_quantity"
                   type="number"
                   onChange={(event) => handleSizeChange(event, index)}
-                  value={size.quantity}
+                  value={size.quantity !== 0 ? size.quantity : ""}
                   required
                   fullWidth
                 />

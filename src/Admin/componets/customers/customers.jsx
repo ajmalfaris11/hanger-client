@@ -61,7 +61,6 @@ const Customers = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Image</TableCell>
-
                 <TableCell>User Id</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>

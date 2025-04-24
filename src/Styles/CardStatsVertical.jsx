@@ -11,7 +11,7 @@ import DotsVertical from "mdi-material-ui/DotsVertical";
 
 const CardStatsVertical = (props) => {
   // ** Props
-  const { title, subtitle, color, icon, stats, trend, trendNumber } = props;
+  const { title, subtitle, color, icon, stats, trend, percentage, trendNumber } = props;
 
   return (
     <Card>
@@ -20,55 +20,47 @@ const CardStatsVertical = (props) => {
           sx={{
             display: "flex",
             marginBottom: 3.25,
-            alignItems: "flex-start",
-            justifyContent: "space-between",
+            alignItems: "flex-center",
+            justifyItems: "center",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <Avatar
             sx={{
               boxShadow: 3,
-              marginRight: 4,
               color: "common.white",
               backgroundColor: `${color}.main`,
             }}
           >
             {icon}
           </Avatar>
-          <IconButton
-            size="small"
-            aria-label="settings"
-            className="card-more-options"
-            sx={{ color: "text.secondary" }}
-          >
-            <DotsVertical />
-          </IconButton>
+
         </Box>
-        <Typography sx={{ fontWeight: 600, fontSize: "0.875rem" }}>
+        <Typography sx={{ fontWeight: 500, fontSize: "0.875rem", textAlign: "center" }} variant="body2">
           {title}
         </Typography>
-        <Box
-          sx={{
-            marginTop: 1,
-            display: "flex",
-            flexWrap: "wrap",
-            marginBottom: 1,
-            alignItems: "center",
-          }}
-          className=""
-        >
-          <Typography variant="h6" sx={{ mr: 2 }} className="">
-            {stats}
-          </Typography>
 
-          <Typography
-            className=""
-            
-            variant="caption"
-            sx={{ color: trend === "positive" ? "success.main" : "error.main" }}
-          >
-            {trendNumber}
-          </Typography>
-        </Box>
+        <Typography variant="h4" sx={{ textAlign: "center", fontWeight: "bold", my: 2 }}>
+          {stats}
+        </Typography>
+
+        <Typography
+          variant="caption"
+          sx={{ color: trend === "positive" ? "success.main" : "error.main", textAlign: "center" }}
+        >
+          {trendNumber}
+        </Typography>
+
+        <Typography
+          variant="caption"
+          color="primary"
+          sx={{ textAlign: 'center', display: 'block', fontSize: '1rem',  }}
+          
+        >
+          {percentage}
+        </Typography>
+
         <Typography variant="caption">{subtitle}</Typography>
       </CardContent>
     </Card>
