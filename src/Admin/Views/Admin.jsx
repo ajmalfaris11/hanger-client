@@ -23,6 +23,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import ProfitAndOrders from "../tables/DailyStats";
 
 const Dashboard = () => {
   const [orderStats, setOrderStats] = useState({
@@ -149,30 +150,8 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             </Grid>
-
             <Grid item xs={12}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                  <CardStatsVertical
-                    stats="$25.6k"
-                    icon={<AssignmentTurnedInIcon />}
-                    color="success"
-                    trendNumber="+42%"
-                    title="Total Profit"
-                    subtitle="Weekly Profit"
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <CardStatsVertical
-                    stats="862"
-                    trend="negative"
-                    trendNumber="-18%"
-                    title="New Orders"
-                    subtitle="Weekly Orders"
-                    icon={<AssignmentTurnedInIcon />}
-                  />
-                </Grid>
-              </Grid>
+              <ProfitAndOrders />
             </Grid>
 
             <Grid item xs={12} lg={6}>
