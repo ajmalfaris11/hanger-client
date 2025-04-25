@@ -59,7 +59,7 @@ const RecentOrders = () => {
                 </TableCell>
 
                 <TableCell>{order.totalDiscountedPrice}</TableCell>
-                <TableCell><Chip sx={{ color: "white" }} label={order.orderStatus} size='small' color="success" className='text-white' /></TableCell>
+                <TableCell><Chip sx={{ color: "white" }} label={order.orderStatus} size='small' className='text-white' /></TableCell>
 
               </TableRow>
             ))}

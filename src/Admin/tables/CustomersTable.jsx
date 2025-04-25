@@ -33,7 +33,6 @@ const CustomersTable = () => {
   }, [])
 
   const filteredUsers = users
-    .slice(0, 5) // create a shallow copy so we don't mutate the original array
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // newest first
 
 
@@ -59,7 +58,7 @@ const CustomersTable = () => {
           </TableHead>
           <TableBody>
             {filteredUsers
-              .filter(user => user.role === 'CUSTOMER')
+              .filter(user => user.role === 'CUSTOMER').slice(0, 5)
               .map((user, index) => (
                 <TableRow hover key={user._id || index} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
                   <TableCell>
