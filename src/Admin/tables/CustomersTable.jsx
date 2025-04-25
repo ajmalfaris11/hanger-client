@@ -33,7 +33,7 @@ const CustomersTable = () => {
   }, [])
 
   const filteredUsers = users
-    .slice() // create a shallow copy so we don't mutate the original array
+    .slice(0, 5) // create a shallow copy so we don't mutate the original array
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // newest first
 
 

@@ -182,12 +182,6 @@ const Dashboard = () => {
             <Grid item xs={12} lg={6}>
               <RecentOrders />
             </Grid>
-            <Grid item xs={12} lg={6}>
-              <RecentlyAddeddProducts />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <CustomersTable />
-            </Grid>
           </Grid>
         </AdminPannel>
       </ThemeProvider>
