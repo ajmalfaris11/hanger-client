@@ -24,8 +24,14 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import ProfitAndOrders from "../tables/DailyStats";
+import { getUser } from "../../Redux/Auth/Action";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 const Dashboard = () => {
+    const navigate = useNavigate();
+  
   const [orderStats, setOrderStats] = useState({
     pending: 0,
     confirmed: 0,
@@ -35,10 +41,26 @@ const Dashboard = () => {
     total: 0,
   });
 
+    const dispatch = useDispatch();
+  
+
+  const jwt = localStorage.getItem("jwt");
+    const { auth } = useSelector((store) => store);
+  
+
   useEffect(() => {
+
+    if (jwt) {
+          dispatch(getUser(jwt));
+        }
+        if(auth){
+          if (auth.user?.role !== "ADMIN") {
+            navigate("/");
+          }
+        }
+
     api.get('/api/admin/orders')
       .then((response) => {
-        console.log(response.data);
         const orders = response.data;
         const stats = {
           pending: 0,

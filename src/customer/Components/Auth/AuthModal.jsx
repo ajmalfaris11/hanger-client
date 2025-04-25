@@ -23,14 +23,16 @@ export default function AuthModal({ handleClose, open }) {
   const location = useLocation();
   const { auth } = useSelector((store) => store);
   const navigate=useNavigate()
-  useEffect(() => {
-    if (auth.user){
-       handleClose();
-       if(auth.user?.role==="ADMIN"){
-        navigate('/admin')
-       }
-      }
-  }, [auth.user]);
+
+useEffect(() => {
+  if (open && auth.user) {
+    handleClose();
+    if (auth.user?.role === "ADMIN") {
+      navigate("/admin");
+    }
+  }
+}, [open, auth.user]); 
+  
   return (
     <>
     <Modal
