@@ -25,7 +25,7 @@ export default function AuthModal({ handleClose, open }) {
   const navigate=useNavigate()
 
 useEffect(() => {
-  if (open && auth.user) {
+  if (auth.user) {
     handleClose();
     if (auth.user?.role === "ADMIN") {
       navigate("/admin");
