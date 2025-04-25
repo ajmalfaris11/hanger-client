@@ -11,3 +11,27 @@ body {
     font-family: 'Roboto', sans-serif;
   }
   
+/* Firefox - thin scrollbar and thumb color */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #000000 #000000; /* thumb color, track color */
+}
+
+/* Chrome, Edge, Safari - WebKit */
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #000000 !important; /* red track */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:vertical {
+  background-color: #000000;
+}
