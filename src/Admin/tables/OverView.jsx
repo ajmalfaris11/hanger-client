@@ -38,8 +38,11 @@ const OverView = () => {
 
     // Get total customers
     api.get('/api/users').then((res) => {
-      setCustomerCount((res.data.users || res.data).length)
-    })
+      console.log(res)
+      const users = res.data;
+      const customerCount = users.filter(user => user.role === 'CUSTOMER').length;
+      setCustomerCount(customerCount);
+    });
 
     // Get total products
     api.get('/api/products').then((res) => {
