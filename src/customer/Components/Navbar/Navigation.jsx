@@ -56,7 +56,7 @@ const Navigation = () => {
     if (auth.user) {
       handleClose();
     }
-    if(location.pathname === "/login" || location.pathname === "/register") {
+    if (location.pathname === "/login" || location.pathname === "/register") {
       navigate(-1)
     }
   }, [auth.user]);
@@ -215,12 +215,9 @@ const Navigation = () => {
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <a
-                      href="/"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Sign in
-                    </a>
+                    <Button onClick={() => navigate("/login")} className="ml-5" size="small">
+                      Login
+                    </Button>
                   </div>
                 </div>
 
@@ -400,7 +397,7 @@ const Navigation = () => {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {auth.user?.firstName? (
+                  {auth.user?.firstName ? (
                     <div>
                       <Avatar
                         className="text-white"

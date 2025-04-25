@@ -4,7 +4,6 @@ import { ThemeProvider } from "@emotion/react";
 import { useTheme } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import GroupIcon from "@mui/icons-material/Group";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -27,13 +26,17 @@ import "./AdminPannel.css";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import GroupIcon from '@mui/icons-material/Group';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import PersonIcon from '@mui/icons-material/Person';      
+
 
 const drawerWidth = 240;
 const menu = [
   { name: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
   { name: "Products", path: "/admin/products", icon: <InventoryIcon /> },
-  { name: "Customers", path: "/admin/customers", icon: <GroupIcon /> },
-  { name: "Users", path: "/admin/users", icon: <GroupIcon /> },
+  { name: "Customers", path: "/admin/customers", icon: <PersonIcon /> },
+  { name: "Users", path: "/admin/users", icon: <PeopleAltIcon /> }, 
   { name: "Orders", path: "/admin/orders", icon: <ShoppingCartIcon /> },
   { name: "Add Product", path: "/admin/product/create", icon: <AddBoxIcon /> },
 ];
@@ -155,11 +158,11 @@ export default function AdminPannel() {
     <ThemeProvider theme={customTheme}>
       <Box sx={{ display: `${isLargeScreen ? "flex" : "block"}` }}>
         <CssBaseline />
-        
+
         <AdminNavbar
           handleSideBarViewInMobile={toggleSideBar}
           isLargeScreen={isLargeScreen}
-          
+
         />
         <Drawer
           variant={drawerVariant}
