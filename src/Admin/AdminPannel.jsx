@@ -18,6 +18,7 @@ import UpdateProductForm from "./componets/updateProduct/UpdateProduct";
 import ProductsTable from "./componets/Products/ProductsTable";
 import OrdersTable from "./componets/Orders/OrdersTable";
 import Customers from "./componets/customers/customers";
+import Users from "./componets/users/users";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, logout } from "../Redux/Auth/Action";
 import { useEffect } from "react";
@@ -32,6 +33,7 @@ const menu = [
   { name: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
   { name: "Products", path: "/admin/products", icon: <InventoryIcon /> },
   { name: "Customers", path: "/admin/customers", icon: <GroupIcon /> },
+  { name: "Users", path: "/admin/users", icon: <GroupIcon /> },
   { name: "Orders", path: "/admin/orders", icon: <ShoppingCartIcon /> },
   { name: "Add Product", path: "/admin/product/create", icon: <AddBoxIcon /> },
 ];
@@ -191,6 +193,7 @@ export default function AdminPannel() {
             <Route path="/products" element={<ProductsTable />} />
             <Route path="/orders" element={<OrdersTable />} />
             <Route path="/customers" element={<Customers />} />
+            <Route path="/users" element={<Users />} />
           </Routes>
         </Box>
       </Box>
