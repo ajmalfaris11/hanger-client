@@ -1,7 +1,11 @@
 import axios from 'axios';
 
 // Determine if running locally or in production
-export const API_BASE_URL = "https://hanger-server.onrender.com";
+const isLocal = window.location.hostname === 'localhost';
+
+export const API_BASE_URL = isLocal
+  ? 'http://localhost:4647'
+  : 'https://hanger-server.onrender.com';
 
 // Create an Axios instance
 const api = axios.create({
