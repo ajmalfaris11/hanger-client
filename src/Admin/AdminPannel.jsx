@@ -2,10 +2,6 @@ import * as React from "react";
 import { Box, Avatar, Drawer, CssBaseline, Toolbar, List, Divider, ListItem, ListItemText, ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import { useTheme } from "@mui/material/styles";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { deepPurple } from "@mui/material/colors";
 import { customTheme } from "./them/customeThem";
@@ -23,31 +19,32 @@ import { getUser, logout } from "../Redux/Auth/Action";
 import { useEffect } from "react";
 import "./AdminPannel.css";
 
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import DashboardIcon from '@mui/icons-material/SpaceDashboard';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
 import GroupIcon from '@mui/icons-material/Group';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import PersonIcon from '@mui/icons-material/Person';      
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ChatIcon from '@mui/icons-material/Chat';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import UserProfile from "./componets/profile/profile";
-
 
 const drawerWidth = 240;
 const menu = [
   { name: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
-  { name: "Products", path: "/admin/products", icon: <InventoryIcon /> },
-  { name: "Customers", path: "/admin/customers", icon: <PersonIcon /> },
-  { name: "Users", path: "/admin/users", icon: <PeopleAltIcon /> }, 
-  { name: "Orders", path: "/admin/orders", icon: <ShoppingCartIcon /> },
-  { name: "Add Product", path: "/admin/product/create", icon: <AddBoxIcon /> },
-
+  { name: "Products", path: "/admin/products", icon: <Inventory2Icon /> },
+  { name: "Customers", path: "/admin/customers", icon: <GroupIcon /> },
+  { name: "Users", path: "/admin/users", icon: <ManageAccountsIcon /> },
+  { name: "Orders", path: "/admin/orders", icon: <ShoppingBagIcon /> },
+  { name: "Add Product", path: "/admin/product/create", icon: <AddCircleOutlineIcon /> },
 ];
 
 // Add additional menu items for small screens
 const smallScreenMenu = [
-  { name: "Messages", path: "/admin/messages", icon: <MailIcon /> },
-  { name: "Notifications", path: "/admin/notifications", icon: <NotificationsIcon /> },
-  { name: "Profile", path: "/admin/profile", icon: <PersonIcon /> },
+  { name: "Messages", path: "/admin/messages", icon: <ChatIcon /> },
+  { name: "Notifications", path: "/admin/notifications", icon: <NotificationsActiveIcon /> },
+  { name: "Profile", path: "/admin/profile", icon: <AccountBoxIcon /> },
 ];
 
 export default function AdminPannel() {
