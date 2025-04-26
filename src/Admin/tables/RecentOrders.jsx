@@ -16,12 +16,15 @@ const RecentOrders = () => {
   useEffect(() => {
     api.get('/api/admin/orders')
       .then((response) => {
-        setOrders(response.data)
+        const sortedOrders = (response.data || []).sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setOrders(sortedOrders);
       })
       .catch((error) => {
-        console.error("Failed to fetch users:", error)
-      })
-  }, [])
+        console.error("Failed to fetch orders:", error);
+      });
+  }, []);
 
   console.log(orders)
   const navigate = useNavigate();
