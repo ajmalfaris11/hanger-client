@@ -78,7 +78,7 @@ export default function Product() {
 
   useEffect(() => {
     const [minPrice, maxPrice] =
-      priceValue === null ? [0, 10000]:priceValue.split("-").map(Number);
+      priceValue === null ? [0, 10000] : priceValue.split("-").map(Number);
     const data = {
       category: param.lavelThree,
       colors: colorValue || [],
@@ -263,10 +263,9 @@ export default function Product() {
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto px-4 lg:px-14 py-10">
+        <main className="mx-auto px-4 lg:px-14 pt-6">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
-            <h1 className="text-4xl font-bold text-gray-900">
-              Product
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">              Product
             </h1>
 
             <div className="flex items-center">
@@ -339,59 +338,38 @@ export default function Product() {
             </h2>
 
             <div>
-              <h2 className="py-5 font-semibold opacity-60 text-lg">Filters</h2>
-              <div className="grid grid-cols-1  gap-y-10 lg:grid-cols-5">
+              <div className="grid grid-cols-1 lg:grid-cols-6">
                 {/* Filters */}
-                <form className="hidden lg:block rounded-md p-5">
+                <form className="lg:col-span-1 hidden lg:block rounded-md bg-white">
+                  <h2 className="pb-5 font-semibold opacity-60 text-lg">Filters</h2>
+
                   {filters.map((section) => (
-                    <Disclosure
-                      // defaultOpen={false}
-                      as="div"
-                      key={section.id}
-                      className="border-b border-gray-200 py-6"
-                    >
+                    <Disclosure key={section.id} as="div" className="border-b border-gray-200 py-4">
                       {({ open }) => (
                         <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">
-                                {section.name}
-                              </span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                ) : (
-                                  <PlusIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              {section.options.map((option, optionIdx) => (
-                                <div
-                                  key={option.value}
-                                  className="flex items-center"
-                                >
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-2 text-sm text-gray-600 hover:text-gray-800">
+                            <span className="font-medium text-gray-900">{section.name}</span>
+                            {open ? (
+                              <MinusIcon className="h-5 w-5" />
+                            ) : (
+                              <PlusIcon className="h-5 w-5" />
+                            )}
+                          </Disclosure.Button>
+                          <Disclosure.Panel className="pt-2">
+                            <div className="space-y-3">
+                              {section.options.map((option, idx) => (
+                                <div key={option.value || idx} className="flex items-center">
                                   <input
-                                    id={`filter-${section.id}-${optionIdx}`}
+                                    id={`filter-${section.id}-${idx}`}
                                     name={`${section.id}[]`}
                                     defaultValue={option.value}
                                     type="checkbox"
                                     defaultChecked={option.checked}
+                                    onChange={() => handleFilter(option.value, section.id)}
                                     className="h-4 w-4 rounded border-gray-300 text-black-600 focus:ring-black-500"
-                                    onChange={() =>
-                                      handleFilter(option.value, section.id)
-                                    }
                                   />
                                   <label
-                                    htmlFor={`filter-${section.id}-${optionIdx}`}
+                                    htmlFor={`filter-${section.id}-${idx}`}
                                     className="ml-3 text-sm text-gray-600"
                                   >
                                     {option.label}
@@ -404,45 +382,25 @@ export default function Product() {
                       )}
                     </Disclosure>
                   ))}
+
                   {singleFilter.map((section) => (
-                    <Disclosure
-                      // defaultOpen={true}
-                      as="div"
-                      key={section.id}
-                      className="border-b border-gray-200 py-6"
-                    >
+                    <Disclosure key={section.id} as="div" className="border-b border-gray-200 py-4">
                       {({ open }) => (
                         <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">
-                                {section.name}
-                              </span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                ) : (
-                                  <PlusIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-2 text-sm text-gray-600 hover:text-gray-800">
+                            <span className="font-medium text-gray-900">{section.name}</span>
+                            {open ? (
+                              <MinusIcon className="h-5 w-5" />
+                            ) : (
+                              <PlusIcon className="h-5 w-5" />
+                            )}
+                          </Disclosure.Button>
+                          <Disclosure.Panel className="pt-2">
                             <FormControl>
-                              <RadioGroup
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                defaultValue="female"
-                                name="radio-buttons-group"
-                              >
-                                {section.options.map((option, optionIdx) => (
+                              <RadioGroup name="radio-buttons-group">
+                                {section.options.map((option, idx) => (
                                   <FormControlLabel
-                                    key={option.value || optionIdx} // Add a unique key
+                                    key={option.value || idx}
                                     value={option.value}
                                     control={<Radio />}
                                     label={option.label}
@@ -459,24 +417,17 @@ export default function Product() {
                 </form>
 
                 {/* Product grid */}
-                <div className="lg:col-span-4 w-full">
-                  <div className="flex flex-wrap justify-center bg-white py-5 rounded-md ">
-                    { products.products?.content?.map((item, index) => (
+                <div className="lg:col-span-5 w-full px-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+                    {products.products?.content?.map((item, index) => (
                       <ProductCard key={item.id || index} product={item} />
                     ))}
-
-
-                    {/* {customersProduct.products?.content?.length > 0 ? (
-                      customersProduct.products.content.map((item) => <ProductCard products={item} key={item.id} />)
-                    ) : (
-                    // mens_kurta.map((item) => (
-                    //   <ProductCard products={item} />
-                    // ))
-                    <p>Not Avilable</p>
-                    )} */}
                   </div>
                 </div>
               </div>
+
+
+
             </div>
           </section>
         </main>

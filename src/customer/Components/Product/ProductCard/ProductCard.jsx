@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
   return (
     <div
       onClick={handleNavigate}
-      className="productCard w-[12rem] border m-4 rounded-lg shadow-md transition-all cursor-pointer hover:scale-105 hover:shadow-2xl transform"
+      className="w-[12rem] border m-4 rounded-lg shadow-md transition-all cursor-pointer hover:shadow-xl transform"
     >
       <div className="relative h-[12rem] rounded-t-lg overflow-hidden">
         <img
