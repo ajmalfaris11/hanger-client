@@ -8,6 +8,9 @@ import { navigation } from "./navigationData";  // Assuming navigation data is c
 import AuthModel from "../Auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, logout } from "../../../Redux/Auth/Action";
+import axios from 'axios';
+import api from '../../../config/api'
+
 
 
 const Navigation = () => {
@@ -20,6 +23,20 @@ const Navigation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [cartItems, setCartItems] = useState([]);
+  const [cartUpdated, setCartUpdated] = useState(false);
+
+  useEffect(() => {
+    api.get('api/cart')
+      .then((response) => {
+        setCartItems(response.data.cartItems)
+      })
+      .catch((error) => {
+        console.error("Failed to fetch users:", error)
+      })
+  }, [location]);
+
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -57,9 +74,9 @@ const Navigation = () => {
       handleClose();
     }
     if (location.pathname === "/login" || location.pathname === "/register") {
-      navigate(-1)
+      navigate(-1);
     }
-  }, [auth.user]);
+  }, [auth.user, navigate, handleClose]);
 
 
   // logout 
@@ -185,10 +202,10 @@ const Navigation = () => {
                               aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
                               className="mt-6 flex flex-col space-y-6"
                             >
-                              {section.items.map((item) => (
-                                <li key={item.name} className="flow-root">
+                              {section.items.map((item, index) => (
+                                <li key={`${section.id}-${index}`} className="flow-root">
                                   <p className="-m-2 block p-2 text-gray-500">
-                                    {item.name} {/* Corrected this line */}
+                                    {item.name}
                                   </p>
                                 </li>
                               ))}
@@ -447,11 +464,10 @@ const Navigation = () => {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6 relative">
-                  <Button className="group -m-2 flex items-center p-2">
+                  <Button className="group -m-2 flex items-center p-2" onClick={() => navigate("/cart")}>
                     <ShoppingBagIcon className="h-8 w-7 flex-shrink-0 text-gray-900 group-hover:text-gray-500" aria-hidden="true" />
                     <span className="ml-2 text-sm font-medium text-gray-900 hover:text-gray-500 w-[20px] h-[20px] flex items-center justify-center absolute right-[22px] top-4">
-                      0
-                    </span>
+                    {cartItems.length}                    </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Button>
                 </div>
