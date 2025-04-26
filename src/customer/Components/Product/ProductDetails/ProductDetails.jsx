@@ -98,70 +98,17 @@ export default function ProductDetails() {
 
   return (
     <div className="bg-white lg:px-20">
-      <div className="pt-6">
-        <nav aria-label="Breadcrumb">
-          <ol
-            role="list"
-            className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-          >
-            {product.breadcrumbs?.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
-                <div className="flex items-center">
-                  <a
-                    href={"/"}
-                    className="mr-2 text-sm font-medium text-gray-900"
-                  >
-                    {breadcrumb.name}
-                  </a>
-                  <svg
-                    width={16}
-                    height={20}
-                    viewBox="0 0 16 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    className="h-5 w-4 text-gray-300"
-                  >
-                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                  </svg>
-                </div>
-              </li>
-            ))}
-            <li className="text-sm">
-              <a
-                href={product.href}
-                aria-current="page"
-                className="font-medium text-gray-500 hover:text-gray-600"
-              >
-                {products.product?.thirdLavelCategory}
-              </a>
-            </li>
-          </ol>
-        </nav>
-
+      {/* <div className="pt-6"> */}
         {/* product details */}
         <section className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 px-4 pt-10">
           {/* Image gallery */}
           <div className="flex flex-col items-center ">
-            <div className=" overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
+            <div className=" overflow-hidden rounded-lg max-w-[30rem] max-h-[30rem]">
               <img
                 src={products.product?.imageUrl}
                 alt="product image"
-                className="h-full w-full object-cover object-center"
+                className="h- w-full object-cover object-center"
               />
-            </div>
-            <div className="flex flex-wrap space-x-5 justify-center">
-              {product.images?.map((image) => (
-                <div
-                  onClick={() => handleSetActiveImage(image)}
-                  className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4"
-                >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="h-full w-full object-cover object-center"
-                  />
-                </div>
-              ))}
             </div>
           </div>
 
@@ -490,19 +437,18 @@ export default function ProductDetails() {
                 </Box>
               </Grid>
             </Grid>
-          </div>
+            </div>
         </section>
 
         {/* similer product */}
-        <section className=" pt-10">
+        <section className="pt-10">
           <h1 className="py-5 text-xl font-bold">Similer Products</h1>
-          <div className="flex flex-wrap space-y-5">
+          <div className="flex flex-wrap space-y-5 justify-center">
           { products.products?.content?.map((item, index) => (
                       <ProductCard key={item.id || index} product={item} />
                     ))}
           </div>
         </section>
       </div>
-    </div>
   );
 }
