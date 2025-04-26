@@ -29,6 +29,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import GroupIcon from '@mui/icons-material/Group';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import PersonIcon from '@mui/icons-material/Person';      
+import UserProfile from "./componets/profile/profile";
 
 
 const drawerWidth = 240;
@@ -39,13 +40,14 @@ const menu = [
   { name: "Users", path: "/admin/users", icon: <PeopleAltIcon /> }, 
   { name: "Orders", path: "/admin/orders", icon: <ShoppingCartIcon /> },
   { name: "Add Product", path: "/admin/product/create", icon: <AddBoxIcon /> },
+
 ];
 
 // Add additional menu items for small screens
 const smallScreenMenu = [
   { name: "Messages", path: "/admin/messages", icon: <MailIcon /> },
   { name: "Notifications", path: "/admin/notifications", icon: <NotificationsIcon /> },
-  { name: "Profile", path: "/admin/profile", icon: <AccountCircle /> },
+  { name: "Profile", path: "/admin/profile", icon: <PersonIcon /> },
 ];
 
 export default function AdminPannel() {
@@ -197,6 +199,7 @@ export default function AdminPannel() {
             <Route path="/orders" element={<OrdersTable />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/profile" element={<UserProfile />} />
           </Routes>
         </Box>
       </Box>

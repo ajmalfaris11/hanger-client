@@ -11,8 +11,14 @@ import hangerLogo from "../../Data/logo/hanger_white_logo.png";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import { useNavigate, useLocation } from "react-router-dom";
+import { deepPurple } from '@mui/material/colors';
+
 
 export default function AdminNavbar({ handleSideBarViewInMobile, isLargeScreen }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -26,7 +32,7 @@ export default function AdminNavbar({ handleSideBarViewInMobile, isLargeScreen }
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* Left: Logo */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
-          {!isLargeScreen && (<IconButton
+            {!isLargeScreen && (<IconButton
               size="large"
               edge="start"
               color="inherit"
@@ -36,7 +42,7 @@ export default function AdminNavbar({ handleSideBarViewInMobile, isLargeScreen }
             >
               <MenuIcon />
             </IconButton>)}
-            
+
             <img
               src={hangerLogo}
               alt="Hanger"
@@ -71,7 +77,13 @@ export default function AdminNavbar({ handleSideBarViewInMobile, isLargeScreen }
               <IconButton size="large" color="inherit">
                 <NotificationsIcon />
               </IconButton>
-              <IconButton size="large" color="inherit">
+              <IconButton
+                size="large"
+                onClick={() => navigate('profile')}
+                sx={{
+                  color: location.pathname === '/admin/profile' ? deepPurple[400] : 'inherit',
+                }}
+              >
                 <AccountCircle />
               </IconButton>
             </Box>
