@@ -84,6 +84,15 @@ useEffect(() => {
 
     }
 
+
+  }, [auth.user, navigate, handleClose]);
+
+  useEffect(() => {
+
+      if (location.pathname === "/login" || location.pathname === "/register") {
+        handleOpen();
+      }
+
   }, [auth.user, navigate, handleClose]);
 
 

@@ -1,12 +1,14 @@
 import * as React from "react";
 import { Grid, TextField, Button, Snackbar, Alert } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, login } from "../../../Redux/Auth/Action";
 import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 
-export default function LoginUserForm({ handleNext }) {
+export default function LoginUserForm() {
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -49,8 +51,14 @@ export default function LoginUserForm({ handleNext }) {
     dispatch(login(userData));
   };
 
+  // Check if the current path is "/login"
+  if (location.pathname !== "/login") {
+    return null; // Do not render the form if the path is not "/login"
+  }
+
   return (
     <React.Fragment>
+      <Box sx={{ width: "100%", padding:{xs:"1rem", sm:"2rem"} }}>
       <form className="w-full" onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -101,6 +109,7 @@ export default function LoginUserForm({ handleNext }) {
           {snackMessage}
         </Alert>
       </Snackbar>
+      </Box>
     </React.Fragment>
   );
 }

@@ -18,7 +18,8 @@ import Checkout from "../customer/Components/Checkout/Checkout";
 import Footer from "../customer/Components/footer/Footer";
 import PaymentSuccess from "../customer/Components/paymentSuccess/PaymentSuccess";
 import RateProduct from "../customer/Components/ReviewProduct/RateProduct";
-
+import Login from "../customer/Components/Auth/Login";
+import REgister from "../customer/Components/Auth/Register";
 const CustomerRoutes = () => {
     const location = useLocation();
     
@@ -37,6 +38,7 @@ const CustomerRoutes = () => {
      <Route path="/register" element={<Homepage />}></Route>
 
         <Route path="/" element={<Homepage />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/home" element={<Homepage />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/privaciy-policy" element={<PrivacyPolicy />}></Route>
