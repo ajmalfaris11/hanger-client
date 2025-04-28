@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser, logout } from "../../../Redux/Auth/Action";
 import axios from 'axios';
 import api from '../../../config/api'
+import logo from "../../../Data/logo/hanger_black_logo.png"
 
 
 
@@ -27,15 +28,19 @@ const Navigation = () => {
   const [cartItems, setCartItems] = useState([]);
   const [cartUpdated, setCartUpdated] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
+  if (auth.user) { // Check if the user is logged in
     api.get('api/cart')
       .then((response) => {
-        setCartItems(response.data.cartItems)
+        setCartItems(response.data.cartItems || []); // Fallback to an empty array if cartItems is undefined
       })
       .catch((error) => {
-        console.error("Failed to fetch users:", error)
-      })
-  }, [location]);
+        console.error("Failed to fetch cart items:", error);
+      });
+  } else {
+    setCartItems([]); // Clear cart items if the user is not logged in
+  }
+}, [auth.user, location]); // Add auth.user as a dependency
 
 
   function classNames(...classes) {
@@ -72,10 +77,13 @@ const Navigation = () => {
   useEffect(() => {
     if (auth.user) {
       handleClose();
+
+      if (location.pathname === "/login" || location.pathname === "/register") {
+        navigate(-1);
+      }
+
     }
-    if (location.pathname === "/login" || location.pathname === "/register") {
-      navigate(-1);
-    }
+
   }, [auth.user, navigate, handleClose]);
 
 
@@ -278,9 +286,9 @@ const Navigation = () => {
               <div className="ml-4 flex lg:ml-0">
                 <span className="sr-only">Your Company</span>
                 <img
-                  src="https://logowik.com/content/uploads/images/waving-clothes-hanger1096.logowik.com.webp"
+                  src={logo}
                   alt="HangerLogo"
-                  className="h-10 w-auto"
+                  className="h-14 w-auto"
                 />
               </div>
 
