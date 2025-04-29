@@ -1,6 +1,7 @@
 import { Grid, Link, Typography, TextField, Button, Box } from "@mui/material";
 import { Facebook, Instagram, Twitter, LinkedIn } from "@mui/icons-material";
 import NorthIcon from '@mui/icons-material/North';
+import footerLogo from "../../../Data/logo/hanger_black_logo.png";
 
 const footerImages = [
   "https://cdn.truesociety.com/uploads/2023/08/M23-ESS-D3823-INF17-Hot-Image-scaled.jpg",
@@ -51,7 +52,7 @@ const Footer = () => {
       <Grid container spacing={4} justifyContent="center" sx={{ mt: 5, p: 6 }} className="bg-white">
         {/* Social Media & Copyright */}
         <Grid item xs={12} sm={4} textAlign="left">          
-          <img src="https://logowik.com/content/uploads/images/waving-clothes-hanger1096.logowik.com.webp" alt="footer logo" className="w-14" />
+          <img src={footerLogo} alt="footer logo" className="w-14" />
 
           <p>Hanger: Quality styles to elevate your wardrobe. Thank you for shopping with us!</p>
 
