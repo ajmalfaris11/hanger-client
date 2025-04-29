@@ -281,7 +281,7 @@ useEffect(() => {
 
         <nav aria-label="Top" className="mx-auto bg-white mx-4 rounded-2xl">
           <div>
-            <div className="flex h-16 items-center px-11">
+            <div className="flex h-16 items-center px-4 md:px-11">
               <button
                 type="button"
                 className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
@@ -303,7 +303,8 @@ useEffect(() => {
 
               {/* Flyout menus */}
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch z-10">
-                <div className="flex h-full space-x-8">
+                <div className="flex h-full space-x-8 jcstify-center items-center">
+                <a href="/"><span className="text-gray-700 hover:text-gray-800 font-medium text-sm">Home</span></a>
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
                       {({ open, close }) => (
