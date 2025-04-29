@@ -3,11 +3,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const HomeProductCard = ({ product }) => {
+  console.log("product", product);
   const navigate = useNavigate();
 
   return (
     <div
-      onClick={() => navigate(`/men/clothing/mens_kurta`)}
+      onClick={() => navigate(`/product/${product._id}`)}
       className="group cursor-pointer flex flex-col items-center rounded-xl shadow-md overflow-hidden mx-2 mb-10 transition-transform duration-300 transform hover:scale-105 bg-white mt-2"
     >
       <div className="h-[14rem] w-full bg-gray-100 rounded-t-xl overflow-hidden">

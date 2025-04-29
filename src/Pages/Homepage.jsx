@@ -1,30 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HomeCarousel from "../customer/Components/Carousel/HomeCarousel";
 import { homeCarouselData } from "../customer/Components/Carousel/HomeCaroselData";
 import HomeProductSection from "../customer/Components/Home/HomeProductSection";
-import { sareePage1 } from "../Data/Saree/page1";
-import { dressPage1 } from "../Data/dress/page1";
-import { gounsPage1 } from "../Data/Gouns/gouns";
-import { kurtaPage1 } from "../Data/Kurta/kurta";
-import { mensShoesPage1 } from "../Data/shoes";
-import { mens_kurta } from "../Data/Men/men_kurta";
-import { lengha_page1 } from "../Data/Women/LenghaCholi";
+import api from "../config/api";
 
 const Homepage = () => {
+  const [mensKurta, setMensKurta] = useState([]);
+  const [womensKurta, setWomensKurta] = useState([]);
+  const [saree, setSaree] = useState([]);
+  const [dress, setDress] = useState([]);
+  const [gouns, setGouns] = useState([]);
+
+  useEffect(() => {
+    api.get("/api/products")
+      .then((response) => {
+        const products = response.data.content;
+        console.log(products);
+
+        const mensKurta = [];
+        const womensKurta = [];
+        const saree = [];
+        const dress = [];
+        const gouns = [];
+
+        products.forEach(p => {
+          switch (p.thirdLavelCategory) {
+            case "mens_kurta":
+              mensKurta.push(p);
+              break;
+            case "Womens_Kurtha":
+              womensKurta.push(p);
+              break;
+            case "Saree":
+              saree.push(p);
+              break;
+            case "Dress":
+              dress.push(p);
+              break;
+            case "Gown":
+              gouns.push(p);
+              break;
+            default:
+              break;
+          }
+        });
+
+        setMensKurta(mensKurta);
+        setWomensKurta(womensKurta);
+        setSaree(saree);
+        setDress(dress);
+        setGouns(gouns);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      });
+  }, []);
+
 
   return (
-    <div className="">
+    <div>
       <HomeCarousel images={homeCarouselData} />
 
-      <div className="py-20">
-      <HomeProductSection data={mens_kurta} section={"Men's Kurta"} />
-      <HomeProductSection data={kurtaPage1} section={"Women's Kurtas"} />
-        <HomeProductSection data={dressPage1} section={"Dress"} />
-        <HomeProductSection data={gounsPage1} section={"Women's Gouns"} />
-        <HomeProductSection data={sareePage1} section={"Saree"} />
+      <div>
+        <HomeProductSection data={dress} section={"Dress"} />
+        <HomeProductSection data={mensKurta} section={"Men's Kurta"} />
+        <HomeProductSection data={womensKurta} section={"Women's Kurtas"} />
+        <HomeProductSection data={gouns} section={"Women's Gouns"} />
+        <HomeProductSection data={saree} section={"Saree"} />
       </div>
-
-      
     </div>
   );
 };
