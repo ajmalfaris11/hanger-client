@@ -14,21 +14,38 @@ const Footer = () => {
   return (
     <Box sx={{ bgcolor: "#f8f8f8", color: "black", mt: 10 }} className="footer">
       {/* Instagram & Newsletter Section */}
-      <Grid container textAlign="center" justifyContent="center" spacing={3}>
+      <Grid container textAlign="center" justifyContent="center" spacing={3} px={2}>
         <Grid item xs={12}>
-          <Typography variant="h5" fontWeight={700} mt={3}>
+          <Typography
+            variant="h5"
+            fontWeight={700}
+            sx={{
+              mt: { xs: 2, sm: 3 },
+              mx: { xs: 2, sm: 4 },
+              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.75rem" },
+            }}
+          >
             Follow Products And Discounts On Instagram
           </Typography>
         </Grid>
-        <Grid container item justifyContent="center" spacing={2} sx={{ my: 2, px: 2 }}>
+        <Grid container item justifyContent="center" spacing={2} sx={{ mb: 2, mx: 6 }}>
           {footerImages.map((_, i) => (
-            <Grid key={i} item>
+            <Grid key={i} item xs={6} sm={6} md={3}>
               <img
                 src={footerImages[i]}
                 alt="Instagram Post"
-                style={{ borderRadius: "5px", width: "220px", height: "200px", objectFit: "cover", cursor: "pointer", objectPosition: "top" }}
+                style={{
+                  borderRadius: "5px",
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                  objectPosition: "top",
+                  aspectRatio: "11 / 10", // optional to maintain a similar height
+                }}
               />
             </Grid>
+
           ))}
         </Grid>
         <Grid item xs={12}>
@@ -49,20 +66,31 @@ const Footer = () => {
       </Grid>
 
       {/* Footer Links */}
-      <Grid container spacing={4} justifyContent="center" sx={{ mt: 5, p: 6 }} className="bg-white">
-        {/* Social Media & Copyright */}
-        <Grid item xs={12} sm={4} textAlign="left">          
-          <img src={footerLogo} alt="footer logo" className="w-14" />
-
-          <p>Hanger: Quality styles to elevate your wardrobe. Thank you for shopping with us!</p>
-
-          <div className="mt-5">
+      <Grid
+        container
+        spacing={4}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ my: 5, px: { xs: 4, md: 6 }}} // Added margin-left here
+        className="bg-white"
+      >
+        {/* Logo & Social Icons */}
+        <Grid item xs={12} sm={6} md={3} sx={{ textAlign: { xs: "center", sm: "left" } }}>
+          <img src={footerLogo} alt="footer logo" className="w-14 mx-auto sm:mx-0" />
+          <p className="mt-2">Hanger: Quality styles to elevate your wardrobe. Thank you for shopping with us!</p>
+          <div className="mt-5 flex justify-center sm:justify-start gap-4">
             {[Facebook, Instagram, Twitter, LinkedIn].map((Icon, i) => (
-              <Icon className="hover:scale-110 transition-all duration-300 ease-in-out" key={i} sx={{ fontSize: 22, mr: 4 }} />
+              <Icon
+                key={i}
+                className="hover:scale-110 transition-all duration-300 ease-in-out"
+                sx={{ fontSize: 22 }}
+              />
             ))}
           </div>
         </Grid>
-        <Grid item xs={12} sm={2.5} textAlign="start" mt="25px">
+
+        {/* Catalog */}
+        <Grid item xs={12} sm={6} md={3}>
           <Typography variant="h6" fontWeight={600} gutterBottom>
             Catalog
           </Typography>
@@ -72,7 +100,9 @@ const Footer = () => {
             </Typography>
           ))}
         </Grid>
-        <Grid item xs={12} sm={2.5} textAlign="start" mt="25px">
+
+        {/* About Us */}
+        <Grid item xs={12} sm={6} md={3}>
           <Typography variant="h6" fontWeight={600} gutterBottom>
             About Us
           </Typography>
@@ -82,11 +112,19 @@ const Footer = () => {
             </Typography>
           ))}
         </Grid>
-        <Grid item xs={12} sm={2.5} textAlign="start" mt="25px">
+
+        {/* Customer Service */}
+        <Grid item xs={12} sm={6} md={3}>
           <Typography variant="h6" fontWeight={600} gutterBottom>
             Customer Service
           </Typography>
-          {["Contact Us", "Track Your Order", "Product Care & Repair", "Book an Appointment", "Shipping & Returns"].map((item) => (
+          {[
+            "Contact Us",
+            "Track Your Order",
+            "Product Care & Repair",
+            "Book an Appointment",
+            "Shipping & Returns",
+          ].map((item) => (
             <Typography key={item} variant="body2" gutterBottom>
               {item}
             </Typography>
@@ -95,33 +133,74 @@ const Footer = () => {
       </Grid>
 
 
-
-      <Grid item xs={12} textAlign="center" className="bg-black w-full flex justify-between gap-2 py-4 px-10 ">
-        <Typography sx={{
-          fontSize: "12px", color: "white", display: "flex",
+      <Grid
+        item
+        xs={12}
+        sx={{
+          backgroundColor: "black",
+          width: "100%",
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          justifyContent: "space-between",
           alignItems: "center",
-          justifyContent: "center",
-        }}>
+          gap: 2,
+          py: 2,
+          px: { xs: 2, sm: 6 },
+          textAlign: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: { xs: "10px", sm: "12px" },
+            color: "white !important", // ensures the text color is white
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           &copy; 2025 Hanger. All rights reserved.
         </Typography>
-        <div className="flex gap-3 justify-center items-center">
-          <img src="https://pngimg.com/d/mastercard_PNG16.png" alt="Mastercard" className="w-7 h-6 object-contain" />
-          <img src="https://d28wu8o6itv89t.cloudfront.net/images/Visadebitcardpng-1599584312349.png" alt="Visa" className="w-7 h-6 object-contain" />
-          <img src="https://static-00.iconduck.com/assets.00/amex-icon-2048x1286-jssggdy1.png" alt="Amex" className="w-7 h-6 object-contain" />
-          <img src="https://i.pcmag.com/imagery/reviews/068BjcjwBw0snwHIq0KNo5m-15..v1602794215.png" alt="Discover" className="w-7 h-6 object-contain" />
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfehmBr0Ko0aFuhXkh3_RjxQgNHm09MLi9Q&s" alt="PayPal" className="w-7 h-6 object-contain" />
-          <img src="https://riataranch.com/wp-content/uploads/2017/04/klarna-logo.png" alt="Klarna" className="w-7 h-6 object-contain" />
+
+        <div className="flex gap-3 justify-center items-center flex-wrap">
+          <img
+            src="https://pngimg.com/d/mastercard_PNG16.png"
+            alt="Mastercard"
+            className="w-7 h-6 object-contain"
+          />
+          <img
+            src="https://d28wu8o6itv89t.cloudfront.net/images/Visadebitcardpng-1599584312349.png"
+            alt="Visa"
+            className="w-7 h-6 object-contain"
+          />
+          <img
+            src="https://static-00.iconduck.com/assets.00/amex-icon-2048x1286-jssggdy1.png"
+            alt="Amex"
+            className="w-7 h-6 object-contain"
+          />
+          <img
+            src="https://i.pcmag.com/imagery/reviews/068BjcjwBw0snwHIq0KNo5m-15..v1602794215.png"
+            alt="Discover"
+            className="w-7 h-6 object-contain"
+          />
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfehmBr0Ko0aFuhXkh3_RjxQgNHm09MLi9Q&s"
+            alt="PayPal"
+            className="w-7 h-6 object-contain"
+          />
+          <img
+            src="https://riataranch.com/wp-content/uploads/2017/04/klarna-logo.png"
+            alt="Klarna"
+            className="w-7 h-6 object-contain"
+          />
         </div>
 
-        <button className="w-[150px]">
-
-          <Link href="#" sx={{ fontSize: "12px", color: "white" }}>
-            <NorthIcon color="white" sx={{ fontSize: "16px", marginBottom: "4px" }} />
+        <Link href="#">
+          <a className="text-white no-underline text-sm flex items-center gap-1">
+            <NorthIcon sx={{ fontSize: "16px", color: "white" }} />
             Back to top
-          </Link>
-        </button>
+          </a>
+        </Link>
       </Grid>
-
     </Box>
   );
 };
