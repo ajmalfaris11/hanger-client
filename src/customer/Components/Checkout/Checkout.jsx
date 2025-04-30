@@ -13,8 +13,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import OrderSummary from "./OrderSummary";
 import LoginUserForm from "../Auth/Login";
 import { useTheme } from "@mui/material/styles";
+import Cart from "../Cart/Cart";
 
-const steps = ["Login", "Delivery Address", "Order Summary", "Payment"];
+const steps = ["CheckOut", "Delivery Address", "Order Summary", "Payment"];
 
 export default function Checkout() {
   const location = useLocation();
@@ -86,7 +87,7 @@ export default function Checkout() {
           </Box>
         ) : (
           <Box className="mt-8">
-            {activeStep === 1 && <LoginUserForm />}
+            {activeStep === 1 && <Cart />}
             {activeStep === 2 && <AddDeliveryAddressForm handleNext={handleNext} />}
             {activeStep === 3 && <OrderSummary />}
             {activeStep === 4 && (
