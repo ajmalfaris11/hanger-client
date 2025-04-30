@@ -99,7 +99,7 @@ export default function ProductDetails() {
             />            <span className="text-sm text-gray-500">
               {products.product?.rating?.length || 132} Ratings
             </span>
-            <span className="text-sm font-medium text-indigo-600">
+            <span className="text-sm font-medium">
               {products.product?.totalCount} Reviews
             </span>
           </div>
