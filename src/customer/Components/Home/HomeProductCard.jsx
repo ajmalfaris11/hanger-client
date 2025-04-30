@@ -7,16 +7,17 @@ const HomeProductCard = ({ product }) => {
   return (
     <div
       onClick={() => navigate(`/product/${product._id}`)}
-      className="group cursor-pointer flex flex-col items-center rounded-2xl shadow-lg overflow-hidden m-3 bg-white transition-all duration-300 hover:scale-105 hover:shadow-xl"
+      className="group cursor-pointer flex flex-col items-center rounded-xl shadow-lg overflow-hidden m-2 bg-white transition-all duration-300 hover:scale-105 hover:shadow-xl"
     >
       {/* Product Image */}
       <div className="w-full h-44 sm:h-52 md:h-60 lg:h-72 bg-gray-100 overflow-hidden">
         <img
           src={product?.image || product?.imageUrl}
           alt={product?.title}
-          className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
         />
       </div>
+
 
       {/* Product Info */}
       <div className="px-4 py-3 text-center w-full">
