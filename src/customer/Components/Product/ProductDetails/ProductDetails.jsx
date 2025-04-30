@@ -198,48 +198,48 @@ export default function ProductDetails() {
           <Grid container spacing={4}>
             {/* Reviews Section */}
             <Grid item xs={12} md={7}>
-  <div className="space-y-4 text-sm">
-    {(review.reviews?.length > 0 ? review.reviews : [
-      {
-        name: "John Doe",
-        rating: 5,
-        comment: "Excellent quality! Looks and feels premium.",
-        date: "2025-04-01",
-      },
-      {
-        name: "Aisha Khan",
-        rating: 4,
-        comment: "Pretty good. Matches the image and size is perfect.",
-        date: "2025-03-29",
-      },
-      {
-        name: "Rahul Verma",
-        rating: 4.5,
-        comment: "Comfortable and durable, worth the price.",
-        date: "2025-03-27",
-      },
-    ]).map((item, index) => (
-      <div
-        key={index}
-        className="border rounded-lg p-3 bg-white shadow-sm space-y-1"
-      >
-        <div className="flex items-center justify-between">
-          <p className="font-medium text-gray-900">{item.name}</p>
-          <span className="text-xs text-gray-500">{item.date}</span>
-        </div>
-        <Rating
-          name={`rating-${index}`}
-          value={item.rating}
-          precision={0.5}
-          readOnly
-          sx={{ color: "black" }}
-          size="small"
-        />
-        <p className="text-gray-700 text-sm">{item.comment}</p>
-      </div>
-    ))}
-  </div>
-</Grid>
+              <div className="space-y-4 text-sm">
+                {(review.reviews?.length > 0 ? review.reviews : [
+                  {
+                    name: "John Doe",
+                    rating: 5,
+                    comment: "Excellent quality! Looks and feels premium.",
+                    date: "2025-04-01",
+                  },
+                  {
+                    name: "Aisha Khan",
+                    rating: 4,
+                    comment: "Pretty good. Matches the image and size is perfect.",
+                    date: "2025-03-29",
+                  },
+                  {
+                    name: "Rahul Verma",
+                    rating: 4.5,
+                    comment: "Comfortable and durable, worth the price.",
+                    date: "2025-03-27",
+                  },
+                ]).map((item, index) => (
+                  <div
+                    key={index}
+                    className="border rounded-lg p-3 bg-white shadow-sm space-y-1"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="font-medium text-gray-900">{item.name}</p>
+                      <span className="text-xs text-gray-500">{item.date}</span>
+                    </div>
+                    <Rating
+                      name={`rating-${index}`}
+                      value={item.rating}
+                      precision={0.5}
+                      readOnly
+                      sx={{ color: "black" }}
+                      size="small"
+                    />
+                    <p className="text-gray-700 text-sm">{item.comment}</p>
+                  </div>
+                ))}
+              </div>
+            </Grid>
 
 
             {/* Ratings Section */}
@@ -300,14 +300,19 @@ export default function ProductDetails() {
       </section>
 
       {/* similer product */}
-      <section className="pt-10">
-        <h1 className="py-5 text-xl font-bold">Similer Products</h1>
-        <div className="flex flex-wrap space-y-5 justify-center">
-          {products.products?.content?.map((item, index) => (
-            <ProductCard key={item.id || index} product={item} />
-          ))}
-        </div>
-      </section>
+      {products.products?.content?.length > 0 && (
+        <section className="pt-10 px-4">
+          <h1 className="py-5 text-xl font-bold text-gray-900 text-center">
+            Similar Products
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {products.products.content.map((item, index) => (
+              <ProductCard key={item.id || index} product={item} />
+            ))}
+          </div>
+        </section>
+      )}
+
     </div>
   );
 }

@@ -87,8 +87,8 @@ export default function Product() {
       maxPrice,
       minDiscount: disccount || 0,
       sort: sortValue || "price_low",
-      pageNumber: pageNumber - 1,
-      pageSize: 10,
+      pageNumber: pageNumber,
+      pageSize: 12,
       stock: stock
     };
     dispatch(findProducts(data));
@@ -265,7 +265,8 @@ export default function Product() {
 
         <main className="mx-auto px-4 lg:px-14 pt-6">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">              Product
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
+              PRODUCTS
             </h1>
 
             <div className="flex items-center">
@@ -332,7 +333,7 @@ export default function Product() {
             </div>
           </div>
 
-          <section aria-labelledby="products-heading" className="pb-24 pt-6">
+          <section aria-labelledby="products-heading" className="pb-10 pt-6">
             <h2 id="products-heading" className="sr-only">
               Products
             </h2>
@@ -418,29 +419,39 @@ export default function Product() {
 
                 {/* Product grid */}
                 <div className="lg:col-span-5 w-full px-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4">
                     {products.products?.content?.map((item, index) => (
                       <ProductCard key={item.id || index} product={item} />
                     ))}
                   </div>
                 </div>
+
               </div>
-
-
-
             </div>
           </section>
         </main>
 
         {/* pagination section */}
         <section className="w-full px-[3.6rem]">
-          <div className="mx-auto px-4 py-5 flex justify-center">
+          <div className="mx-auto px-4 flex justify-center">
             <Pagination
               count={products.products?.totalPages}
-              color="primary"
-              className=""
               onChange={handlePaginationChange}
+              sx={{
+                "& .MuiPaginationItem-root": {
+                  color: "#000", // text color
+                  borderColor: "#000",
+                },
+                "& .Mui-selected": {
+                  backgroundColor: "#000000",
+                  color: "#fff",
+                },
+                "& .MuiPaginationItem-root:hover": {
+                  backgroundColor: "#f0f0f0",
+                },
+              }}
             />
+
           </div>
         </section>
 
