@@ -5,7 +5,9 @@ import { Button } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState } from "react";
 
+
 const HomeProductSection = ({ section, data }) => {
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const slidePrev = () => setActiveIndex(activeIndex - 1);
@@ -13,33 +15,24 @@ const HomeProductSection = ({ section, data }) => {
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
   const responsive = {
-    0: {
-      items: 2,
-      itemsFit: "contain",
-    },
-    568: {
-      items: 3,
-      itemsFit: "contain",
-    },
-    1024: {
-      items: 5,
-      itemsFit: "contain",
-    },
+    0: { items: 2, itemsFit: "contain" },
+    568: { items: 3, itemsFit: "contain" },
+    1024: { items: 5, itemsFit: "contain" },
   };
-  const items = data?.slice(0, 10).map((item) => (
-    <div className="">
-      {" "}
+
+  if (!data || data.length === 0) return null;
+
+  const items = data.slice(0, 10).map((item, index) => (
+    <div key={index}>
       <HomeProductCard product={item} />
     </div>
   ));
 
-  // const slideInFromRight = (t) => {
-  //   return `translateX(${100 - t * 100}%)`;
-  // };
-
   return (
-    <div className="relative px-4 sm:px-6 lg:px-8">
-      <h2 className="text-2xl font-extrabold text-gray-900 py-5 uppercase letter tracking-wider">{section}</h2>
+    <div className="relative px-4 sm:px-6 lg:px-8 py-0 md:py-5">
+      <h2 className="text-xl w-auto sm:text-2xl md:text-3xl font-bold text-gray-900 py-2 mb-5 md:mb-10 uppercase tracking-wider text-center border-[1px] rounded-lg border-black">
+        {section}
+      </h2>
       <div className="relative">
         <AliceCarousel
           disableButtonsControls
@@ -52,45 +45,34 @@ const HomeProductSection = ({ section, data }) => {
           animationType="fadeout"
           animationDuration={2000}
         />
-        {activeIndex !== items.length - 5 && (
+        {activeIndex < items.length - 5 && (
           <Button
             onClick={slideNext}
             variant="contained"
-            className="z-50 bg-[]"
             sx={{
               position: "absolute",
               top: "8rem",
               right: "0rem",
               transform: "translateX(50%) rotate(90deg)",
+              backgroundColor: "black",
             }}
-            color="white"
-            aria-label="next"
           >
-            <ArrowForwardIosIcon
-              className=""
-              sx={{ transform: "rotate(-90deg)" }}
-            />
+            <ArrowForwardIosIcon sx={{ transform: "rotate(-90deg)" }} />
           </Button>
         )}
-
-        {activeIndex !== 0 && (
+        {activeIndex > 0 && (
           <Button
             onClick={slidePrev}
             variant="contained"
-            className="z-50 bg-[]"
-            color="white"
             sx={{
               position: "absolute",
               top: "8rem",
               left: "0rem",
-              transform: "translateX(-50%)  rotate(90deg)",
+              transform: "translateX(-50%) rotate(90deg)",
+              backgroundColor: "black",
             }}
-            aria-label="next"
           >
-            <ArrowForwardIosIcon
-              className=""
-              sx={{ transform: " rotate(90deg)" }}
-            />
+            <ArrowForwardIosIcon sx={{ transform: "rotate(90deg)" }} />
           </Button>
         )}
       </div>

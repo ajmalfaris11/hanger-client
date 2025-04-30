@@ -71,7 +71,7 @@ const Footer = () => {
         spacing={4}
         justifyContent="center"
         alignItems="center"
-        sx={{ my: 5, px: { xs: 4, md: 6 }}} // Added margin-left here
+        sx={{ pb: 5, mt:6, px: { xs: 4, md: 6 }}} // Added margin-left here
         className="bg-white"
       >
         {/* Logo & Social Icons */}

@@ -62,7 +62,7 @@ const Homepage = () => {
       <HomeCarousel images={homeCarouselData} />
 
       <div>
-        <HomeProductSection data={dress} section={"Dress"} />
+        <HomeProductSection data={dress} section={"Women Dress"} />
         <HomeProductSection data={mensKurta} section={"Men's Kurta"} />
         <HomeProductSection data={womensKurta} section={"Women's Kurtas"} />
         <HomeProductSection data={gouns} section={"Women's Gouns"} />
