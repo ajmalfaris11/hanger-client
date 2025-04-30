@@ -443,7 +443,7 @@ export default function Product() {
                   borderColor: "#000",
                 },
                 "& .Mui-selected": {
-                  backgroundColor: "#000000",
+                  backgroundColor: "#000",
                   color: "#fff",
                 },
                 "& .MuiPaginationItem-root:hover": {

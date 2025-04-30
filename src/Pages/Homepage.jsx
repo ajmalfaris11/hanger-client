@@ -63,10 +63,10 @@ const Homepage = () => {
 
       <div>
         <HomeProductSection data={dress} section={"Women Dress"} />
-        <HomeProductSection data={mensKurta} section={"Men's Kurta"} />
         <HomeProductSection data={womensKurta} section={"Women's Kurtas"} />
-        <HomeProductSection data={gouns} section={"Women's Gouns"} />
+        <HomeProductSection data={mensKurta} section={"Men's Kurta"} />
         <HomeProductSection data={saree} section={"Saree"} />
+        <HomeProductSection data={gouns} section={"Women's Gouns"} />
       </div>
     </div>
   );

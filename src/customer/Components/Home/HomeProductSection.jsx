@@ -1,80 +1,51 @@
 import AliceCarousel from "react-alice-carousel";
 import HomeProductCard from "./HomeProductCard";
+import { Link } from "react-router-dom";
 import "./HomeProductSection.css";
-import { Button } from "@mui/material";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState } from "react";
-
 
 const HomeProductSection = ({ section, data }) => {
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const slidePrev = () => setActiveIndex(activeIndex - 1);
-  const slideNext = () => setActiveIndex(activeIndex + 1);
-  const syncActiveIndex = ({ item }) => setActiveIndex(item);
-
-  const responsive = {
-    0: { items: 2, itemsFit: "contain" },
-    568: { items: 3, itemsFit: "contain" },
-    1024: { items: 5, itemsFit: "contain" },
-  };
-
   if (!data || data.length === 0) return null;
 
-  const items = data.slice(0, 10).map((item, index) => (
-    <div key={index}>
-      <HomeProductCard product={item} />
+  const groupItems = (arr, size) => {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  };
+
+  const groupedItems = groupItems(data.slice(0, 18), 8);
+
+  const items = groupedItems.map((group, idx) => (
+    <div key={idx} className="grid grid-cols-2 grid-raws-3 md:grid-cols-4 xl:grid-cols-4 sm:gap-4 sm:px-2">
+      {group.map((product, index) => (
+        <HomeProductCard key={index} product={product} />
+      ))}
     </div>
   ));
 
   return (
-    <div className="relative px-4 sm:px-6 lg:px-8 py-0 md:py-5">
-      <h2 className="text-xl w-auto sm:text-2xl md:text-3xl font-bold text-gray-900 py-2 mb-5 md:mb-10 uppercase tracking-wider text-center border-[1px] rounded-lg border-black">
+    <div className="relative px-4 sm:px-6 lg:px-10 py-4 md:py-8">
+      <h2 className="text-center text-2xl md:text-4xl font-extrabold text-gray-900 uppercase tracking-wider border-b-4 border-black inline-block pb-2 mb-8">
         {section}
       </h2>
-      <div className="relative">
-        <AliceCarousel
-          disableButtonsControls
-          disableDotsControls
-          mouseTracking
-          items={items}
-          activeIndex={activeIndex}
-          responsive={responsive}
-          onSlideChanged={syncActiveIndex}
-          animationType="fadeout"
-          animationDuration={2000}
-        />
-        {activeIndex < items.length - 5 && (
-          <Button
-            onClick={slideNext}
-            variant="contained"
-            sx={{
-              position: "absolute",
-              top: "8rem",
-              right: "0rem",
-              transform: "translateX(50%) rotate(90deg)",
-              backgroundColor: "black",
-            }}
-          >
-            <ArrowForwardIosIcon sx={{ transform: "rotate(-90deg)" }} />
-          </Button>
-        )}
-        {activeIndex > 0 && (
-          <Button
-            onClick={slidePrev}
-            variant="contained"
-            sx={{
-              position: "absolute",
-              top: "8rem",
-              left: "0rem",
-              transform: "translateX(-50%) rotate(90deg)",
-              backgroundColor: "black",
-            }}
-          >
-            <ArrowForwardIosIcon sx={{ transform: "rotate(90deg)" }} />
-          </Button>
-        )}
+
+      <AliceCarousel
+        mouseTracking
+        disableButtonsControls
+        disableDotsControls
+        items={items}
+        animationType="fadeout"
+        animationDuration={800}
+      />
+
+      <div className="text-center mt-6">
+        <Link
+          to={`/${data[0].topLavelCategory}/${data[0].secondLavelCategory}/${data[0].thirdLavelCategory}`}
+          className="inline-block bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-all duration-200"
+        >
+          View More
+        </Link>
       </div>
     </div>
   );

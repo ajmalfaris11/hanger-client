@@ -14,7 +14,7 @@ const HomeProductCard = ({ product }) => {
         <img
           src={product?.image || product?.imageUrl}
           alt={product?.title}
-          className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
+          className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 
