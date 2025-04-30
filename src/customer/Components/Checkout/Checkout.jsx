@@ -50,7 +50,7 @@ export default function Checkout() {
   };
 
   return (
-    <Box className="px-5 sm:px-8 lg:px-32 mt-10" sx={{ width: "100%" }}>
+    <Box className="px-0 sm:px-8 lg:px-32 mt-10" sx={{ width: "100%" }}>
       <Stepper activeStep={activeStep - 1} alternativeLabel={isMobile}>
         {steps.map((label, index) => (
           <Step key={label} onClick={() => handleStepClick(index)} style={{ cursor: "pointer" }}>
@@ -92,7 +92,7 @@ export default function Checkout() {
             {activeStep === 3 && <OrderSummary />}
             {activeStep === 4 && (
               <Typography variant="h6" className="text-center">
-                Payment Step (Coming Soon)
+                Please Complete All Previous Steps To Proceed To Payment
               </Typography>
             )}
           </Box>
