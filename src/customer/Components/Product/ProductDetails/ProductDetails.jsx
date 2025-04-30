@@ -305,7 +305,7 @@ export default function ProductDetails() {
           <h1 className="py-5 text-xl font-bold text-gray-900 text-center">
             Similar Products
           </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.products.content.map((item, index) => (
               <ProductCard key={item.id || index} product={item} />
             ))}

@@ -12,7 +12,7 @@ const HomeProductSection = ({ section, data }) => {
       </h2>
 
       {/* Static 2-row grid, showing 8 products */}
-      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 sm:gap-4">
         {data.slice(0, 8).map((product, index) => (
           <HomeProductCard key={index} product={product} />
         ))}
