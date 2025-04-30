@@ -21,6 +21,7 @@ import RateProduct from "../customer/Components/ReviewProduct/RateProduct";
 import Login from "../customer/Components/Auth/Login";
 import REgister from "../customer/Components/Auth/Register";
 import Faq from "../Pages/Faq";
+import SiteMap from "../Pages/SiteMap";
 const CustomerRoutes = () => {
     const location = useLocation();
     
@@ -52,6 +53,7 @@ const CustomerRoutes = () => {
 
         {/* footer routers */}
         <Route path="/about" element={<About />}></Route>
+        <Route path="/site_map" element={<SiteMap />}></Route>
         <Route path="/faq" element={<Faq />}></Route>
         <Route path="/privaciy-policy" element={<PrivacyPolicy />}></Route>
         <Route path="/terms-condition" element={<TearmsCondition />}></Route>

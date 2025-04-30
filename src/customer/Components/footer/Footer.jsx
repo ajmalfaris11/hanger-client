@@ -13,7 +13,7 @@ const footerImages = [
 
 const footerAbout = [
   { label: "Our Products", path: "/products" },
-  { label: "Sitemap", path: "/sitemap" },
+  { label: "Sitemap", path: "/site_map" },
   { label: "FAQ", path: "/faq" },
   { label: "About Us", path: "/about" },
   { label: "Terms & Conditions", path: "/terms-condition" }
