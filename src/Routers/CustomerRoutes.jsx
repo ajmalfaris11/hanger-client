@@ -20,6 +20,7 @@ import PaymentSuccess from "../customer/Components/paymentSuccess/PaymentSuccess
 import RateProduct from "../customer/Components/ReviewProduct/RateProduct";
 import Login from "../customer/Components/Auth/Login";
 import REgister from "../customer/Components/Auth/Register";
+import Faq from "../Pages/Faq";
 const CustomerRoutes = () => {
     const location = useLocation();
     
@@ -40,10 +41,6 @@ const CustomerRoutes = () => {
         <Route path="/" element={<Homepage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/home" element={<Homepage />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/privaciy-policy" element={<PrivacyPolicy />}></Route>
-        <Route path="/terms-condition" element={<TearmsCondition />}></Route>
-        <Route path="/contact" element={<Contact />}></Route>
         <Route path="/:lavelOne/:lavelTwo/:lavelThree" element={<Product />}></Route>
         <Route path="/product/:productId" element={<ProductDetails/>}></Route>
         <Route path="/cart" element={<Cart />}></Route>
@@ -52,6 +49,14 @@ const CustomerRoutes = () => {
         <Route path="/account/rate/:productId" element={<RateProduct />}></Route>
         <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/payment/:orderId" element={<PaymentSuccess />}></Route>
+
+        {/* footer routers */}
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/faq" element={<Faq />}></Route>
+        <Route path="/privaciy-policy" element={<PrivacyPolicy />}></Route>
+        <Route path="/terms-condition" element={<TearmsCondition />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
+        
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
       <Footer/>

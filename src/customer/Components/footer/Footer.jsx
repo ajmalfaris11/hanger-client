@@ -1,13 +1,22 @@
-import { Grid, Link, Typography, TextField, Button, Box } from "@mui/material";
+import { Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { Facebook, Instagram, Twitter, LinkedIn } from "@mui/icons-material";
 import NorthIcon from '@mui/icons-material/North';
 import footerLogo from "../../../Data/logo/hanger_black_logo.png";
+import { Link } from 'react-router-dom';
 
 const footerImages = [
   "https://cdn.truesociety.com/uploads/2023/08/M23-ESS-D3823-INF17-Hot-Image-scaled.jpg",
   "https://www.timelessbridal.co.za/wp-content/uploads/2024/01/Ballina-sophia-tolli-wedding-dress-additional-view-min.jpg",
   "https://i.pinimg.com/236x/60/17/de/6017de7af94c2f173641f97d5d329fa5.jpg",
   "https://fabanza.com/media/catalog/product/cache/c26a0736877cb8c5e2d45478f82a04d0/anishka-creation/202306/beige-chiffon-satin-modern-indo-western-dress-fabku20776.jpg",
+];
+
+const footerAbout = [
+  { label: "Our Products", path: "/products" },
+  { label: "Sitemap", path: "/sitemap" },
+  { label: "FAQ", path: "/faq" },
+  { label: "About Us", path: "/about" },
+  { label: "Terms & Conditions", path: "/terms-condition" }
 ];
 
 const Footer = () => {
@@ -71,7 +80,7 @@ const Footer = () => {
         spacing={4}
         justifyContent="center"
         alignItems="center"
-        sx={{ pb: 5, mt:6, px: { xs: 4, md: 6 }}} // Added margin-left here
+        sx={{ pb: 5, mt: 6, px: { xs: 4, md: 6 } }} // Added margin-left here
         className="bg-white"
       >
         {/* Logo & Social Icons */}
@@ -106,9 +115,9 @@ const Footer = () => {
           <Typography variant="h6" fontWeight={600} gutterBottom>
             About Us
           </Typography>
-          {["Our Products", "Sitemap", "FAQ", "About Us", "Terms & Conditions"].map((item) => (
-            <Typography key={item} variant="body2" gutterBottom>
-              {item}
+          {footerAbout.map(({ label, path }) => (
+            <Typography key={label} variant="body2" gutterBottom component={Link} to={path} style={{ textDecoration: 'none', color: 'inherit' }}>
+              {label} <br />
             </Typography>
           ))}
         </Grid>
