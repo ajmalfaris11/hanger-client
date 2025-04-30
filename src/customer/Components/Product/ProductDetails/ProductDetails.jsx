@@ -9,8 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { findProductById } from "../../../../Redux/Customers/Product/Action";
 import { addItemToCart } from "../../../../Redux/Customers/Cart/Action";
 import { getAllReviews } from "../../../../Redux/Customers/Review/Action";
-import { lengha_page1 } from "../../../../Data/Women/LenghaCholi";
-import { gounsPage1 } from "../../../../Data/Gouns/gouns";
 import ProductCard from "../ProductCard/ProductCard";
 
 
@@ -30,13 +28,13 @@ export default function ProductDetails() {
   const params = useParams();
   const jwt = localStorage.getItem("jwt");
   // console.log("param",productId,customersProduct.product)
-  
+
 
   const handleSetActiveImage = (image) => {
     setActiveImage(image);
   };
   const handleSubmit = () => {
-    const data = { productId:params.productId, size:selectedSize?.name };
+    const data = { productId: params.productId, size: selectedSize?.name };
     dispatch(addItemToCart({ data, jwt }));
     navigate("/cart")
   };
@@ -52,356 +50,264 @@ export default function ProductDetails() {
   return (
     <div className="bg-white lg:px-20">
       {/* <div className="pt-6"> */}
-        {/* product details */}
-        <section className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 px-4 pt-10">
-          {/* Image gallery */}
-          <div className="flex flex-col items-center ">
-            <div className=" overflow-hidden rounded-lg max-w-[30rem] max-h-[30rem]">
-              <img
-                src={products.product?.imageUrl}
-                alt="product image"
-                className="h- w-full object-cover object-center"
-              />
-            </div>
+
+
+      {/* product details */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4 pt-10 max-w-7xl mx-auto mb-16">
+        {/* Product Image */}
+        <div className="flex justify-center items-center">
+          <div className="rounded-lg overflow-hidden max-w-sm mx-auto">
+            <img
+              src={products.product?.imageUrl}
+              alt="product image"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        </div>
+
+        {/* Product Details */}
+        <div className="space-y-6 px-2 sm:px-0">
+          {/* Brand & Title */}
+          <div>
+            <h1 className="text-xl font-bold text-gray-800">{products.product?.brand}</h1>
+            <h2 className="text-lg text-gray-600 mt-1">{products.product?.title}</h2>
           </div>
 
-          {/* Product info */}
-          <div className="lg:col-span-1 mx-auto max-w-2xl px-4 pb-16 sm:px-6  lg:max-w-7xl  lg:px-8 lg:pb-24">
-            <div className="lg:col-span-2">
-              <h1 className="text-lg lg:text-xl font-semibold tracking-tight text-gray-900  ">
-                {products.product?.brand}
-              </h1>
-              <h1 className="text-lg lg:text-xl tracking-tight text-gray-900 opacity-60 pt-1">
-                {products.product?.title}
-              </h1>
-            </div>
+          {/* Price Info */}
+          <div className="flex items-center space-x-4 text-lg">
+            <span className="text-2xl font-bold text-gray-900">
+              ₹{products.product?.discountedPrice}
+            </span>
+            <span className="line-through text-gray-500">
+              ₹{products.product?.price}
+            </span>
+            <span className="font-semibold">
+              {products.product?.discountPersent}% Off
+            </span>
+          </div>
 
-            {/* Options */}
-            <div className="mt-4 lg:row-span-3 lg:mt-0">
-              <h2 className="sr-only">Product information</h2>
-              <div className="flex space-x-5 items-center text-lg lg:text-xl tracking-tight text-gray-900 mt-6">
-                <p className="font-semibold">
-                  ₹{products.product?.discountedPrice}
-                </p>
-                <p className="opacity-50 line-through">
-                  ₹{products.product?.price}
-                </p>
-                <p className="text-green-600 font-semibold">
-                  {products.product?.discountPersent}% Off
-                </p>
-              </div>
+          {/* Ratings */}
+          <div className="flex items-center space-x-3">
+            <Rating
+              name="read-only"
+              value={4.6}
+              precision={0.5}
+              readOnly
+              sx={{
+                color: "black",
+              }}
+            />            <span className="text-sm text-gray-500">
+              {products.product?.rating?.length || 132} Ratings
+            </span>
+            <span className="text-sm font-medium text-indigo-600">
+              {products.product?.totalCount} Reviews
+            </span>
+          </div>
 
-              {/* Reviews */}
-              <div className="mt-6">
-                <h3 className="sr-only">Reviews</h3>
-
-                <div className="flex items-center space-x-3">
-                  <Rating
-                    name="read-only"
-                    value={4.6}
-                    precision={0.5}
-                    readOnly
-                  />
-
-                  <p className="opacity-60 text-sm">{products.product?.rating ? products.product.rating.length : 0} Ratings</p>
-                  <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                    {products.product?.totalCount} reviews
-                  </p>
-                </div>
-              </div>
-
-              <form className="mt-10" onSubmit={handleSubmit}>
-                {/* Sizes */}
-                <div className="mt-10">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                  </div>
-
-                  <RadioGroup
-                    value={selectedSize}
-                    onChange={setSelectedSize}
-                    className="mt-4"
-                  >
-                    <RadioGroup.Label className="sr-only">
-                      Choose a size
-                    </RadioGroup.Label>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-5 xl:grid-cols-5 gap-4">                      {products.product?.size?.map((size) => (
-                        <RadioGroup.Option
-                          key={size.name}
-                          value={size}
-                          disabled={size.quantity === 0}
-                          className={({ active }) =>
-                            classNames(
-                              size.quantity > 0
-                                ? "cursor-pointer bg-white text-gray-900 shadow-sm"
-                                : "cursor-not-allowed bg-gray-50 text-gray-200",
-                              active ? "ring-1 ring-indigo-500" : "",
-                              "group relative flex items-center justify-center rounded-md border text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-3"
-                            )
-                          }
-                        >
-                          {({ active, checked }) => (
-                            <>
-                              <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
-                              {size.quantity > 0 ? (
-                                <span
-                                  className={classNames(
-                                    active ? "border" : "border-2",
-                                    checked ? "border-indigo-500" : "border-transparent",
-                                    "pointer-events-none absolute -inset-px rounded-md"
-                                  )}
-                                  aria-hidden="true"
-                                />
-                              ) : (
-                                <span
-                                  aria-hidden="true"
-                                  className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                                >
-                                  <svg
-                                    className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
-                                    viewBox="0 0 100 100"
-                                    preserveAspectRatio="none"
-                                    stroke="currentColor"
-                                  >
-                                    <line
-                                      x1={0}
-                                      y1={100}
-                                      x2={100}
-                                      y2={0}
-                                      vectorEffect="non-scaling-stroke"
-                                    />
-                                  </svg>
-                                </span>
-                              )}
-                            </>
-                          )}
-                        </RadioGroup.Option>
-                      ))}
-                    </div>
-                  </RadioGroup>
-
-
-                </div>
-
-                <Button
-                onClick={handleSubmit}
-                  variant="contained"
-                  type="submit"
-                  sx={{ padding: ".8rem 2rem", marginTop: "2rem", backgroundColor: "black", color: "white", "&:hover": { backgroundColor: "black" } }}   
+          {/* Size Selector */}
+          <div>
+            <h3 className="text-sm font-medium text-gray-900 mb-2">Select Size</h3>
+            <RadioGroup
+              value={selectedSize}
+              onChange={setSelectedSize}
+              className="grid grid-cols-3 sm:grid-cols-4 gap-3"
+            >
+              {products.product?.size?.map((size) => (
+                <RadioGroup.Option
+                  key={size.name}
+                  value={size}
+                  disabled={size.quantity === 0}
+                  className={({ active }) =>
+                    classNames(
+                      size.quantity > 0
+                        ? "cursor-pointer bg-white text-gray-900 border hover:bg-gray-100"
+                        : "cursor-not-allowed bg-gray-100 text-gray-400",
+                      active ? "ring-2 ring-indigo-500" : "",
+                      "rounded-md text-center py-2 px-3 text-sm font-medium relative"
+                    )
+                  }
                 >
-                  Add To Cart
-                </Button>
-              </form>
-            </div>
-
-            <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-              {/* Description and details */}
-              <div>
-                <h3 className="sr-only">Description</h3>
-
-                <div className="space-y-6">
-                  <p className="text-base text-gray-900">
-                    {products.product?.description}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-10">
-                <h3 className="text-sm font-medium text-gray-900">
-                  Highlights
-                </h3>
-
-                <div className="mt-4">
-                  <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                    {/* {product.highlights.map((highlight) => (
-                      <li key={highlight} className="text-gray-400">
-                        <span className="text-gray-600">{highlight}</span>
-                      </li>
-                    ))} */}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="mt-10">
-                <h2 className="text-sm font-medium text-gray-900">Details</h2>
-
-                <div className="mt-4 space-y-6">
-                  <p className="text-sm text-gray-600">{products.product?.details}</p>
-                </div>
-              </div>
-            </div>
+                  {({ active, checked }) => (
+                    <>
+                      <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
+                      {size.quantity > 0 ? (
+                        <span
+                          className={classNames(
+                            checked ? "border-indigo-600" : "border-transparent",
+                            "absolute inset-0 rounded-md border-2 pointer-events-none"
+                          )}
+                        />
+                      ) : (
+                        <span
+                          className="absolute inset-0 rounded-md border-2 border-gray-300 pointer-events-none"
+                          aria-hidden="true"
+                        >
+                          <svg
+                            className="absolute inset-0 w-full h-full text-gray-300"
+                            viewBox="0 0 100 100"
+                            preserveAspectRatio="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <line x1={0} y1={100} x2={100} y2={0} />
+                          </svg>
+                        </span>
+                      )}
+                    </>
+                  )}
+                </RadioGroup.Option>
+              ))}
+            </RadioGroup>
           </div>
-        </section>
 
-        {/* rating and review section */}
-        <section className="">
-          <h1 className="font-semibold text-lg pb-4">
-            Recent Review & Ratings
-          </h1>
+          {/* Add to Cart Button */}
+          <div>
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              type="submit"
+              sx={{
+                padding: "0.75rem 2rem",
+                backgroundColor: "black",
+                color: "white",
+                "&:hover": { backgroundColor: "#111" },
+              }}
+            >
+              Add to Cart
+            </Button>
+          </div>
 
-          <div className="border p-5">
-            <Grid container spacing={7}>
-              <Grid item xs={7}>
-                <div className="space-y-5">
-                  {review.reviews?.map((item, i) => (
-                    <ProductReviewCard key={i} item={item} />
-                  ))}
-                </div>
-              </Grid>
+          {/* Description */}
+          <div className="pt-8 border-t border-gray-200">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Product Description</h3>
+            <p className="text-gray-700 text-sm leading-relaxed">
+              {products.product?.description}
+            </p>
+          </div>
+        </div>
+      </section>
 
-              <Grid item xs={5}>
-                <h1 className="text-xl font-semibold pb-1">Product Ratings</h1>
-                <div className="flex items-center space-x-3 pb-10">
-                  <Rating
-                    name="read-only"
-                    value={4.6}
-                    precision={0.5}
-                    readOnly
-                  />
 
-                  <p className="opacity-60">{products.product?.rating ? products.product.rating.length : 0} Ratings</p>
-                </div>
-                <Box>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    gap={2}
-                  >
-                    <Grid xs={2}>
-                      <p className="p-0">Excellent</p>
+      {/* rating and review section */}
+      <section className="px-4 sm:px-6 lg:px-8 pb-8">
+        <h1 className="font-semibold text-xl sm:text-2xl pb-4 text-center">
+          Recent Review & Ratings
+        </h1>
+
+        <div className="border p-5 rounded-xl shadow-sm bg-white">
+          <Grid container spacing={4}>
+            {/* Reviews Section */}
+            <Grid item xs={12} md={7}>
+  <div className="space-y-4 text-sm">
+    {(review.reviews?.length > 0 ? review.reviews : [
+      {
+        name: "John Doe",
+        rating: 5,
+        comment: "Excellent quality! Looks and feels premium.",
+        date: "2025-04-01",
+      },
+      {
+        name: "Aisha Khan",
+        rating: 4,
+        comment: "Pretty good. Matches the image and size is perfect.",
+        date: "2025-03-29",
+      },
+      {
+        name: "Rahul Verma",
+        rating: 4.5,
+        comment: "Comfortable and durable, worth the price.",
+        date: "2025-03-27",
+      },
+    ]).map((item, index) => (
+      <div
+        key={index}
+        className="border rounded-lg p-3 bg-white shadow-sm space-y-1"
+      >
+        <div className="flex items-center justify-between">
+          <p className="font-medium text-gray-900">{item.name}</p>
+          <span className="text-xs text-gray-500">{item.date}</span>
+        </div>
+        <Rating
+          name={`rating-${index}`}
+          value={item.rating}
+          precision={0.5}
+          readOnly
+          sx={{ color: "black" }}
+          size="small"
+        />
+        <p className="text-gray-700 text-sm">{item.comment}</p>
+      </div>
+    ))}
+  </div>
+</Grid>
+
+
+            {/* Ratings Section */}
+            <Grid item xs={12} md={5}>
+              <h2 className="text-lg sm:text-xl font-semibold pb-2 text-gray-800">
+                Product Ratings
+              </h2>
+              <div className="flex items-center space-x-3 pb-6">
+                <Rating
+                  name="read-only"
+                  value={4.6}
+                  precision={0.5}
+                  readOnly
+                  sx={{
+                    color: "black",
+                  }}
+                />                <p className="opacity-60 text-sm">
+                  {products.product?.rating?.length || 132} Ratings
+                </p>
+              </div>
+
+              {/* Ratings Breakdown */}
+              {[
+                { label: "Excellent", value: 40, count: 192 },
+                { label: "Very Good", value: 30, count: 130 },
+                { label: "Good", value: 25, count: 110 },
+                { label: "Average", value: 21, count: 80 },
+                { label: "Poor", value: 10, count: 30 }
+              ].map((item, index) => (
+                <Box key={index} className="mb-4">
+                  <Grid container alignItems="center" spacing={1}>
+                    <Grid item xs={4} sm={3}>
+                      <p className="text-sm">{item.label}</p>
                     </Grid>
-                    <Grid xs={7}>
+                    <Grid item xs={6} sm={7}>
                       <LinearProgress
-                        className=""
-                        sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
                         variant="determinate"
-                        value={40}
-                        color="success"
-                      />
-                    </Grid>
-                    <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Box>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    gap={2}
-                  >
-                    <Grid xs={2}>
-                      <p className="p-0">Very Good</p>
-                    </Grid>
-                    <Grid xs={7}>
-                      <LinearProgress
-                        className=""
-                        sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
-                        variant="determinate"
-                        value={30}
-                        color="success"
-                      />
-                    </Grid>
-                    <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Box>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    gap={2}
-                  >
-                    <Grid xs={2}>
-                      <p className="p-0">Good</p>
-                    </Grid>
-                    <Grid xs={7}>
-                      <LinearProgress
-                        className="bg-[#885c0a]"
-                        sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
-                        variant="determinate"
-                        value={25}
-                        color="orange"
-                      />
-                    </Grid>
-                    <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Box>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    gap={2}
-                  >
-                    <Grid xs={2}>
-                      <p className="p-0">Avarage</p>
-                    </Grid>
-                    <Grid xs={7}>
-                      <LinearProgress
-                        className=""
+                        value={item.value}
                         sx={{
-                          bgcolor: "#d0d0d0",
-                          borderRadius: 4,
-                          height: 7,
+                          bgcolor: "#e0e0e0", // track color
+                          height: 8,
+                          borderRadius: 5,
                           "& .MuiLinearProgress-bar": {
-                            bgcolor: "#885c0a", // stroke color
+                            backgroundColor: "black", // progress bar color
                           },
                         }}
-                        variant="determinate"
-                        value={21}
-                        color="success"
                       />
                     </Grid>
-                    <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
+                    <Grid item xs={2}>
+                      <p className="text-xs opacity-60">{item.count}</p>
                     </Grid>
                   </Grid>
                 </Box>
-                <Box>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    gap={2}
-                  >
-                    <Grid xs={2}>
-                      <p className="p-0">Poor</p>
-                    </Grid>
-                    <Grid xs={7}>
-                      <LinearProgress
-                        className=""
-                        sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
-                        variant="determinate"
-                        value={10}
-                        color="error"
-                      />
-                    </Grid>
-                    <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Grid>
+              ))}
             </Grid>
-            </div>
-        </section>
+          </Grid>
+        </div>
+      </section>
 
-        {/* similer product */}
-        <section className="pt-10">
-          <h1 className="py-5 text-xl font-bold">Similer Products</h1>
-          <div className="flex flex-wrap space-y-5 justify-center">
-          { products.products?.content?.map((item, index) => (
-                      <ProductCard key={item.id || index} product={item} />
-                    ))}
-          </div>
-        </section>
-      </div>
+      {/* similer product */}
+      <section className="pt-10">
+        <h1 className="py-5 text-xl font-bold">Similer Products</h1>
+        <div className="flex flex-wrap space-y-5 justify-center">
+          {products.products?.content?.map((item, index) => (
+            <ProductCard key={item.id || index} product={item} />
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }

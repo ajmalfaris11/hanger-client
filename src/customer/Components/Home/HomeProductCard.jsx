@@ -3,7 +3,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const HomeProductCard = ({ product }) => {
-  console.log("product", product);
   const navigate = useNavigate();
 
   return (
