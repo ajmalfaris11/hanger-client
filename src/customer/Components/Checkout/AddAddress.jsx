@@ -48,7 +48,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
   };
 
   return (
-    <Grid container spacing={4} className="mt-6">
+    <Grid container spacing={4} className="mt-4">
       {/* Optional saved address section (disabled for now) */}
       <Grid item xs={12} lg={5}>
         {/* Future: Add saved address selection with "Deliver Here" buttons */}
@@ -59,8 +59,8 @@ export default function AddDeliveryAddressForm({ handleNext }) {
           className="rounded-md shadow-md p-5"
           sx={{ border: "1px solid #e0e0e0", borderRadius: "10px" }}
         >
-          <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
-            Add New Delivery Address
+          <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: 2, textAlign: "center" }}>
+            ADD NEW DELIVERY ADDRESS
           </Typography>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={3}>
