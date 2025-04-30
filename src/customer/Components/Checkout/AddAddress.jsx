@@ -1,10 +1,8 @@
 import * as React from "react";
-import { Grid, TextField, Button, Box } from "@mui/material";
+import { Grid, TextField, Button, Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder } from "../../../Redux/Customers/Order/Action";
-import userEvent from "@testing-library/user-event";
-import AddressCard from "../adreess/AdreessCard";
 import { useState } from "react";
 
 export default function AddDeliveryAddressForm({ handleNext }) {
@@ -12,15 +10,11 @@ export default function AddDeliveryAddressForm({ handleNext }) {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const { auth } = useSelector((store) => store);
-  const [selectedAddress, setSelectedAdress] = useState(null);
-  console.log("auth", auth)
-
-  // console.log("auth", auth);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
 
     const address = {
       firstName: data.get("firstName"),
@@ -32,12 +26,8 @@ export default function AddDeliveryAddressForm({ handleNext }) {
       mobile: data.get("phoneNumber"),
     };
 
-    const orderData = { address, navigate }
+    const orderData = { address, navigate };
     dispatch(createOrder(orderData));
-
-    console.log("orderData===", orderData);
-
-    // after perfoming all the opration
     handleNext();
   };
 
@@ -46,33 +36,32 @@ export default function AddDeliveryAddressForm({ handleNext }) {
     handleNext();
   };
 
-  return (
-    <Grid container spacing={4}>
-      <Grid item xs={12} lg={5}>
-        
-        {/* this block has some issues, to work this block we need make 
-        chnages on model address to addresses, because the address contain
-         the object ids, but the all objects are in the addresses*/}
+  const customFieldStyle = {
+    "& label.Mui-focused": {
+      color: "#000",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": {
+        borderColor: "#000",
+      },
+    },
+  };
 
-        {/* <div className="p-5 py-7 border-b cursor-pointer">
-          {Array.isArray(auth.user?.address) &&
-            auth.user.address.map((item, index) => (
-              <div key={item.id || index} className="mb-4"> 
-                <AddressCard address={item} />
-                <Button
-                  sx={{ mt: 2, bgcolor: "#000", "&:hover": { backgroundColor: "#000" } }}
-                  size="large"
-                  variant="contained"
-                  onClick={() => handleCreateOrder(item)} 
-                >
-                  Deliver Here
-                </Button>
-              </div>
-            ))}
-        </div> */}
+  return (
+    <Grid container spacing={4} className="mt-6">
+      {/* Optional saved address section (disabled for now) */}
+      <Grid item xs={12} lg={5}>
+        {/* Future: Add saved address selection with "Deliver Here" buttons */}
       </Grid>
+
       <Grid item xs={12} lg={7}>
-        <Box className="border rounded-md shadow-md p-5">
+        <Box
+          className="rounded-md shadow-md p-5"
+          sx={{ border: "1px solid #e0e0e0", borderRadius: "10px" }}
+        >
+          <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
+            Add New Delivery Address
+          </Typography>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
@@ -83,6 +72,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
                   label="First Name"
                   fullWidth
                   autoComplete="given-name"
+                  sx={customFieldStyle}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -93,6 +83,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
                   label="Last Name"
                   fullWidth
                   autoComplete="given-name"
+                  sx={customFieldStyle}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -105,6 +96,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
                   autoComplete="shipping address"
                   multiline
                   rows={4}
+                  sx={customFieldStyle}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -115,6 +107,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
                   label="City"
                   fullWidth
                   autoComplete="shipping address-level2"
+                  sx={customFieldStyle}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -124,6 +117,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
                   name="state"
                   label="State/Province/Region"
                   fullWidth
+                  sx={customFieldStyle}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -134,6 +128,7 @@ export default function AddDeliveryAddressForm({ handleNext }) {
                   label="Zip / Postal code"
                   fullWidth
                   autoComplete="shipping postal-code"
+                  sx={customFieldStyle}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -144,16 +139,22 @@ export default function AddDeliveryAddressForm({ handleNext }) {
                   label="Phone Number"
                   fullWidth
                   autoComplete="tel"
+                  sx={customFieldStyle}
                 />
               </Grid>
               <Grid item xs={12}>
                 <Button
-                  sx={{ padding: ".9rem 1.5rem", backgroundColor: "#000", "&:hover": { backgroundColor: "#000" } }}
+                  sx={{
+                    padding: ".9rem 1.5rem",
+                    backgroundColor: "#000",
+                    "&:hover": { backgroundColor: "#000" },
+                    fontSize: "1rem",
+                    fontWeight: 600,
+                  }}
                   fullWidth
                   size="large"
                   type="submit"
                   variant="contained"
-
                 >
                   Deliver Here
                 </Button>
