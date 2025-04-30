@@ -98,26 +98,26 @@ const Footer = () => {
           </div>
         </Grid>
 
-        {/* Catalog */}
-        <Grid item xs={12} sm={6} md={3}>
-          <Typography variant="h6" fontWeight={600} gutterBottom>
-            Catalog
-          </Typography>
-          {["Necklaces", "Jewelry Box", "Shoes", "Jackets"].map((item) => (
-            <Typography key={item} variant="body2" gutterBottom>
-              {item}
-            </Typography>
-          ))}
-        </Grid>
-
-        {/* About Us */}
-        <Grid item xs={12} sm={6} md={3}>
+         {/* About Us */}
+         <Grid item xs={12} sm={6} md={3}>
           <Typography variant="h6" fontWeight={600} gutterBottom>
             About Us
           </Typography>
           {footerAbout.map(({ label, path }) => (
             <Typography key={label} variant="body2" gutterBottom component={Link} to={path} style={{ textDecoration: 'none', color: 'inherit' }}>
               {label} <br />
+            </Typography>
+          ))}
+        </Grid>
+
+        {/* Catalog */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Typography variant="h6" fontWeight={600} gutterBottom>
+            Catalog
+          </Typography>
+          {["Necklaces", "Jewelry Box", "Shoes", "Jackets", "Shirts"].map((item) => (
+            <Typography key={item} variant="body2" gutterBottom>
+              {item}
             </Typography>
           ))}
         </Grid>
