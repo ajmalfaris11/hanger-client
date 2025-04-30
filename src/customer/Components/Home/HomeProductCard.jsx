@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useNavigate } from "react-router-dom";
 
 const HomeProductCard = ({ product }) => {
@@ -8,25 +7,43 @@ const HomeProductCard = ({ product }) => {
   return (
     <div
       onClick={() => navigate(`/product/${product._id}`)}
-      className="group cursor-pointer flex flex-col items-center rounded-xl shadow-md overflow-hidden mx-2 mb-5 transition-transform duration-300 transform hover:scale-105 bg-white mt-2"
+      className="group cursor-pointer flex flex-col items-center rounded-2xl shadow-lg overflow-hidden m-3 bg-white transition-all duration-300 hover:scale-105 hover:shadow-xl"
     >
-      <div className="w-full h-40 sm:h-48 md:h-56 lg:h-64 bg-gray-100 rounded-t-xl overflow-hidden">
+      {/* Product Image */}
+      <div className="w-full h-44 sm:h-52 md:h-60 lg:h-72 bg-gray-100 overflow-hidden">
         <img
-          className="w-full h-full object-cover object-top"
           src={product?.image || product?.imageUrl}
           alt={product?.title}
+          className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
         />
       </div>
 
-      <div className="px-2 py-4 w-full text-center">
-        <h3 className="text-lg font-medium text-gray-900">
+      {/* Product Info */}
+      <div className="px-4 py-3 text-center w-full">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-800 truncate">
           {product?.brand || product?.title}
         </h3>
-        <p className="mt-2 text-sm text-gray-500 text-ellipsis overflow-hidden whitespace-nowrap">
-          {product?.title?.length > 50 ? product?.title.slice(0, 50) + "..." : product?.title}
+        <p className="text-sm text-gray-600 mt-1 truncate">
+          {product?.title?.length > 60
+            ? product?.title.slice(0, 60) + "..."
+            : product?.title}
         </p>
-      </div>
 
+        {/* Optional Price Section */}
+        {product?.discountedPrice && (
+          <div className="flex justify-center items-center space-x-2 mt-3">
+            <p className="text-md font-bold text-black">₹{product.discountedPrice}</p>
+            {product.price && (
+              <p className="text-sm line-through text-gray-400">₹{product.price}</p>
+            )}
+            {product.discountPersent > 0 && (
+              <p className="text-xs text-green-600 font-medium">
+                {product.discountPersent}% OFF
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
