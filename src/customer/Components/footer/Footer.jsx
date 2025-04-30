@@ -12,7 +12,7 @@ const footerImages = [
 ];
 
 const footerAbout = [
-  { label: "Our Products", path: "/products" },
+  { label: "Our Products", path: "/all_products" },
   { label: "Sitemap", path: "/site_map" },
   { label: "FAQ", path: "/faq" },
   { label: "About Us", path: "/about" },
