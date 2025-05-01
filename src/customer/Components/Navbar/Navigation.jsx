@@ -28,19 +28,19 @@ const Navigation = () => {
   const [cartItems, setCartItems] = useState([]);
   const [cartUpdated, setCartUpdated] = useState(false);
 
-useEffect(() => {
-  if (auth.user) { // Check if the user is logged in
-    api.get('api/cart')
-      .then((response) => {
-        setCartItems(response.data.cartItems || []); // Fallback to an empty array if cartItems is undefined
-      })
-      .catch((error) => {
-        console.error("Failed to fetch cart items:", error);
-      });
-  } else {
-    setCartItems([]); // Clear cart items if the user is not logged in
-  }
-}, [auth.user, location]); // Add auth.user as a dependency
+  useEffect(() => {
+    if (auth.user) { // Check if the user is logged in
+      api.get('api/cart')
+        .then((response) => {
+          setCartItems(response.data.cartItems || []); // Fallback to an empty array if cartItems is undefined
+        })
+        .catch((error) => {
+          console.error("Failed to fetch cart items:", error);
+        });
+    } else {
+      setCartItems([]); // Clear cart items if the user is not logged in
+    }
+  }, [auth.user, location]); // Add auth.user as a dependency
 
 
   function classNames(...classes) {
@@ -89,9 +89,9 @@ useEffect(() => {
 
   useEffect(() => {
 
-      if (location.pathname === "/login" || location.pathname === "/register") {
-        handleOpen();
-      }
+    if (location.pathname === "/login" || location.pathname === "/register") {
+      handleOpen();
+    }
 
   }, [auth.user, navigate, handleClose]);
 
@@ -264,16 +264,48 @@ useEffect(() => {
       </Transition.Root>
 
       <header className="relative bg-black">
-        <p className="flex h-10 items-center justify-center bg-black px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over ₹1000 🎀
-        </p>
+        <div className="relative py-1 overflow-hidden bg-black text-white flex items-center">
+          <style>
+            {`
+      @keyframes scrollTicker {
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-33.5%); }
+      }
+    `}
+          </style>
 
-        <nav aria-label="Top" className="mx-auto bg-white mx-4 rounded-2xl">
-          <div>
-            <div className="flex h-16 items-center px-4 md:px-11">
+          <div className="whitespace-nowrap flex animate-[scrollTicker_10s_linear_infinite] text-sm">
+            {/* Scrolling ticker with free shipping promotion */}
+            <span className="mx-10">
+              FREE SHIPPING &nbsp;&nbsp; OVER 1000
+            </span>
+            <span className="mx-10">
+              10% DISCOUNT &nbsp;&nbsp; ON FIRST ORDER
+            </span>
+            <span className="mx-10">
+              FREE SHIPPING &nbsp;&nbsp; OVER 1000
+            </span>
+            <span className="mx-10">
+              10% DISCOUNT &nbsp;&nbsp; ON FIRST ORDER
+            </span>
+            <span className="mx-10">
+              FREE SHIPPING &nbsp;&nbsp; OVER 1000
+            </span>
+            <span className="mx-10">
+              10% DISCOUNT &nbsp;&nbsp; ON FIRST ORDER
+            </span>
+          </div>
+
+        </div>
+
+
+        <nav aria-label="Top" className="mx-auto bg-white mx-4 rounded-2xl shadow-md">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex h-16 items-center justify-between px-4 md:px-6 lg:px-8">
+              {/* Mobile menu button */}
               <button
                 type="button"
-                className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
+                className="lg:hidden rounded-md p-2 text-gray-500 hover:text-black hover:bg-gray-100 focus:outline-none"
                 onClick={() => setOpen(true)}
               >
                 <span className="sr-only">Open menu</span>
@@ -281,19 +313,14 @@ useEffect(() => {
               </button>
 
               {/* Logo */}
-              <div className="ml-4 flex lg:ml-0">
-                <span className="sr-only">Your Company</span>
-                <img
-                  src={logo}
-                  alt="HangerLogo"
-                  className="h-14 w-auto"
-                />
-              </div>
+              <a href="/" className="flex items-center">
+                <img src={logo} alt="Logo" className="h-10 w-auto" />
+              </a>
 
               {/* Flyout menus */}
-              <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch z-10">
+              <Popover.Group className="hidden lg:ml-28 lg:block lg:self-stretch z-10">
                 <div className="flex h-full space-x-8 jcstify-center items-center">
-                <a href="/"><span className="text-gray-700 hover:text-gray-800 font-medium text-sm">Home</span></a>
+                  <a href="/"><span className="text-gray-700 hover:text-gray-800 font-medium text-sm">Home</span></a>
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
                       {({ open, close }) => (
@@ -419,70 +446,61 @@ useEffect(() => {
                 </div>
               </Popover.Group>
 
-              <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {auth.user?.firstName ? (
-                    <div>
-                      <Avatar
-                        className="text-white"
-                        onClick={handleUserClick}
-                        aria-controls={openUserMenu ? "basic-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={openUserMenu ? "true" : undefined}
-                        sx={{
-                          bgcolor: "black",
-                          color: "white",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {auth.user?.firstName[0].toUpperCase()}
-                      </Avatar>
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={openUserMenu}
-                        onClose={handleCloseUserMenu}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
-                        <MenuItem>My Orders</MenuItem>
-                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                      </Menu>
-                    </div>
-                  ) : (
-                    <Button
-                      onClick={handleOpen}
-                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                    >
-                      Signin
-                    </Button>
-                  )}
-                </div>
-
+              {/* Right icons */}
+              <div className="flex items-center space-x-4">
                 {/* Search */}
-                <div className="flex lg:ml-6">
-                  <p className="p-2 text-gray-900 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon className="h-7 w-7" aria-hidden="true" />
-                  </p>
-                </div>
+                <button className="p-2 text-gray-600 hover:text-black focus:outline-none">
+                  <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
 
                 {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6 relative">
-                  <Button className="group -m-2 flex items-center p-2" onClick={() => navigate("/cart")}>
-                    <ShoppingBagIcon className="h-8 w-7 flex-shrink-0 text-gray-900 group-hover:text-gray-500" aria-hidden="true" />
-                    <span className="ml-2 text-sm font-medium text-gray-900 hover:text-gray-500 w-[20px] h-[20px] flex items-center justify-center absolute right-[22px] top-4">
-                    {cartItems.length}                    </span>
-                    <span className="sr-only">items in cart, view bag</span>
+                <button
+                  onClick={() => navigate("/cart")}
+                  className="relative p-2 text-gray-600 hover:text-black focus:outline-none"
+                >
+                  <ShoppingBagIcon className="h-6 w-6" aria-hidden="true" />
+                  {cartItems.length > 0 && (
+                    <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-black rounded-full">
+                      {cartItems.length}
+                    </span>
+                  )}
+                </button>
+
+                {/* Profile or Sign in */}
+                {auth.user?.firstName ? (
+                  <div>
+                    <Avatar
+                      className="cursor-pointer !bg-black text-white"
+
+                      onClick={handleUserClick}
+                    >
+                      {auth.user.firstName[0].toUpperCase()} {auth.user.lastName[0].toUpperCase()}
+                    </Avatar>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={openUserMenu}
+                      onClose={handleCloseUserMenu}
+                    >
+                      <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                      <MenuItem>My Orders</MenuItem>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={handleOpen}
+                    className="text-sm font-medium text-gray-700 hover:text-black"
+                  >
+                    Sign in
                   </Button>
-                </div>
+                )}
               </div>
             </div>
           </div>
         </nav>
       </header>
+
+
       <div className="w-full h-[12px]" />
       <AuthModel handleClose={handleClose} open={openAuthModal} />
     </div>
