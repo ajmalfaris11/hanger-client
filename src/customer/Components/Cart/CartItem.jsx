@@ -1,8 +1,7 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { removeCartItem, updateCartItem } from "../../../Redux/Customers/Cart/Action";
-import { IconButton } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
@@ -14,15 +13,20 @@ const CartItem = ({ item, showButton }) => {
     const data = { cartItemId: item?._id, jwt };
     dispatch(removeCartItem(data));
   };
+
   const handleUpdateCartItem = (num) => {
-    const data = { data: { quantity: item.quantity + num }, cartItemId: item?._id, jwt }
-    console.log("update data ", data)
-    dispatch(updateCartItem(data))
-  }
+    const data = {
+      data: { quantity: item.quantity + num },
+      cartItemId: item?._id,
+      jwt,
+    };
+    dispatch(updateCartItem(data));
+  };
+
   return (
     <div className="p-5 shadow-lg border rounded-md">
       <div className="flex items-center">
-        <div className="w-[5rem] h-[5rem] lg:w-[9rem] lg:h-[9rem] ">
+        <div className="w-[5rem] h-[5rem] lg:w-[9rem] lg:h-[9rem]">
           <img
             className="w-full h-full object-cover object-top rounded-md"
             src={item?.product?.imageUrl}
@@ -30,40 +34,49 @@ const CartItem = ({ item, showButton }) => {
           />
         </div>
         <div className="ml-5 space-y-1">
-          <p className="font-semibold">{item?.product?.title}</p>
-          <p className="opacity-70 mt-2">Brand: {item?.product?.brand}</p>
-          <p className="opacity-70">Size: {item?.size}</p>
-          <div className="flex space-x-2 items-center pt-3">
-            <p className="opacity-50 line-through">₹{item?.product?.price}</p>
-            <p className="font-semibold text-lg">
+          <p className="text-lg font-semibold text-gray-800">{item?.product?.title}</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Brand: <span className="text-gray-700">{item?.product?.brand}</span>
+          </p>
+          <p className="text-sm text-gray-500">
+            Size: <span className="text-gray-700">{item?.size}</span>
+          </p>
+          <div className="flex space-x-2 items-center pt-2">
+            <p className="text-sm text-gray-400 line-through">
+              ₹{item?.product?.price}
+            </p>
+            <p className="text-lg font-bold text-gray-900">
               ₹{item?.product?.discountedPrice}
             </p>
-            <p className="text-green-600 font-semibold">
+            <p className="text-sm font-semibold text-green-600">
               {item?.product?.discountPersent}% off
             </p>
           </div>
         </div>
       </div>
-      {showButton && <div className="lg:flex items-center lg:space-x-10 pt-4">
-        <div className="flex justify-between w-full">
-          <div className="flex items-center space-x-2 ">
-            <IconButton onClick={() => handleUpdateCartItem(-1)} disabled={item?.quantity <= 1} color="secondary" aria-label="add an alarm">
+
+      {showButton && (
+        <div className="lg:flex items-center justify-between pt-4">
+          <div className="flex items-center space-x-2">
+            <IconButton
+              onClick={() => handleUpdateCartItem(-1)}
+              disabled={item?.quantity <= 1}
+              color="secondary"
+            >
               <RemoveCircleOutlineIcon />
             </IconButton>
-
-            <span className="py-1 px-7 border rounded-sm">{item?.quantity}</span>
-            <IconButton onClick={() => handleUpdateCartItem(1)} color="success" aria-label="add an alarm">
+            <span className="py-1 px-5 border rounded-md text-sm font-medium">
+              {item?.quantity}
+            </span>
+            <IconButton onClick={() => handleUpdateCartItem(1)} color="success">
               <AddCircleOutlineIcon />
             </IconButton>
-
-
           </div>
           <Button onClick={handleRemoveItemFromCart} variant="text" color="error">
-            Remove{" "}
+            Remove
           </Button>
-
         </div>
-      </div>}
+      )}
     </div>
   );
 };
