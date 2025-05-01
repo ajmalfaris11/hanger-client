@@ -33,7 +33,7 @@ const PaymentSuccess = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-50 py-8 mb-[-100px]">
       <CheckCircleIcon sx={{ fontSize: 60, color: "#000" }} />
-      <h1 className="text-2xl font-bold mt-4">Thank you for your purchase</h1>
+      <h1 className="text-2xl font-bold mt-4 text-center">Thank you for your purchase</h1>
       <p className="text-gray-600 mt-2 text-center">
         We've received your order. It will Deliver in 5-7 business days.
         <br />
@@ -52,7 +52,7 @@ const PaymentSuccess = () => {
               />
               <p className="text-sm">{item.product.title}</p>
             </div>
-            <p className="font-medium text-sm">₹ {item.discountedPrice}</p>
+            <p className="font-medium text-sm w-[50px] text-end">₹ {item.discountedPrice}</p>
           </div>
         ))}
         <div className="flex justify-between mt-4 font-semibold">
