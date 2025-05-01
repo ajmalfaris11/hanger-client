@@ -12,27 +12,20 @@ const Cart = () => {
   const { cart } = useSelector((store) => store);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(getCart(jwt));
-      } catch (error) {
-        console.error("Error fetching cart:", error);
-      }
-    };
-    fetchData();
+    dispatch(getCart(jwt));
   }, [jwt, cart.updateCartItem, cart.deleteCartItem]);
 
   return (
     <div className="container mx-auto mt-10 px-4 lg:px-16">
       {cart.cartItems.length > 0 ? (
         <div className="lg:grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Cart Items */}
-          <div className="lg:col-span-2 bg-white  rounded-md p-4">
-            <h2 className="text-2xl font-semibold mb-4">Your Cart</h2>
+          {/* Cart Items Section */}
+          <div className="lg:col-span-2 bg-white rounded-xl p-5">
+            <h2 className="text-2xl font-bold text-gray-800 mb-5">Your Cart</h2>
             <div className="space-y-4">
               {cart.cartItems.map((item, index) => (
                 <CartItem
-                  key={item?.id || index} 
+                  key={item?.id || index}
                   item={item}
                   showButton={true}
                 />
@@ -40,27 +33,27 @@ const Cart = () => {
             </div>
           </div>
 
-          {/* Price Details */}
-          <div className="bg-white shadow-lg rounded-md p-6 sticky top-0">
-            <h3 className="text-lg font-semibold mb-4">Price Details</h3>
-            <hr />
-            <div className="space-y-3 font-semibold">
-              <div className="flex justify-between py-3 text-lg">
+          {/* Price Details Section */}
+          <div className="bg-white shadow-md rounded-xl p-6 sticky top-10 h-fit mt-16">
+            <h3 className="text-lg font-bold text-gray-700 mb-4">PRICE DETAILS</h3>
+            <hr className="mb-4" />
+            <div className="space-y-4 text-sm text-gray-700 font-medium">
+              <div className="flex justify-between">
                 <span>Price ({cart.cart?.totalItem} item)</span>
                 <span>₹{cart.cart?.totalPrice}</span>
               </div>
-              <div className="flex justify-between text-lg">
+              <div className="flex justify-between">
                 <span>Discount</span>
                 <span className="text-red-700">-₹{cart.cart?.discounte}</span>
               </div>
-              <div className="flex justify-between text-lg">
+              <div className="flex justify-between">
                 <span>Delivery Charges</span>
                 <span className="text-green-700">Free</span>
               </div>
-              <hr className="my-4" />
-              <div className="flex justify-between text-xl font-bold">
+              <hr />
+              <div className="flex justify-between font-bold text-lg">
                 <span>Total Amount</span>
-                <span className="text-black">₹{cart.cart?.totalDiscountedPrice}</span>
+                <span>₹{cart.cart?.totalDiscountedPrice}</span>
               </div>
             </div>
             <Button
@@ -82,7 +75,9 @@ const Cart = () => {
         </div>
       ) : (
         <div className="text-center py-16">
-          <h2 className="text-xl font-semibold">Your cart is empty!</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Your cart is empty!
+          </h2>
           <Button
             onClick={() => navigate("/")}
             variant="outlined"
@@ -91,7 +86,11 @@ const Cart = () => {
               padding: ".8rem 2rem",
               borderColor: "black",
               color: "black",
-              "&:hover": { borderColor: "black", backgroundColor: "black", color: "white" },
+              "&:hover": {
+                borderColor: "black",
+                backgroundColor: "black",
+                color: "white",
+              },
             }}
           >
             Continue Shopping
