@@ -1,29 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePayment } from "../../../Redux/Customers/Payment/Action";
-import { Alert, AlertTitle, Grid } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
 import { getOrderById } from "../../../Redux/Customers/Order/Action";
-import OrderTraker from "../orders/OrderTraker";
-import AddressCard from "../adreess/AdreessCard";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const PaymentSuccess = () => {
-  // razorpay_payment_link_reference_id
-  // razorpay_payment_id
   const [paymentId, setPaymentId] = useState("");
   const [referenceId, setReferenceId] = useState("");
   const [paymentStatus, setPaymentStatus] = useState("");
-  const {orderId}=useParams();
-
-  
-
-  const jwt = localStorage.getItem("jwt");
+  const { orderId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { order } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
 
   useEffect(() => {
-    console.log("orderId",orderId)
     const urlParams = new URLSearchParams(window.location.search);
     setPaymentId(urlParams.get("razorpay_payment_id"));
     setReferenceId(urlParams.get("razorpay_payment_link_reference_id"));
@@ -36,55 +28,45 @@ const PaymentSuccess = () => {
       dispatch(updatePayment(data));
       dispatch(getOrderById(orderId));
     }
-  }, [orderId, paymentId]);
+  }, [orderId, paymentId, paymentStatus, dispatch, jwt]);
 
   return (
-    <div className="px-2 lg:px-36 mt-10">
-      <div className="flex flex-col justify-center items-center">
-        <Alert
-          variant="filled"
-          severity="success"
-          sx={{ mb: 6, width: "fit-content" }}
-        >
-          <AlertTitle>Payment Success</AlertTitle>
-          Congratulation Your Order Get Placed
-        </Alert>
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-50 py-8 mb-[-100px]">
+      <CheckCircleIcon sx={{ fontSize: 60, color: "#000" }} />
+      <h1 className="text-2xl font-bold mt-4">Thank you for your purchase</h1>
+      <p className="text-gray-600 mt-2 text-center">
+        We've received your order. It will Deliver in 5-7 business days.
+        <br />
+        Your order number is <span className="font-medium">#{orderId?.slice(0, 6)?.toUpperCase()}</span>
+      </p>
+
+      <div className="bg-white mt-8 rounded-xl shadow-md p-6 w-full max-w-md">
+        <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+        {order.order?.orderItems?.map((item) => (
+          <div key={item.product.id} className="flex justify-between items-center border-b py-2">
+            <div className="flex items-center space-x-3">
+              <img
+                src={item.product.imageUrl}
+                alt={item.product.title}
+                className="w-14 h-14 rounded-md object-cover object-top"
+              />
+              <p className="text-sm">{item.product.title}</p>
+            </div>
+            <p className="font-medium text-sm">₹ {item.discountedPrice}</p>
+          </div>
+        ))}
+        <div className="flex justify-between mt-4 font-semibold">
+          <span>Total</span>
+          <span>₹ {order.order?.totalDiscountedPrice}</span>
+        </div>
       </div>
 
-      <OrderTraker activeStep={1}/>
-
-      <Grid container className="space-y-5 py-5 pt-20">
-        {order.order?.orderItems.map((item) => (
-          <Grid
-            container
-            item
-            className="shadow-xl rounded-md p-5 border"
-            sx={{ alignItems: "center", justifyContent: "space-between" }}
-          >
-            <Grid item xs={6}>
-              {" "}
-              <div className="flex  items-center ">
-                <img
-                  className="w-[5rem] h-[5rem] object-cover object-top"
-                  src={item?.product.imageUrl}
-                  alt=""
-                />
-                <div className="ml-5 space-y-2">
-                  <p className="">{item.product.title}</p>
-                  <p className="opacity-50 text-xs font-semibold space-x-5">
-                    <span>Color: pink</span> <span>Size: {item.size}</span>
-                  </p>
-                  <p>Seller: {item.product.brand}</p>
-                  <p>₹{item.price}</p>
-                </div>
-              </div>
-            </Grid>
-            <Grid item>
-              <AddressCard address={order.order?.shippingAddress} />
-            </Grid>
-          </Grid>
-        ))}
-      </Grid>
+      <button
+        onClick={() => navigate("/")}
+        className="mt-6 px-5 py-2 border border-black rounded-lg hover:bg-black hover:text-white transition"
+      >
+        Back to Home
+      </button>
     </div>
   );
 };
