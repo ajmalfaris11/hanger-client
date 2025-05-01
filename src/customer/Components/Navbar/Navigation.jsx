@@ -299,13 +299,13 @@ const Navigation = () => {
         </div>
 
 
-        <nav aria-label="Top" className="mx-auto bg-white mx-4 rounded-2xl shadow-md">
+        <nav aria-label="Top" className="mx-auto bg-white rounded-xl">
           <div className="max-w-7xl mx-auto">
-            <div className="flex h-16 items-center justify-between px-4 md:px-6 lg:px-8">
+            <div className="flex h-14 items-center justify-between px-3 md:px-6">
               {/* Mobile menu button */}
               <button
                 type="button"
-                className="lg:hidden rounded-md p-2 text-gray-500 hover:text-black hover:bg-gray-100 focus:outline-none"
+                className="md:hidden rounded-md p-2 text-gray-500 hover:text-black hover:bg-gray-100 focus:outline-none"
                 onClick={() => setOpen(true)}
               >
                 <span className="sr-only">Open menu</span>
@@ -314,11 +314,12 @@ const Navigation = () => {
 
               {/* Logo */}
               <a href="/" className="flex items-center">
-                <img src={logo} alt="Logo" className="h-10 w-auto" />
-              </a>
+                <img src={logo} alt="Logo" className="h-12 w-auto hidden md:block" />
+                <h1 className="font-semibold text-xl sm:text-2xl md:hidden">H A N G E R</h1>
+                </a>
 
               {/* Flyout menus */}
-              <Popover.Group className="hidden lg:ml-28 lg:block lg:self-stretch z-10">
+              <Popover.Group className="hidden md:block lg:self-stretch z-10">
                 <div className="flex h-full space-x-8 jcstify-center items-center">
                   <a href="/"><span className="text-gray-700 hover:text-gray-800 font-medium text-sm">Home</span></a>
                   {navigation.categories.map((category) => (
@@ -470,7 +471,7 @@ const Navigation = () => {
                 {auth.user?.firstName ? (
                   <div>
                     <Avatar
-                      className="cursor-pointer !bg-black text-white"
+                      className="cursor-pointer !bg-black text-white !w-8 !h-8 !text-sm"
 
                       onClick={handleUserClick}
                     >
@@ -501,7 +502,7 @@ const Navigation = () => {
       </header>
 
 
-      <div className="w-full h-[12px]" />
+      <div className="w-full h-[10px]" />
       <AuthModel handleClose={handleClose} open={openAuthModal} />
     </div>
   );
