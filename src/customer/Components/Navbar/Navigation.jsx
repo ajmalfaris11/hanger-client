@@ -11,7 +11,9 @@ import { getUser, logout } from "../../../Redux/Auth/Action";
 import axios from 'axios';
 import api from '../../../config/api'
 import logo from "../../../Data/logo/hanger_black_logo.png"
+import white_logo from "../../../Data/logo/hanger_white_logo.png"
 
+import { Login } from '@mui/icons-material';
 
 
 const Navigation = () => {
@@ -25,6 +27,7 @@ const Navigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [showInput, setShowInput] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartUpdated, setCartUpdated] = useState(false);
 
@@ -264,12 +267,12 @@ const Navigation = () => {
       </Transition.Root>
 
       <header className="relative bg-black">
-        <div className="relative py-1 overflow-hidden bg-black text-white flex items-center">
+        <div className="relative py-1 pt-2 overflow-hidden bg-black text-white flex items-center">
           <style>
             {`
       @keyframes scrollTicker {
         0% { transform: translateX(0%); }
-        100% { transform: translateX(-33.5%); }
+        100% { transform: translateX(-36.4%); }
       }
     `}
           </style>
@@ -279,21 +282,27 @@ const Navigation = () => {
             <span className="mx-10">
               FREE SHIPPING &nbsp;&nbsp; OVER 1000
             </span>
+            <img src={white_logo} alt="hanger logo" className="w-full h-[25px]" />
             <span className="mx-10">
               10% DISCOUNT &nbsp;&nbsp; ON FIRST ORDER
             </span>
+            <img src={white_logo} alt="hanger logo" className="w-full h-[25px]" />
             <span className="mx-10">
               FREE SHIPPING &nbsp;&nbsp; OVER 1000
             </span>
+            <img src={white_logo} alt="hanger logo" className="w-full h-[25px]" />
             <span className="mx-10">
               10% DISCOUNT &nbsp;&nbsp; ON FIRST ORDER
             </span>
+            <img src={white_logo} alt="hanger logo" className="w-full h-[25px]" />
             <span className="mx-10">
               FREE SHIPPING &nbsp;&nbsp; OVER 1000
             </span>
+            <img src={white_logo} alt="hanger logo" className="w-full h-[25px]" />
             <span className="mx-10">
               10% DISCOUNT &nbsp;&nbsp; ON FIRST ORDER
             </span>
+            <img src={white_logo} alt="hanger logo" className="w-full h-[25px]" />
           </div>
 
         </div>
@@ -316,7 +325,7 @@ const Navigation = () => {
               <a href="/" className="flex items-center">
                 <img src={logo} alt="Logo" className="h-12 w-auto hidden md:block" />
                 <h1 className="font-semibold text-xl sm:text-2xl md:hidden">H A N G E R</h1>
-                </a>
+              </a>
 
               {/* Flyout menus */}
               <Popover.Group className="hidden md:block lg:self-stretch z-10">
@@ -448,16 +457,32 @@ const Navigation = () => {
               </Popover.Group>
 
               {/* Right icons */}
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 sm:space-x-4">
+
                 {/* Search */}
-                <button className="p-2 text-gray-600 hover:text-black focus:outline-none">
-                  <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                <div className="relative flex items-center">
+                  {/* Input only visible on md and larger screens */}
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="hidden sm:block pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-[1px] focus:ring-black transition-all duration-200"
+                  />
+
+                  {/* Button always visible */}
+                  <button
+                    className="ml-2 flex items-center justify-center w-8 h-8 rounded-full sm:bg-black"
+                    onClick={() => {
+                    }}
+                  >
+                    <MagnifyingGlassIcon className="h-6 w-6 sm:h-5 sm:w-5 sm:text-white" />
+                  </button>
+                </div>
+
 
                 {/* Cart */}
                 <button
                   onClick={() => navigate("/cart")}
-                  className="relative p-2 text-gray-600 hover:text-black focus:outline-none"
+                  className="relative text-gray-600 hover:text-black focus:outline-none"
                 >
                   <ShoppingBagIcon className="h-6 w-6" aria-hidden="true" />
                   {cartItems.length > 0 && (
@@ -490,10 +515,11 @@ const Navigation = () => {
                 ) : (
                   <Button
                     onClick={handleOpen}
-                    className="text-sm font-medium text-gray-700 hover:text-black"
+                    className="text-sm !text-gray-600 hover:text-black !p-0 !m-0"
                   >
-                    Sign in
+                    Login
                   </Button>
+
                 )}
               </div>
             </div>
