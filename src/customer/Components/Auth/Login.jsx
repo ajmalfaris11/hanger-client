@@ -1,25 +1,39 @@
 import * as React from "react";
-import { Grid, TextField, Button, Snackbar, Alert } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Button,
+  Snackbar,
+  Alert,
+  Typography,
+  Box,
+  Paper,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, login } from "../../../Redux/Auth/Action";
 import { useEffect, useState } from "react";
-import { Box } from "@mui/material";
 
 export default function LoginUserForm() {
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
+
   const { auth } = useSelector((store) => store);
-  const handleCloseSnakbar = () => setOpenSnackBar(false);
 
   useEffect(() => {
-    if (jwt) {
-      dispatch(getUser(jwt));
-    }
+    if (jwt) dispatch(getUser(jwt));
   }, [jwt, dispatch]);
 
   useEffect(() => {
@@ -32,84 +46,170 @@ export default function LoginUserForm() {
     }
   }, [auth.user, auth.error]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const handleCloseSnakbar = () => setOpenSnackBar(false);
 
-    const userData = {
-      email: data.get("email"),
-      password: data.get("password"),
-    };
+  const validate = () => {
+    let valid = true;
+    setEmailError("");
+    setPasswordError("");
 
-    // Basic validation for empty fields
-    if (!userData.email || !userData.password) {
-      setSnackMessage("Please fill in both email and password.");
-      setOpenSnackBar(true);
-      return;
+    if (!email) {
+      setEmailError("Email is required");
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Enter a valid email address");
+      valid = false;
     }
 
-    dispatch(login(userData));
+    if (!password) {
+      setPasswordError("Password is required");
+      valid = false;
+    } else if (password.length < 6) {
+      setPasswordError("Password should be at least 6 characters");
+      valid = false;
+    }
+
+    return valid;
   };
 
-  // Check if the current path is "/login"
-  if (location.pathname !== "/login") {
-    return null; // Do not render the form if the path is not "/login"
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!validate()) return;
+    dispatch(login({ email, password }));
+  };
+
+  if (location.pathname !== "/login") return null;
 
   return (
-    <React.Fragment>
-      <Box sx={{ width: "100%", padding:{xs:"1rem", sm:"2rem"} }}>
-      <form className="w-full" onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="email"
-              name="email"
-              label="Email"
-              fullWidth
-              autoComplete="email"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="password"
-              name="password"
-              label="Password"
-              fullWidth
-              autoComplete="current-password"
-              type="password"
-            />
-          </Grid>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        width: "100%",
+        backgroundColor: "transparent",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "2rem",
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          maxWidth: 500,
+          width: "100%",
+          padding: {
+            xs: "1.5rem", // for small screens (mobile)
+            sm: "2rem", // for tablets
+            md: "3rem", // for desktops
+          },
+          backgroundColor: "#fff",
+          borderRadius: "1rem",
+          position: "relative",
+        }}
+      >
+        {/* Close Button at Top Left */}
+        <IconButton
+          onClick={() => navigate("/")}
+          sx={{ position: "absolute", top: 10, right: 10, color: "#000" }}
+          aria-label="close"
+        >
+          <CloseIcon />
+        </IconButton>
+        <Box position="relative" mb={2}>
 
-          <Grid item xs={12}>
-            <Button
-              className="bg-black w-full"
-              type="submit"
-              variant="contained"
-              size="large"
-              sx={{ padding: ".8rem 0" }}
+          {/* Centered Title */}
+          <Box display="flex" justifyContent="center">
+            <Typography
+              variant="h5"
+              gutterBottom
+              sx={{ color: "#000", fontWeight: 600 }}
             >
-              Login
-            </Button>
+              Sign In
+            </Typography>
+          </Box>
+        </Box>
+
+
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField
+                label="Email"
+                variant="outlined"
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={!!emailError}
+                helperText={emailError}
+                InputLabelProps={{ style: { color: "#000" } }}
+                InputProps={{ style: { color: "#000" } }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={!!passwordError}
+                helperText={passwordError}
+                InputLabelProps={{ style: { color: "#000" } }}
+                InputProps={{ style: { color: "#000" } }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{
+                  backgroundColor: "#000",
+                  color: "#fff",
+                  padding: "0.8rem",
+                  fontWeight: 600,
+                  "&:hover": {
+                    backgroundColor: "#333",
+                  },
+                }}
+              >
+                Login
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography align="center" sx={{ color: "#000" }}>
+                Don't have an account?
+                <Button
+                  onClick={() => navigate("/register")}
+                  size="small"
+                  sx={{
+                    ml: 1,
+                    color: "#000",
+                    textDecoration: "underline",
+                    fontWeight: 500,
+                  }}
+                >
+                  Register
+                </Button>
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
-      <div className="flex justify-center flex-col items-center">
-        <div className="py-3 flex items-center">
-          <p className="m-0 p-0">Don't have an account?</p>
-          <Button onClick={() => navigate("/register")} className="ml-5" size="small">
-            Register
-          </Button>
-        </div>
-      </div>
-      <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleCloseSnakbar}>
-        <Alert onClose={handleCloseSnakbar} severity={auth.error ? "error" : "success"} sx={{ width: "100%" }}>
-          {snackMessage}
-        </Alert>
-      </Snackbar>
-      </Box>
-    </React.Fragment>
+        </form>
+        <Snackbar
+          open={openSnackBar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnakbar}
+        >
+          <Alert
+            onClose={handleCloseSnakbar}
+            severity={auth.error ? "error" : "success"}
+            sx={{ width: "100%" }}
+          >
+            {snackMessage}
+          </Alert>
+        </Snackbar>
+      </Paper>
+    </Box>
   );
 }

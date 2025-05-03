@@ -17,9 +17,6 @@ const style = {
     sm: "70%",   // for tablets
     md: "500px", // for desktops
   },
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: { xs: 2, sm: 3, md: 4 }, // Responsive padding too
 };
 
 export default function AuthModal({ handleClose, open }) {
@@ -44,11 +41,8 @@ export default function AuthModal({ handleClose, open }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className="rounded-md" sx={style}>
-          <IconButton href="/" sx={{ mb: 2 }}>
-            <ArrowBackIcon />
-          </IconButton>
-
+        <Box>
+          
           {location.pathname === "/login" ? (
             <LoginUserForm />
           ) : (
