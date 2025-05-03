@@ -514,7 +514,10 @@ const Navigation = () => {
                   </div>
                 ) : (
                   <Button
-                    onClick={handleOpen}
+                  onClick={() => {
+                    handleOpen();
+                    navigate("/login");
+                  }}
                     className="text-sm !text-gray-600 hover:text-black !p-0 !m-0"
                   >
                     Login

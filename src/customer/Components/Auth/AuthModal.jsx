@@ -35,21 +35,23 @@ export default function AuthModal({ handleClose, open }) {
 
   return (
     <>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box>
-          
-          {location.pathname === "/login" ? (
-            <LoginUserForm />
-          ) : (
-            <RegisterUserForm />
-          )}
-        </Box>
-      </Modal>
+      {location.pathname === "/login" || location.pathname === "/register" ? (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box>
+            {location.pathname === "/login" ? (
+              <LoginUserForm />
+            ) : (
+              <RegisterUserForm />
+            )}
+          </Box>
+        </Modal>
+      ) : null}
     </>
   );
-}
+  }
+

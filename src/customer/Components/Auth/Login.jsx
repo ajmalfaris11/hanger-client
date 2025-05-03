@@ -190,7 +190,7 @@ export default function LoginUserForm() {
                     fontWeight: 500,
                   }}
                 >
-                  Register
+                  Create account
                 </Button>
               </Typography>
             </Grid>
