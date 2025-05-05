@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Typography, Avatar, CircularProgress, Grid } from '@mui/material';
-import api from '../../../config/api'; // adjust path if needed
+import api from '../../../config/api'; 
 import { deepPurple } from '@mui/material/colors';
 
 const UserProfile = () => {

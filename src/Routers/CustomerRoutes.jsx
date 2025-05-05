@@ -19,10 +19,11 @@ import Footer from "../customer/Components/footer/Footer";
 import PaymentSuccess from "../customer/Components/paymentSuccess/PaymentSuccess";
 import RateProduct from "../customer/Components/ReviewProduct/RateProduct";
 import Login from "../customer/Components/Auth/Login";
-import REgister from "../customer/Components/Auth/Register";
+import signUp from "../customer/Components/Auth/Register";
 import Faq from "../Pages/Faq";
 import SiteMap from "../Pages/SiteMap";
 import AllProducts from "../Pages/AllProducts";
+import CustProfile from "../customer/Components/Profile/CustProfile";
 const CustomerRoutes = () => {
     const location = useLocation();
     
@@ -41,8 +42,10 @@ const CustomerRoutes = () => {
      <Route path="/register" element={<Homepage />}></Route>
 
         <Route path="/" element={<Homepage />}></Route>
-        <Route path="/login" element={<Login />}></Route>
         <Route path="/home" element={<Homepage />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/signup" element={<signUp />}></Route>
+        <Route path="/profile" element={<CustProfile />}></Route>
         <Route path="/:lavelOne/:lavelTwo/:lavelThree" element={<Product />}></Route>
         <Route path="/product/:productId" element={<ProductDetails/>}></Route>
         <Route path="/cart" element={<Cart />}></Route>
