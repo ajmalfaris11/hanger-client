@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
     >
       <div className="relative h-[10rem] sm:h-[12rem]  rounded-t-lg overflow-hidden">
         <img
-          className="h-full w-full object-cover object-center transition-transform duration-300 transform hover:scale-105"
+          className="h-full w-full object-cover object-top transition-transform duration-300 transform hover:scale-105"
           src={imageUrl}
           alt={title}
           loading="lazy"
