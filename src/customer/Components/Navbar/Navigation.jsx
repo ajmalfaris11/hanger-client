@@ -12,6 +12,9 @@ import axios from 'axios';
 import api from '../../../config/api'
 import logo from "../../../Data/logo/hanger_black_logo.png"
 import white_logo from "../../../Data/logo/hanger_white_logo.png"
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { Login } from '@mui/icons-material';
 
@@ -50,8 +53,18 @@ const Navigation = () => {
     return classes.filter(Boolean).join(" ");
   }
 
+  const handleProfileClick = () => {
+    navigate('/profile'); 
+    handleCloseUserMenu();
+  };
+
   const handleUserClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleOrdersClick = () => {
+    navigate('/orders');
+    handleCloseUserMenu();
   };
 
   const handleCloseUserMenu = () => {
@@ -495,23 +508,40 @@ const Navigation = () => {
                 {/* Profile or Sign in */}
                 {auth.user?.firstName ? (
                   <div>
-                    <Avatar
-                      className="cursor-pointer !bg-black text-white !w-8 !h-8 !text-sm"
-
-                      onClick={handleUserClick}
-                    >
-                      {auth.user.firstName[0].toUpperCase()} {auth.user.lastName[0].toUpperCase()}
-                    </Avatar>
-                    <Menu
-                      anchorEl={anchorEl}
-                      open={openUserMenu}
-                      onClose={handleCloseUserMenu}
-                    >
-                      <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
-                      <MenuItem>My Orders</MenuItem>
-                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    </Menu>
-                  </div>
+                  <Avatar
+                    className="cursor-pointer !bg-black text-white !w-8 !h-8 !text-sm"
+                    onClick={handleUserClick}
+                  >
+                    {auth.user.firstName[0].toUpperCase()} {auth.user.lastName[0].toUpperCase()}
+                  </Avatar>
+            
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={openUserMenu}
+                    onClose={handleCloseUserMenu}
+                    PaperProps={{
+                      style: {
+                        width: 200,
+                        borderRadius: 8,
+                        boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)',
+                        marginTop: 22,
+                      },
+                    }}
+                  >
+                    <MenuItem onClick={handleProfileClick}>
+                      <AccountCircleIcon style={{ marginRight: 8 }} />
+                      Profile
+                    </MenuItem>
+                    <MenuItem onClick={handleOrdersClick}>
+                      <ShoppingCartIcon style={{ marginRight: 8 }} />
+                      My Orders
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>
+                      <LogoutIcon style={{ marginRight: 8 }} />
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </div>
                 ) : (
                   <Button
                   onClick={() => {
