@@ -114,7 +114,11 @@ export default function RegisterUserForm() {
         sx={{
           maxWidth: 500,
           width: "100%",
-          padding: "2rem",
+          padding: {
+            xs: "1rem", // for small screens (mobile)
+            sm: "2rem", // for tablets
+            md: "3rem", // for desktops
+          },
           backgroundColor: "#fff",
           borderRadius: "1rem",
           position: "relative",
@@ -149,6 +153,13 @@ export default function RegisterUserForm() {
                 helperText={errors.firstName}
                 InputLabelProps={{ style: { color: "#000" } }}
                 InputProps={{ style: { color: "#000" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black",
+                    },
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -162,6 +173,13 @@ export default function RegisterUserForm() {
                 helperText={errors.lastName}
                 InputLabelProps={{ style: { color: "#000" } }}
                 InputProps={{ style: { color: "#000" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black",
+                    },
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -175,6 +193,13 @@ export default function RegisterUserForm() {
                 helperText={errors.email}
                 InputLabelProps={{ style: { color: "#000" } }}
                 InputProps={{ style: { color: "#000" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black",
+                    }
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -189,6 +214,13 @@ export default function RegisterUserForm() {
                 helperText={errors.password}
                 InputLabelProps={{ style: { color: "#000" } }}
                 InputProps={{ style: { color: "#000" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black",
+                    }
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -203,7 +235,7 @@ export default function RegisterUserForm() {
                   fontWeight: 600,
                   "&:hover": {
                     backgroundColor: "#333",
-                  },
+                  }
                 }}
               >
                 Register

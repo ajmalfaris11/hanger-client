@@ -98,7 +98,7 @@ export default function LoginUserForm() {
           maxWidth: 500,
           width: "100%",
           padding: {
-            xs: "1.5rem", // for small screens (mobile)
+            xs: "1rem", // for small screens (mobile)
             sm: "2rem", // for tablets
             md: "3rem", // for desktops
           },
@@ -143,6 +143,13 @@ export default function LoginUserForm() {
                 helperText={emailError}
                 InputLabelProps={{ style: { color: "#000" } }}
                 InputProps={{ style: { color: "#000" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black",
+                    }
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -157,6 +164,13 @@ export default function LoginUserForm() {
                 helperText={passwordError}
                 InputLabelProps={{ style: { color: "#000" } }}
                 InputProps={{ style: { color: "#000" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black",
+                    }
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12}>
