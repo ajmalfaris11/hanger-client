@@ -13,14 +13,14 @@ body {
   
 /* Firefox - thin scrollbar and thumb color */
 * {
-  scrollbar-width: thin;
+  scrollbar-width: none;
   scrollbar-color: #000000 #000000; /* thumb color, track color */
 }
 
 /* Chrome, Edge, Safari - WebKit */
 *::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 0px;
+  height: 0px;
 }
 
 *::-webkit-scrollbar-track {

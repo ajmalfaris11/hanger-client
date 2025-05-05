@@ -49,7 +49,7 @@ const CustomerRoutes = () => {
         <Route path="/:lavelOne/:lavelTwo/:lavelThree" element={<Product />}></Route>
         <Route path="/product/:productId" element={<ProductDetails/>}></Route>
         <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/account/order" element={<Order />}></Route>
+        <Route path="/orders" element={<Order />}></Route>
         <Route path="/account/order/:orderId" element={<OrderDetails />}></Route>
         <Route path="/account/rate/:productId" element={<RateProduct />}></Route>
         <Route path="/checkout" element={<Checkout />}></Route>
