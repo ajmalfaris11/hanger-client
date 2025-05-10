@@ -7,7 +7,7 @@ const HomeProductSection = ({ section, data }) => {
 
   return (
     <div className="relative px-4 sm:px-6 lg:px-10 py-4 md:py-8">
-      <h2 className="text-center text-2xl md:text-4xl font-extrabold text-gray-900 uppercase tracking-wider border-b-4 border-black inline-block pb-2 mb-8">
+      <h2 className="text-center text-xl md:text-4xl font-extrabold text-gray-900 uppercase tracking-wider mt-6 mb-4">
         {section}
       </h2>
 

@@ -59,11 +59,11 @@ const Homepage = () => {
 
   return (
     <div>
-      <div className="p-4 bg-black pb-6">
+      <div className="p-4 bg-black py-6">
         <HomeCarousel images={homeCarouselData} />
       </div>
 
-      <div>
+      <div className="min-h-screen">
         <HomeProductSection data={dress} section={"Women Dress"} />
         <HomeProductSection data={womensKurta} section={"Women's Kurtas"} />
         <HomeProductSection data={mensKurta} section={"Men's Kurta"} />
