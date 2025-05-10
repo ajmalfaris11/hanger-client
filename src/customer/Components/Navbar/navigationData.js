@@ -175,8 +175,4 @@ export const navigation = {
       },
       
     ],
-    pages: [
-      { name: 'Company', id: '/' },
-      { name: 'Stores', id: '/' },
-    ],
   }

@@ -157,7 +157,7 @@ const Navigation = () => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
+              <Dialog.Panel className="relative flex w-full  flex-col overflow-y-auto bg-white pb-12 shadow-xl">
                 <div className="flex px-4 pb-2 pt-5">
                   <button
                     type="button"
@@ -264,25 +264,27 @@ const Navigation = () => {
                   </Tab.Panels>
                 </Tab.Group>
 
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  {navigation.pages.map((page) => (
-                    <div key={page.name} className="flow-root">
-                      <a
-                        href={page.href}
-                        className="-m-2 block p-2 font-medium text-gray-900"
-                      >
-                        {page.name}
-                      </a>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                <div className="space-y-6 px-4 py-4">
                   <div className="flow-root">
-                    <Button onClick={() => navigate("/login")} className="ml-5" size="small">
-                      Login
-                    </Button>
+                    {auth?.user ? (
+                      <Button
+                        onClick={handleLogout}
+                        className="ml-5 !bg-black !text-white hover:bg-gray-800 !w-full !py-2"
+                        size="small"
+                      >
+                        Logout
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => navigate("/login")}
+                        className="ml-5 !bg-black !text-white hover:bg-gray-800 !w-full !py-2"
+                        size="small"
+                      >
+                        Login
+                      </Button>
+                    )}
                   </div>
+
                 </div>
               </Dialog.Panel>
             </Transition.Child>
