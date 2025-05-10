@@ -418,14 +418,19 @@ export default function Product() {
                 </form>
 
                 {/* Product grid */}
-                <div className="lg:col-span-5 w-full px-4">
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                    {products.products?.content?.map((item, index) => (
-                      <ProductCard key={item.id || index} product={item} />
-                    ))}
-                  </div>
+                <div className="lg:col-span-5 w-full px-4 min-h-screen">
+                  {products.products?.content?.length > 0 ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                      {products.products.content.map((item, index) => (
+                        <ProductCard key={item.id || index} product={item} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-500 mt-10 text-lg flex justify-center items-center text-center h-[50vh]">
+                      Products not available
+                    </div>
+                  )}
                 </div>
-
               </div>
             </div>
           </section>
