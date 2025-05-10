@@ -15,7 +15,6 @@ import white_logo from "../../../Data/logo/hanger_white_logo.png"
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
 import { Login } from '@mui/icons-material';
 
 
@@ -54,7 +53,7 @@ const Navigation = () => {
   }
 
   const handleProfileClick = () => {
-    navigate('/profile'); 
+    navigate('/profile');
     handleCloseUserMenu();
   };
 
@@ -118,9 +117,21 @@ const Navigation = () => {
     dispatch(logout());
     handleCloseUserMenu();
   }
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = () => {
+    setShowMobileSearch(!showMobileSearch);
+    if (searchTerm.trim()) {
+      navigate(`/all_products?query=${encodeURIComponent(searchTerm)}`);
+    }
+    setSearchTerm("");
+  };
+
+
 
   return (
-    <div className="bg-black px-3">
+    <div className="bg-black px-3 relative">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -473,24 +484,49 @@ const Navigation = () => {
               <div className="flex items-center space-x-2 sm:space-x-4">
 
                 {/* Search */}
-                <div className="relative flex items-center">
-                  {/* Input only visible on md and larger screens */}
+                <div className="flex items-center">
+                  {/* Desktop input */}
                   <input
                     type="text"
                     placeholder="Search..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     className="hidden sm:block pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-[1px] focus:ring-black transition-all duration-200"
                   />
 
-                  {/* Button always visible */}
+                  {/* Search icon */}
                   <button
                     className="ml-2 flex items-center justify-center w-8 h-8 rounded-full sm:bg-black"
                     onClick={() => {
+                      if (window.innerWidth < 640) {
+                        setShowMobileSearch(!showMobileSearch);
+                      } else {
+                        handleSearch();
+                      }
                     }}
                   >
                     <MagnifyingGlassIcon className="h-6 w-6 sm:h-5 sm:w-5 sm:text-white" />
                   </button>
-                </div>
 
+                  {/* Mobile input popup */}
+                  {showMobileSearch && (
+                    <div className="absolute top-[120px] left-0 w-full sm:hidden px-4">
+                      <div className="flex items-center bg-white border border-gray-300 rounded-full px-3 py-2 shadow-lg">
+                        <input
+                          autoFocus
+                          type="text"
+                          placeholder="Search..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="flex-1 outline-none text-sm"
+                        />
+                        <button onClick={handleSearch}>
+                          <MagnifyingGlassIcon className="w-5 h-5 text-black" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 {/* Cart */}
                 <button
@@ -508,46 +544,46 @@ const Navigation = () => {
                 {/* Profile or Sign in */}
                 {auth.user?.firstName ? (
                   <div>
-                  <Avatar
-                    className="cursor-pointer !bg-black text-white !w-8 !h-8 !text-sm"
-                    onClick={handleUserClick}
-                  >
-                    {auth.user.firstName[0].toUpperCase()} {auth.user.lastName[0].toUpperCase()}
-                  </Avatar>
-            
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={openUserMenu}
-                    onClose={handleCloseUserMenu}
-                    PaperProps={{
-                      style: {
-                        width: 200,
-                        borderRadius: 8,
-                        boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)',
-                        marginTop: 22,
-                      },
-                    }}
-                  >
-                    <MenuItem onClick={handleProfileClick}>
-                      <AccountCircleIcon style={{ marginRight: 8 }} />
-                      Profile
-                    </MenuItem>
-                    <MenuItem onClick={handleOrdersClick}>
-                      <ShoppingCartIcon style={{ marginRight: 8 }} />
-                      My Orders
-                    </MenuItem>
-                    <MenuItem onClick={handleLogout}>
-                      <LogoutIcon style={{ marginRight: 8 }} />
-                      Logout
-                    </MenuItem>
-                  </Menu>
-                </div>
+                    <Avatar
+                      className="cursor-pointer !bg-black text-white !w-8 !h-8 !text-sm"
+                      onClick={handleUserClick}
+                    >
+                      {auth.user.firstName[0].toUpperCase()} {auth.user.lastName[0].toUpperCase()}
+                    </Avatar>
+
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={openUserMenu}
+                      onClose={handleCloseUserMenu}
+                      PaperProps={{
+                        style: {
+                          width: 200,
+                          borderRadius: 8,
+                          boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)',
+                          marginTop: 22,
+                        },
+                      }}
+                    >
+                      <MenuItem onClick={handleProfileClick}>
+                        <AccountCircleIcon style={{ marginRight: 8 }} />
+                        Profile
+                      </MenuItem>
+                      <MenuItem onClick={handleOrdersClick}>
+                        <ShoppingCartIcon style={{ marginRight: 8 }} />
+                        My Orders
+                      </MenuItem>
+                      <MenuItem onClick={handleLogout}>
+                        <LogoutIcon style={{ marginRight: 8 }} />
+                        Logout
+                      </MenuItem>
+                    </Menu>
+                  </div>
                 ) : (
                   <Button
-                  onClick={() => {
-                    handleOpen();
-                    navigate("/login");
-                  }}
+                    onClick={() => {
+                      handleOpen();
+                      navigate("/login");
+                    }}
                     className="text-sm !text-gray-600 hover:text-black !p-0 !m-0"
                   >
                     Login
