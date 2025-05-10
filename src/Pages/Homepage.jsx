@@ -59,7 +59,9 @@ const Homepage = () => {
 
   return (
     <div>
-      <HomeCarousel images={homeCarouselData} />
+      <div className="p-4 bg-black pb-6">
+        <HomeCarousel images={homeCarouselData} />
+      </div>
 
       <div>
         <HomeProductSection data={dress} section={"Women Dress"} />

@@ -19,14 +19,17 @@ const HomeCarousel = () => {
     />
   ));
   return (
-    <AliceCarousel
+    <div className="rounded-2xl overflow-hidden">
+      <AliceCarousel
       mouseTracking
       items={item}
       autoPlay
       infinite
       autoPlayInterval={2000}
       disableButtonsControls
+      disableDotsControls={true}
     />
+    </div>
   );
 };
 
